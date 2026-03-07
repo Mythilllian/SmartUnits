@@ -1,12 +1,14 @@
 from abc import ABC, abstractmethod
 from email.mime import base
 import stat
-from typing import Generic, TypeVar
+from typing import Any, Generic, TypeVar
 from . import *
 
-class Measure(ABC):
+U = TypeVar("U", bound=Unit) # this is the type of the measure itself
+Other = TypeVar("Other", bound="Unit")
+M = TypeVar("M", bound="Measure[Other]")
+class Measure(ABC, Generic[U]):
     EQUIVALENCE_THRESHOLD: float = 1e-12
-    U: Unit
 
     @abstractmethod
     def magnitude(self):
@@ -17,53 +19,53 @@ class Measure(ABC):
         pass
 
     @abstractmethod
-    def unit(self) -> Unit:
+    def unit(self) -> U:
         pass
 
-    def in_unit(self, unit: Unit) -> "Measure":
+    def in_unit(self, unit: U) -> float:
         if self.unit() == unit:
             return self.magnitude()
         else:
             return unit.from_base_units(self.base_unit_magnitude())
 
-    def base_unit(self) -> "Measure":
+    def base_unit(self) -> U:
         return self.unit().base_unit()
     
-    def abs(self, u: Unit) -> float:
+    def abs(self, u: U) -> float:
         return abs(self.in_unit(u))
     
-    def copy_sign(self, other: "Measure", u: Unit) -> "Measure":
+    def copy_sign(self, other: "Measure[U]", u: U) -> float:
         return self.in_unit(u) * (1 if other.in_unit(u) >= 0 else -1)
     
     @abstractmethod
-    def copy(self) -> "Measure":
+    def copy(self) -> "Measure[U]":
         pass
 
     @abstractmethod
-    def mutable_copy(self) -> "MutableMeasure":
+    def mutable_copy(self) -> "MutableMeasure[U, Any, Any]":
         pass
 
     @abstractmethod
-    def unary_minus(self) -> "Measure":
+    def unary_minus(self) -> "Measure[U]":
         pass
 
     @abstractmethod
-    def plus(self, other: "Measure") -> "Measure":
+    def plus(self, other: "Measure[U]") -> "Measure[U]":
         pass
 
     @abstractmethod
-    def minus(self, other: "Measure") -> "Measure":
+    def minus(self, other: "Measure[U]") -> "Measure[U]":
         pass
 
     @abstractmethod
-    def times_scalar(self, scalar: float) -> "Measure":
+    def times_scalar(self, scalar: float) -> "Measure[U]":
         pass
 
     @abstractmethod
-    def times_dimensionless(self, multiplier: Dimensionless) -> "Measure":
+    def times_dimensionless(self, multiplier: Dimensionless) -> "Measure[U]":
         pass
 
-    def times_measure(self, multiplier: "Measure") -> "Measure":
+    def times_measure(self, multiplier: "Measure[Any]") -> "Measure[Any]":
         base_unit_result = self.base_unit_magnitude() * multiplier.base_unit_magnitude()
 
         # First try to eliminate any common units
@@ -94,24 +96,24 @@ class Measure(ABC):
 
         return MultUnit.combine(self.unit(), multiplier.unit()).of_base_units(self.base_unit_magnitude() * multiplier.base_unit_magnitude())
 
-    def times_conversion_factor(self, conversion_factor: "Measure") -> "Measure":
+    def times_conversion_factor(self, conversion_factor: "Measure[PerUnit[Other, U]]") -> M:
         return conversion_factor.unit().get_base_unit().numerator().of_base_units(self.base_unit_magnitude() * conversion_factor.base_unit_magnitude())
     
     def times_inverse(self, multiplier: "Measure") -> Dimensionless:
         return Value.of_base_units(self.base_unit_magnitude() / multiplier.base_unit_magnitude())
     
-    def times_ratio(self, ratio: "Measure") -> "Measure":
+    def times_ratio(self, ratio: "Measure[PerUnit[Other, U]]") -> "Measure[Other]":
         return ImmutableMeasure.of_base_units(self.base_unit_magnitude() * ratio.base_unit_magnitude(), self.unit().numerator())
     
     @abstractmethod
-    def divide_by_scalar(self, scalar: float) -> "Measure":
+    def divide_by_scalar(self, scalar: float) -> "Measure[U, Measure[Any]]":
         pass
 
     @abstractmethod
-    def divide_by_dimensionless(self, divisor: Dimensionless) -> "Measure":
+    def divide_by_dimensionless(self, divisor: Dimensionless) -> "Measure[U]":
         pass
 
-    def divide_by_measure(self, divisor: "Measure") -> "Measure":
+    def divide_by_measure(self, divisor: "Measure[Any]") -> "Measure[Any]":
         base_unit_result = self.base_unit_magnitude() / divisor.base_unit_magnitude()
 
         if isinstance(self.unit(), PerUnit) and divisor.base_unit() == self.unit().denominator().base_unit():
@@ -131,14 +133,14 @@ class Measure(ABC):
         
         return PerUnit.combine(self.unit(), divisor.unit()).of_base_units(base_unit_result)
     
-    def per(self, divisor_unit: Unit) -> "Measure":
+    def per(self, divisor_unit: Unit) -> "Measure[Any]":
         return self.divide_by_measure(divisor_unit.one())
     
-    def divide_by_ratio(self, divisor: PerUnit) -> "Measure":
+    def divide_by_ratio(self, divisor: "Measure[PerUnit[U, Other]]") -> "Measure[Other]":
         return ImmutableMeasure.of_base_units(
             self.base_unit_magnitude() / divisor.base_unit_magnitude(), divisor.unit().denominator())
     
-    def is_near(self, other: "Measure", tolerance: "Measure") -> bool:
+    def is_near_other_measure(self, other: "Measure[Other]", variance_threshold: float) -> bool:
         if not self.unit().get_base_unit().equivalent(other.unit().get_base_unit()):
             return False
         
@@ -146,11 +148,14 @@ class Measure(ABC):
 
         return abs(self.base_unit_magnitude() - other.base_unit_magnitude()) <= abs(tolerance.base_unit_magnitude())
 
-    def is_equivalent(self, other: "Measure") -> bool:
+    def is_near_same_measure(self, other: "Measure[U]", tolerance: "Measure[U]") -> bool:
+        return abs(self.base_unit_magnitude() - other.base_unit_magnitude()) <= abs(tolerance.base_unit_magnitude())
+
+    def is_equivalent(self, other: "Measure[Any]") -> bool:
         return self.unit().get_base_unit() == other.unit().get_base_unit() \
             and abs(self.base_unit_magnitude() - other.base_unit_magnitude()) <= self.EQUIVALENCE_THRESHOLD
     
-    def compare_to(self, other: "Measure") -> int:
+    def compare_to(self, other: "Measure[U]") -> int:
         if not self.unit().get_base_unit().equivalent(other.unit().get_base_unit()):
             raise ValueError("Cannot compare measures with different base units")
         
@@ -162,20 +167,20 @@ class Measure(ABC):
         else:
             return 1
         
-    def __gt__(self, other: "Measure") -> bool:
+    def __gt__(self, other: "Measure[U]") -> bool:
         return self.compare_to(other) > 0
 
-    def __gte__(self, other: "Measure") -> bool:
+    def __gte__(self, other: "Measure[U]") -> bool:
         return self.compare_to(other) >= 0
     
-    def __lt__(self, other: "Measure") -> bool:
+    def __lt__(self, other: "Measure[U]") -> bool:
         return self.compare_to(other) < 0
     
-    def __lte__(self, other: "Measure") -> bool:
+    def __lte__(self, other: "Measure[U]") -> bool:
         return self.compare_to(other) <= 0
 
     @staticmethod
-    def max(*measures: "Measure") -> "Measure":
+    def max(*measures: "Measure[U]") -> "Measure[U]":
         if len(measures) == 0:
             return None
         
@@ -187,7 +192,7 @@ class Measure(ABC):
         return max_measure
     
     @staticmethod
-    def min(*measures: "Measure") -> "Measure":
+    def min(*measures: "Measure[U]") -> "Measure[U]":
         if len(measures) == 0:
             return None
         
@@ -197,3 +202,12 @@ class Measure(ABC):
                 min_measure = measure
         
         return min_measure
+    
+    def to_short_string(self) -> str:
+        return f"{self.magnitude():.3e} {self.unit().symbol()}"
+    
+    def to_long_string(self) -> str:
+        return f"{self.magnitude()} {self.unit().name()}"
+
+    def __str__(self) -> str:
+        return self.to_long_string()
