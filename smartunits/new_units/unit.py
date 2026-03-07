@@ -1,7 +1,7 @@
-from . import *
+from . import Measure, MutableMeasure, TimeUnit
 
 from abc import ABC, abstractmethod
-from typing import Callable
+from typing import Any, Callable
 
 class Unit(ABC):
     _to_base_converter: Callable[[float], float]
@@ -12,8 +12,8 @@ class Unit(ABC):
     _name: str
     _symbol: str
 
-    _zero: Measure
-    _one: Measure
+    _zero: Measure[Any]
+    _one: Measure[Any]
 
     def __init__(self, base_unit: "Unit", to_base_converter: Callable[[float], float], from_base_converter: Callable[[float], float], name: str, symbol: str) -> None:
         self._base_unit = base_unit
@@ -29,20 +29,20 @@ class Unit(ABC):
         return Unit(base_unit, lambda x: x * base_unit_equivalent, lambda x: x / base_unit_equivalent, name, symbol)
     
     @abstractmethod
-    def of(self, magnitude: float) -> "Measure":
+    def of(self, magnitude: float) -> "Measure[Any]":
         pass
 
     @abstractmethod
-    def of_base_units(self, magnitude: float) -> "Measure":
+    def of_base_units(self, magnitude: float) -> "Measure[Any]":
         pass
 
-    def mutable(self, initial_magnitude: float) -> "MutableMeasure":
+    def mutable(self, initial_magnitude: float) -> "MutableMeasure[Any, Any, Any]":
         pass
 
-    def zero(self) -> "Measure":
+    def zero(self) -> "Measure[Any]":
         return self._zero
-    
-    def one(self) -> "Measure":
+
+    def one(self) -> "Measure[Any]":
         return self._one
     
     @abstractmethod

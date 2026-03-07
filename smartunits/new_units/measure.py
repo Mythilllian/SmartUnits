@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from email.mime import base
 import stat
 from typing import Any, Generic, TypeVar
-from . import *
+from . import Unit, MutableMeasure, Dimensionless, PerUnit, MultUnit, TimeUnit, VelocityUnit, ImmutableMeasure, Value, DimensionlessUnit
 
 U = TypeVar("U", bound=Unit) # this is the type of the measure itself
 Other = TypeVar("Other", bound="Unit")
