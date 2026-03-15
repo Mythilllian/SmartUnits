@@ -1,12 +1,12 @@
-from . import Measure, MutableMeasure, TimeUnit
+from . import Measure, UnaryFunction, MutableMeasure, TimeUnit
 
 from abc import ABC, abstractmethod
-from typing import Any, Callable
+from typing import Any
 
 
 class Unit(ABC):
-    _to_base_converter: Callable[[float], float]
-    _from_base_converter: Callable[[float], float]
+    _to_base_converter: UnaryFunction
+    _from_base_converter: UnaryFunction
 
     _base_unit: "Unit"
 
@@ -19,8 +19,8 @@ class Unit(ABC):
     def __init__(
         self,
         base_unit: "Unit",
-        to_base_converter: Callable[[float], float],
-        from_base_converter: Callable[[float], float],
+        to_base_converter: UnaryFunction,
+        from_base_converter: UnaryFunction,
         name: str,
         symbol: str,
     ) -> None:
@@ -35,23 +35,23 @@ class Unit(ABC):
 
     @staticmethod
     def base_unit_equivalent_converters(
-        self, base_unit_equivalent: float
-    ) -> (Callable[[float], float], Callable[[float], float]):
+        base_unit_equivalent: float
+    ) -> tuple[UnaryFunction, UnaryFunction]:
         """
         Returns both conversion functions (to_base and from_base accordingly) for a unit that is equivalent to the base unit by a simple multiplier.
         """
         return (
-            lambda x: x * base_unit_equivalent,
-            lambda x: x / base_unit_equivalent,
+            UnaryFunction(lambda x: x * base_unit_equivalent),
+            UnaryFunction(lambda x: x / base_unit_equivalent),
         )
 
     def from_base_multiplier(
         self, base_unit: "Unit", base_unit_equivalent: float, name: str, symbol: str
     ) -> "Unit":
-        return Unit(
+        return type(self)(
             base_unit,
-            lambda x: x * base_unit_equivalent,
-            lambda x: x / base_unit_equivalent,
+            UnaryFunction(lambda x: x * base_unit_equivalent),
+            UnaryFunction(lambda x: x / base_unit_equivalent),
             name,
             symbol,
         )
@@ -89,10 +89,10 @@ class Unit(ABC):
     def to_base_units(self, value_in_native_units: float):
         return self._to_base_converter(value_in_native_units)
 
-    def get_converter_to_base(self) -> Callable[[float], float]:
+    def get_converter_to_base(self) -> UnaryFunction:
         return self._to_base_converter
 
-    def get_converter_from_base(self) -> Callable[[float], float]:
+    def get_converter_from_base(self) -> UnaryFunction:
         return self._from_base_converter
 
     def equivalent(self, other: "Unit") -> bool:
