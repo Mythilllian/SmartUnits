@@ -9,11 +9,14 @@ from dataclasses import dataclass
 from smartunits import *
 from smartunits.measures import *
 
+
+Dividend = TypeVar('Dividend', bound=Unit)
+Divisor = TypeVar('Divisor', bound=Unit)
 @dataclass(frozen = True)
-class ImmutablePer<Dividend extends Unit, Divisor extends Unit>(Per<Dividend, Divisor>):
+class ImmutablePer(Per[Dividend, Divisor]):
   magnitude_: float
   base_unit_magnitude_: float
-  unit_: PerUnit<Dividend, Divisor>
+  unit_: PerUnit[Dividend, Divisor]
 
   @override
   def magnitude(self) -> float:
@@ -24,11 +27,11 @@ class ImmutablePer<Dividend extends Unit, Divisor extends Unit>(Per<Dividend, Di
     return self.base_unit_magnitude_
   
   @override
-  def unit(self) -> PerUnit<Dividend, Divisor>:
+  def unit(self) -> PerUnit[Dividend, Divisor]:
     return self.unit_
 
   @override
-  def copy(self) -> Per<Dividend, Divisor>:
+  def copy(self) -> Per[Dividend, Divisor]:
     return self
 
   @override

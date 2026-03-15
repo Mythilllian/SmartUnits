@@ -21,18 +21,18 @@ U - LinearMomentumUnit
 U - LinearVelocityUnit
 U - MassUnit
 C - Measure
-U - MomentOfInertia Unit
+U - MomentOfInertiaUnit
 U - MultUnit
-U - MutableMeasure
+C - MutableMeasure
 U - PerUnit
 U - PowerUnit
 U - ResistanceUnit
 U - TemperatureUnit
 U - TimeUnit
 U - TorqueUnit
-U - UnaryFunction
+C - UnaryFunction
 C - Unit
 C - UnitBuilder
-U - Units 
+I - Units 
 U - VelocityUnit
-U - VoltageUnit
+C - VoltageUnit

@@ -9,8 +9,8 @@ from dataclasses import dataclass
 from smartunits import *
 from smartunits.measures import *
 
-@dataclass(frozen = True)
-class Immutable{{helpers['type_decl'](name) }}({{ helpers['type_usage'](name) }}):
+{{ helpers['type_vars'](name) }}
+{{ helpers['class_header'](name,prefix)}}
   magnitude_: float
   base_unit_magnitude_: float
   unit_: {{ helpers['mtou'](name) }}

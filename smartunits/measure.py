@@ -22,7 +22,7 @@ class Measure(ABC, Generic[U]):
     EQUIVALENCE_THRESHOLD: float = 1e-12
 
     @abstractmethod
-    def magnitude(self):
+    def magnitude(self) -> float:
         pass
 
     @abstractmethod

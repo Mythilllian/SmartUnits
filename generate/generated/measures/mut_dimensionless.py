@@ -9,6 +9,7 @@ from smartunits import *
 from smartunits.mutable import MutableMeasureBase
 from smartunits.measures import *
 
+
 class MutDimensionless(MutableMeasureBase[DimensionlessUnit, Dimensionless, MutDimensionless], Dimensionless):
   def __init__(self, magnitude: float, base_unit_magnitude: float, unit: DimensionlessUnit) -> None:
     super().__init__(magnitude, base_unit_magnitude, unit)

@@ -9,7 +9,8 @@ from smartunits import *
 from smartunits.mutable import MutableMeasureBase
 from smartunits.measures import *
 
-class Mut{{ helpers['type_decl'](name) }}(MutableMeasureBase[{{ helpers['mtou'](name) }}, {{ helpers['type_usage'](name) }}, Mut{{ helpers['type_usage'](name) }}], {{ helpers['type_usage'](name) }}):
+{{ helpers['type_vars'](name) }}
+{{ helpers['class_header'](name,prefix)}}
   def __init__(self, magnitude: float, base_unit_magnitude: float, unit: {{ helpers['mtou'](name) }}) -> None:
     super().__init__(magnitude, base_unit_magnitude, unit)
 

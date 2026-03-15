@@ -25,7 +25,7 @@ def output(output_dir, outfn: str, contents: str):
 
 # The units for which multiply and divide mathematical operations are defined
 MATH_OPERATION_UNITS = [
-    "Acceleration<?>",
+    "Acceleration<Any>",
     "Angle",
     "AngularAcceleration",
     "AngularMomentum",
@@ -41,14 +41,14 @@ MATH_OPERATION_UNITS = [
     "LinearVelocity",
     "Mass",
     "MomentOfInertia",
-    "Mult<?, ?>",
-    "Per<?, ?>",
+    "Mult<Any, Any>",
+    "Per<Any, Any>",
     "Power",
     "Resistance",
     "Temperature",
     "Temporal",
     "Torque",
-    "Velocity<?>",
+    "Velocity[Any, Any]",
     "Voltage",
 ]
 
@@ -304,7 +304,7 @@ def generics_list(measure_name):
             else:
                 args.append(name)
 
-        return "<{}>".format(", ".join(args))
+        return "[{}]".format(", ".join(args))
     else:
         return ""
 
@@ -313,13 +313,26 @@ def generics_usage(measure_name):
     if "generics" in UNIT_CONFIGURATIONS[measure_name]:
         args = UNIT_CONFIGURATIONS[measure_name]["generics"].keys()
 
-        return "<{}>".format(", ".join(args))
+        return "[{}]".format(", ".join(args))
     else:
         return ""
+    
+def type_vars(measure_name):
+    x = ""
+    for generic in UNIT_CONFIGURATIONS[measure_name].get("generics", {}).keys():
+        x += f"\n{generic} = TypeVar('{generic}', bound=Unit)"
+    return x
 
-
-def type_decl(measure_name):
-    return measure_name + generics_list(measure_name)
+def class_header(measure_name, prefix):
+    if(prefix == "Immutable"):
+        return f"@dataclass(frozen = True)\nclass Immutable{measure_name}({type_usage(measure_name)}):"
+    elif(prefix == "Mut"):
+        return f"class Mut{measure_name}(MutableMeasureBase[{mtou(measure_name)}, {type_usage(measure_name)}, Mut{type_usage(measure_name)}], {type_usage(measure_name)}):"
+    else:
+        if(generics_list(measure_name)):
+            return f"class {measure_name}(Measure[{mtou(measure_name)}], ABC, Generic{generics_usage(measure_name)}):"
+        else:
+            return f"class {measure_name}(Measure[{mtou(measure_name)}], ABC):"
 
 
 def type_usage(measure_name):
@@ -367,7 +380,8 @@ def generate_units(output_directory: Path, template_directory: Path):
     rootPath = output_directory
 
     helpers = {
-        "type_decl": type_decl,
+        "type_vars": type_vars,
+        "class_header": class_header,
         "type_usage": type_usage,
         "generics_list": generics_list,
         "generics_usage": generics_usage,
@@ -380,18 +394,21 @@ def generate_units(output_directory: Path, template_directory: Path):
     for unit_name in UNIT_CONFIGURATIONS:
         interfaceContents = interfaceTemplate.render(
             name=unit_name,
+            prefix="",
             math_units=MATH_OPERATION_UNITS,
             config=UNIT_CONFIGURATIONS,
             helpers=helpers,
         )
         immutableContents = immutableTemplate.render(
             name=unit_name,
+            prefix="Immutable",
             units=MATH_OPERATION_UNITS,
             config=UNIT_CONFIGURATIONS,
             helpers=helpers,
         )
         mutableContents = mutableTemplate.render(
             name=unit_name,
+            prefix="Mut",
             units=MATH_OPERATION_UNITS,
             config=UNIT_CONFIGURATIONS,
             helpers=helpers,

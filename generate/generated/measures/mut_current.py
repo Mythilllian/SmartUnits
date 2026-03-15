@@ -9,6 +9,7 @@ from smartunits import *
 from smartunits.mutable import MutableMeasureBase
 from smartunits.measures import *
 
+
 class MutCurrent(MutableMeasureBase[CurrentUnit, Current, MutCurrent], Current):
   def __init__(self, magnitude: float, base_unit_magnitude: float, unit: CurrentUnit) -> None:
     super().__init__(magnitude, base_unit_magnitude, unit)

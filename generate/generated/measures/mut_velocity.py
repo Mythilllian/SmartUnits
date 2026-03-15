@@ -9,10 +9,12 @@ from smartunits import *
 from smartunits.mutable import MutableMeasureBase
 from smartunits.measures import *
 
-class MutVelocity<D extends Unit>(MutableMeasureBase[VelocityUnit<D>, Velocity<D>, MutVelocity<D>], Velocity<D>):
-  def __init__(self, magnitude: float, base_unit_magnitude: float, unit: VelocityUnit<D>) -> None:
+
+D = TypeVar('D', bound=Unit)
+class MutVelocity(MutableMeasureBase[VelocityUnit[D], Velocity[D], MutVelocity[D]], Velocity[D]):
+  def __init__(self, magnitude: float, base_unit_magnitude: float, unit: VelocityUnit[D]) -> None:
     super().__init__(magnitude, base_unit_magnitude, unit)
 
   @override
-  def copy(self) -> Velocity<D>:
-    return ImmutableVelocity<D>(super().magnitude(), super().base_unit_magnitude(), super().unit())
+  def copy(self) -> Velocity[D]:
+    return ImmutableVelocity[D](super().magnitude(), super().base_unit_magnitude(), super().unit())

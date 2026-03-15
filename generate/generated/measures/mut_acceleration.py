@@ -9,10 +9,12 @@ from smartunits import *
 from smartunits.mutable import MutableMeasureBase
 from smartunits.measures import *
 
-class MutAcceleration<D extends Unit>(MutableMeasureBase[AccelerationUnit<D>, Acceleration<D>, MutAcceleration<D>], Acceleration<D>):
-  def __init__(self, magnitude: float, base_unit_magnitude: float, unit: AccelerationUnit<D>) -> None:
+
+D = TypeVar('D', bound=Unit)
+class MutAcceleration(MutableMeasureBase[AccelerationUnit[D], Acceleration[D], MutAcceleration[D]], Acceleration[D]):
+  def __init__(self, magnitude: float, base_unit_magnitude: float, unit: AccelerationUnit[D]) -> None:
     super().__init__(magnitude, base_unit_magnitude, unit)
 
   @override
-  def copy(self) -> Acceleration<D>:
-    return ImmutableAcceleration<D>(super().magnitude(), super().base_unit_magnitude(), super().unit())
+  def copy(self) -> Acceleration[D]:
+    return ImmutableAcceleration[D](super().magnitude(), super().base_unit_magnitude(), super().unit())

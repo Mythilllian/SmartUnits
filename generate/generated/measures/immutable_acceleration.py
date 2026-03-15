@@ -9,11 +9,13 @@ from dataclasses import dataclass
 from smartunits import *
 from smartunits.measures import *
 
+
+D = TypeVar('D', bound=Unit)
 @dataclass(frozen = True)
-class ImmutableAcceleration<D extends Unit>(Acceleration<D>):
+class ImmutableAcceleration(Acceleration[D]):
   magnitude_: float
   base_unit_magnitude_: float
-  unit_: AccelerationUnit<D>
+  unit_: AccelerationUnit[D]
 
   @override
   def magnitude(self) -> float:
@@ -24,11 +26,11 @@ class ImmutableAcceleration<D extends Unit>(Acceleration<D>):
     return self.base_unit_magnitude_
   
   @override
-  def unit(self) -> AccelerationUnit<D>:
+  def unit(self) -> AccelerationUnit[D]:
     return self.unit_
 
   @override
-  def copy(self) -> Acceleration<D>:
+  def copy(self) -> Acceleration[D]:
     return self
 
   @override

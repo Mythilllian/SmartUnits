@@ -9,6 +9,7 @@ from smartunits import *
 from smartunits.mutable import MutableMeasureBase
 from smartunits.measures import *
 
+
 class MutAngularAcceleration(MutableMeasureBase[AngularAccelerationUnit, AngularAcceleration, MutAngularAcceleration], AngularAcceleration):
   def __init__(self, magnitude: float, base_unit_magnitude: float, unit: AngularAccelerationUnit) -> None:
     super().__init__(magnitude, base_unit_magnitude, unit)

@@ -9,10 +9,13 @@ from smartunits import *
 from smartunits.mutable import MutableMeasureBase
 from smartunits.measures import *
 
-class MutPer<Dividend extends Unit, Divisor extends Unit>(MutableMeasureBase[PerUnit<Dividend, Divisor>, Per<Dividend, Divisor>, MutPer<Dividend, Divisor>], Per<Dividend, Divisor>):
-  def __init__(self, magnitude: float, base_unit_magnitude: float, unit: PerUnit<Dividend, Divisor>) -> None:
+
+Dividend = TypeVar('Dividend', bound=Unit)
+Divisor = TypeVar('Divisor', bound=Unit)
+class MutPer(MutableMeasureBase[PerUnit[Dividend, Divisor], Per[Dividend, Divisor], MutPer[Dividend, Divisor]], Per[Dividend, Divisor]):
+  def __init__(self, magnitude: float, base_unit_magnitude: float, unit: PerUnit[Dividend, Divisor]) -> None:
     super().__init__(magnitude, base_unit_magnitude, unit)
 
   @override
-  def copy(self) -> Per<Dividend, Divisor>:
-    return ImmutablePer<Dividend, Divisor>(super().magnitude(), super().base_unit_magnitude(), super().unit())
+  def copy(self) -> Per[Dividend, Divisor]:
+    return ImmutablePer[Dividend, Divisor](super().magnitude(), super().base_unit_magnitude(), super().unit())

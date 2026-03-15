@@ -9,6 +9,7 @@ from dataclasses import dataclass
 from smartunits import *
 from smartunits.measures import *
 
+
 @dataclass(frozen = True)
 class ImmutableLinearAcceleration(LinearAcceleration):
   magnitude_: float

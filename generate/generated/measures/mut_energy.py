@@ -9,6 +9,7 @@ from smartunits import *
 from smartunits.mutable import MutableMeasureBase
 from smartunits.measures import *
 
+
 class MutEnergy(MutableMeasureBase[EnergyUnit, Energy, MutEnergy], Energy):
   def __init__(self, magnitude: float, base_unit_magnitude: float, unit: EnergyUnit) -> None:
     super().__init__(magnitude, base_unit_magnitude, unit)

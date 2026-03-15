@@ -9,10 +9,13 @@ from smartunits import *
 from smartunits.mutable import MutableMeasureBase
 from smartunits.measures import *
 
-class MutMult<A extends Unit, B extends Unit>(MutableMeasureBase[MultUnit<A, B>, Mult<A, B>, MutMult<A, B>], Mult<A, B>):
-  def __init__(self, magnitude: float, base_unit_magnitude: float, unit: MultUnit<A, B>) -> None:
+
+A = TypeVar('A', bound=Unit)
+B = TypeVar('B', bound=Unit)
+class MutMult(MutableMeasureBase[MultUnit[A, B], Mult[A, B], MutMult[A, B]], Mult[A, B]):
+  def __init__(self, magnitude: float, base_unit_magnitude: float, unit: MultUnit[A, B]) -> None:
     super().__init__(magnitude, base_unit_magnitude, unit)
 
   @override
-  def copy(self) -> Mult<A, B>:
-    return ImmutableMult<A, B>(super().magnitude(), super().base_unit_magnitude(), super().unit())
+  def copy(self) -> Mult[A, B]:
+    return ImmutableMult[A, B](super().magnitude(), super().base_unit_magnitude(), super().unit())

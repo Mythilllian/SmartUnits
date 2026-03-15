@@ -9,6 +9,7 @@ from smartunits import *
 from smartunits.mutable import MutableMeasureBase
 from smartunits.measures import *
 
+
 class MutPower(MutableMeasureBase[PowerUnit, Power, MutPower], Power):
   def __init__(self, magnitude: float, base_unit_magnitude: float, unit: PowerUnit) -> None:
     super().__init__(magnitude, base_unit_magnitude, unit)

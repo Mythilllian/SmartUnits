@@ -9,6 +9,7 @@ from smartunits import *
 from smartunits.mutable import MutableMeasureBase
 from smartunits.measures import *
 
+
 class MutMomentOfInertia(MutableMeasureBase[MomentOfInertiaUnit, MomentOfInertia, MutMomentOfInertia], MomentOfInertia):
   def __init__(self, magnitude: float, base_unit_magnitude: float, unit: MomentOfInertiaUnit) -> None:
     super().__init__(magnitude, base_unit_magnitude, unit)

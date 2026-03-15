@@ -9,11 +9,14 @@ from dataclasses import dataclass
 from smartunits import *
 from smartunits.measures import *
 
+
+A = TypeVar('A', bound=Unit)
+B = TypeVar('B', bound=Unit)
 @dataclass(frozen = True)
-class ImmutableMult<A extends Unit, B extends Unit>(Mult<A, B>):
+class ImmutableMult(Mult[A, B]):
   magnitude_: float
   base_unit_magnitude_: float
-  unit_: MultUnit<A, B>
+  unit_: MultUnit[A, B]
 
   @override
   def magnitude(self) -> float:
@@ -24,11 +27,11 @@ class ImmutableMult<A extends Unit, B extends Unit>(Mult<A, B>):
     return self.base_unit_magnitude_
   
   @override
-  def unit(self) -> MultUnit<A, B>:
+  def unit(self) -> MultUnit[A, B]:
     return self.unit_
 
   @override
-  def copy(self) -> Mult<A, B>:
+  def copy(self) -> Mult[A, B]:
     return self
 
   @override
