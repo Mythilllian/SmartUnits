@@ -60,6 +60,9 @@ class Unit(ABC):
     def of(self, magnitude: float) -> "Measure[Any]":
         pass
 
+    def of_units(self, magnitude: float) -> "Measure[Any]":
+        return self.of(self.from_base_units(magnitude))
+
     @abstractmethod
     def of_base_units(self, magnitude: float) -> "Measure[Any]":
         pass

@@ -81,6 +81,10 @@ class Measure(ABC, Generic[U]):
 
         # First try to eliminate any common units
         if (
+            isinstance(self.unit(), Dimensionless)
+        ):
+            return self.times_dimensionless(multiplier)
+        elif (
             isinstance(self.unit(), PerUnit)
             and multiplier.base_unit() == self.unit().denominator().base_unit()
         ):
@@ -144,7 +148,7 @@ class Measure(ABC, Generic[U]):
         )
 
     @abstractmethod
-    def divide_by_scalar(self, scalar: float) -> "Measure[U, Measure[Any]]":
+    def divide_by_scalar(self, scalar: float) -> "Measure[U]":
         pass
 
     @abstractmethod
@@ -161,12 +165,12 @@ class Measure(ABC, Generic[U]):
             return Value.of_base_units(base_unit_result)
 
         if isinstance(divisor, Dimensionless):
-            return self.of_base_units(base_unit_result)
+            return self.unit().of_base_units(base_unit_result)
 
         if isinstance(divisor.unit(), Dimensionless) and isinstance(
             divisor.unit(), PerUnit
         ):
-            return self.ratio.reciprocal().of_base_units(base_unit_result)
+            return divisor.unit().reciprocal().of_base_units(base_unit_result)
 
         if (
             isinstance(divisor.unit(), PerUnit)
@@ -202,9 +206,7 @@ class Measure(ABC, Generic[U]):
 
         tolerance = abs(other.base_unit_magnitude() * variance_threshold)
 
-        return abs(self.base_unit_magnitude() - other.base_unit_magnitude()) <= abs(
-            tolerance.base_unit_magnitude()
-        )
+        return abs(self.base_unit_magnitude() - other.base_unit_magnitude()) <= tolerance
 
     def is_near_same_measure(
         self, other: "Measure[U]", tolerance: "Measure[U]"
@@ -273,6 +275,28 @@ class Measure(ABC, Generic[U]):
 
     def to_long_string(self) -> str:
         return f"{self.magnitude()} {self.unit().name()}"
+
+    def __abs__(self) -> float:
+        return self.abs(self.unit())
+
+    def __neg__(self) -> "Measure[U]":
+        return self.unary_minus()
+
+    def __add__(self, other: "Measure[U]") -> "Measure[U]":
+        return self.plus(other)
+
+    def __sub__(self, other: "Measure[U]") -> "Measure[U]":
+        return self.minus(other)
+    
+    def __mul__(self, other: Any) -> "Measure[Any]":
+        if isinstance(other, (int, float)):
+            return self.times_scalar(float(other))
+        elif isinstance(other, Dimensionless):
+            return self.times_dimensionless(other)
+        elif isinstance(other, Measure):
+            return self.times_measure(other)
+        else:
+            raise NotImplementedError(f"Cannot multiply Measure by {type(other)}")
 
     def __str__(self) -> str:
         return self.to_long_string()
