@@ -2,7 +2,7 @@ from typing import override
 
 from smartunits.measure import Measure
 
-from . import *
+from smartunits import *
 from smartunits.measures import Voltage, ImmutableVoltage, MutVoltage
 
 

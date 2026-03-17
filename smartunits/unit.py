@@ -1,21 +1,10 @@
-from . import Measure, UnaryFunction, MutableMeasure, TimeUnit
+from smartunits import Measure, UnaryFunction, MutableMeasure, TimeUnit
 
 from abc import ABC, abstractmethod
 from typing import Any
 
 
 class Unit(ABC):
-    _to_base_converter: UnaryFunction
-    _from_base_converter: UnaryFunction
-
-    _base_unit: "Unit"
-
-    _name: str
-    _symbol: str
-
-    _zero: Measure[Any]
-    _one: Measure[Any]
-
     def __init__(
         self,
         base_unit: "Unit",
@@ -24,14 +13,14 @@ class Unit(ABC):
         name: str,
         symbol: str,
     ) -> None:
-        self._base_unit = base_unit
-        self._to_base_converter = to_base_converter
-        self._from_base_converter = from_base_converter
-        self._name = name
-        self._symbol = symbol
+        self._base_unit: "Unit" = base_unit
+        self._to_base_converter: UnaryFunction = to_base_converter
+        self._from_base_converter: UnaryFunction = from_base_converter
+        self._name: str = name
+        self._symbol: str = symbol
 
-        self._zero = self.of(0)
-        self._one = self.of(1)
+        self._zero: "Measure[Any]" = self.of(0)
+        self._one: "Measure[Any]" = self.of(1)
 
     @staticmethod
     def base_unit_equivalent_converters(
@@ -67,6 +56,7 @@ class Unit(ABC):
     def of_base_units(self, magnitude: float) -> "Measure[Any]":
         pass
 
+    @abstractmethod
     def mutable(self, initial_magnitude: float) -> "MutableMeasure[Any, Any, Any]":
         pass
 

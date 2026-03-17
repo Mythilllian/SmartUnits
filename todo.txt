@@ -8,7 +8,7 @@ U - AngularAccelerationUnit
 U - AngularMomentumUnit
 U - AngularVelocityUnit
 U - BaseUnits
-U - CombinatoryUnitCache
+C - CombinatoryUnitCache
 U - CurrentUnit
 U - DimensionlessUnit
 U - DistanceUnit
@@ -24,7 +24,7 @@ C - Measure
 U - MomentOfInertiaUnit
 U - MultUnit
 C - MutableMeasure
-U - PerUnit
+C - PerUnit
 U - PowerUnit
 U - ResistanceUnit
 U - TemperatureUnit

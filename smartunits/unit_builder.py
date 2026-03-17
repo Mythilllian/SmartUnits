@@ -1,26 +1,24 @@
 import stat
 from typing import Generic, Type, TypeVar
 from abc import ABC, abstractmethod
-from . import Unit, UnaryFunction
+from smartunits import Unit, UnaryFunction
 
 U = TypeVar("U", bound=Unit)  # this is the type of the measure itself
 UC = TypeVar("UC", bound=Unit) # this is the type of the unit constructor 
 
-class UnitBuilder(Generic[U]):
-    _base: U
-    _from_base: UnaryFunction = UnaryFunction(lambda x: x)
-    _to_base: UnaryFunction = UnaryFunction(lambda x: x)
-    _offset: float = 0
-    _name: str
-    _symbol: str
-
-    def __init__(self, base: U):
+class UnitBuilder(Generic[U]):  
+    def __init__(self, base: U) -> None:
         if base is None:
             raise ValueError("Base unit cannot be None")
-        self._base = base
+        self._base: U = base
+        self._from_base: UnaryFunction = self._base.get_converter_from_base()
+        self._to_base: UnaryFunction = self._base.get_converter_to_base()
+        self._name: str = self._base.name()
+        self._symbol: str = self._base.symbol()
 
     def offset(self, offset: float) -> "UnitBuilder[U]":
-        self._offset += offset
+        self._from_base = UnaryFunction(lambda b: self._from_base(b) + offset)
+        self._to_base = UnaryFunction(lambda x: self._to_base(x - offset))
         return self
 
     @staticmethod
@@ -60,7 +58,6 @@ class UnitBuilder(Generic[U]):
     ) -> "UnitBuilder[U]":
         self._from_base = from_base
         self._to_base = to_base
-        self._offset = 0
         return self
 
     def set_name(self, name: str) -> "UnitBuilder[U]":
