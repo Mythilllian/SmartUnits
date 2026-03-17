@@ -324,12 +324,19 @@ def type_vars(measure_name):
     return x
 
 def class_header(measure_name, prefix):
+    has_generics = bool(generics_list(measure_name))
     if(prefix == "Immutable"):
-        return f"@dataclass(frozen = True)\nclass Immutable{measure_name}({type_usage(measure_name)}):"
+        if has_generics:
+            return f"@dataclass(frozen = True)\nclass Immutable{measure_name}({type_usage(measure_name)}, Generic{generics_usage(measure_name)}):"
+        else:
+            return f"@dataclass(frozen = True)\nclass Immutable{measure_name}({type_usage(measure_name)}):"
     elif(prefix == "Mut"):
-        return f"class Mut{measure_name}(MutableMeasureBase[{mtou(measure_name)}, {type_usage(measure_name)}, Mut{type_usage(measure_name)}], {type_usage(measure_name)}):"
+        if has_generics:
+            return f"class Mut{measure_name}(MutableMeasureBase[{mtou(measure_name)}, {type_usage(measure_name)}, Mut{type_usage(measure_name)}], {type_usage(measure_name)}, Generic{generics_usage(measure_name)}):"
+        else:
+            return f"class Mut{measure_name}(MutableMeasureBase[{mtou(measure_name)}, {type_usage(measure_name)}, Mut{type_usage(measure_name)}], {type_usage(measure_name)}):"
     else:
-        if(generics_list(measure_name)):
+        if has_generics:
             return f"class {measure_name}(Measure[{mtou(measure_name)}], ABC, Generic{generics_usage(measure_name)}):"
         else:
             return f"class {measure_name}(Measure[{mtou(measure_name)}], ABC):"
