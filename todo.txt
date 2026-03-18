@@ -15,7 +15,7 @@ U - DistanceUnit
 U - EnergyUnit
 U - ForceUnit
 U - FrequencyUnit
-U - ImmutableMesaure
+X - ImmutableMesaure
 U - LinearAccelerationUnit
 U - LinearMomentumUnit
 U - LinearVelocityUnit
@@ -23,7 +23,7 @@ U - MassUnit
 C - Measure
 U - MomentOfInertiaUnit
 U - MultUnit
-C - MutableMeasure
+X - MutableMeasure
 C - PerUnit
 U - PowerUnit
 U - ResistanceUnit

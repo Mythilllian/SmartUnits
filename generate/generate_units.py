@@ -323,23 +323,23 @@ def type_vars(measure_name):
         x += f"\n{generic} = TypeVar('{generic}', bound=Unit)"
     return x
 
-def class_header(measure_name, prefix):
+def class_header(measure_name):
     has_generics = bool(generics_list(measure_name))
-    if(prefix == "Immutable"):
-        if has_generics:
-            return f"@dataclass(frozen = True)\nclass Immutable{measure_name}({type_usage(measure_name)}, Generic{generics_usage(measure_name)}):"
-        else:
-            return f"@dataclass(frozen = True)\nclass Immutable{measure_name}({type_usage(measure_name)}):"
-    elif(prefix == "Mut"):
-        if has_generics:
-            return f"class Mut{measure_name}(MutableMeasureBase[{mtou(measure_name)}, {type_usage(measure_name)}, Mut{type_usage(measure_name)}], {type_usage(measure_name)}, Generic{generics_usage(measure_name)}):"
-        else:
-            return f"class Mut{measure_name}(MutableMeasureBase[{mtou(measure_name)}, {type_usage(measure_name)}, Mut{type_usage(measure_name)}], {type_usage(measure_name)}):"
+    # if(prefix == "Immutable"):
+    #     if has_generics:
+    #         return f"@dataclass(frozen = True)\nclass Immutable{measure_name}({type_usage(measure_name)}, Generic{generics_usage(measure_name)}):"
+    #     else:
+    #         return f"@dataclass(frozen = True)\nclass Immutable{measure_name}({type_usage(measure_name)}):"
+    # elif(prefix == "Mut"):
+    #     if has_generics:
+    #         return f"class Mut{measure_name}(MutableMeasureBase[{mtou(measure_name)}, {type_usage(measure_name)}, Mut{type_usage(measure_name)}], {type_usage(measure_name)}, Generic{generics_usage(measure_name)}):"
+    #     else:
+    #         return f"class Mut{measure_name}(MutableMeasureBase[{mtou(measure_name)}, {type_usage(measure_name)}, Mut{type_usage(measure_name)}], {type_usage(measure_name)}):"
+    # else:
+    if has_generics:
+        return f"class {measure_name}(Measure[{mtou(measure_name)}], ABC, Generic{generics_usage(measure_name)}):"
     else:
-        if has_generics:
-            return f"class {measure_name}(Measure[{mtou(measure_name)}], ABC, Generic{generics_usage(measure_name)}):"
-        else:
-            return f"class {measure_name}(Measure[{mtou(measure_name)}], ABC):"
+        return f"class {measure_name}(Measure[{mtou(measure_name)}], ABC):"
 
 
 def type_usage(measure_name):
@@ -382,8 +382,8 @@ def generate_units(output_directory: Path, template_directory: Path):
     )
 
     interfaceTemplate = env.get_template("measure-interface.py.jinja")
-    immutableTemplate = env.get_template("measure-immutable.py.jinja")
-    mutableTemplate = env.get_template("measure-mutable.py.jinja")
+    # immutableTemplate = env.get_template("measure-immutable.py.jinja")
+    # mutableTemplate = env.get_template("measure-mutable.py.jinja")
     rootPath = output_directory
 
     helpers = {
@@ -406,30 +406,30 @@ def generate_units(output_directory: Path, template_directory: Path):
             config=UNIT_CONFIGURATIONS,
             helpers=helpers,
         )
-        immutableContents = immutableTemplate.render(
-            name=unit_name,
-            prefix="Immutable",
-            units=MATH_OPERATION_UNITS,
-            config=UNIT_CONFIGURATIONS,
-            helpers=helpers,
-        )
-        mutableContents = mutableTemplate.render(
-            name=unit_name,
-            prefix="Mut",
-            units=MATH_OPERATION_UNITS,
-            config=UNIT_CONFIGURATIONS,
-            helpers=helpers,
-        )
+        # immutableContents = immutableTemplate.render(
+        #     name=unit_name,
+        #     prefix="Immutable",
+        #     units=MATH_OPERATION_UNITS,
+        #     config=UNIT_CONFIGURATIONS,
+        #     helpers=helpers,
+        # )
+        # mutableContents = mutableTemplate.render(
+        #     name=unit_name,
+        #     prefix="Mut",
+        #     units=MATH_OPERATION_UNITS,
+        #     config=UNIT_CONFIGURATIONS,
+        #     helpers=helpers,
+        # )
         init_imports.append(f"from {file_name(unit_name)} import {unit_name}")
-        init_imports.append(f"from immutable_{file_name(unit_name)} import Immutable{unit_name}")
-        init_imports.append(f"from mut_{file_name(unit_name)} import Mut{unit_name}")
+        # init_imports.append(f"from immutable_{file_name(unit_name)} import Immutable{unit_name}")
+        # init_imports.append(f"from mut_{file_name(unit_name)} import Mut{unit_name}")
         init_all.append(f"{unit_name}")
-        init_all.append(f"Immutable{unit_name}")
-        init_all.append(f"Mut{unit_name}")
+        # init_all.append(f"Immutable{unit_name}")
+        # init_all.append(f"Mut{unit_name}")
 
         output(rootPath / "measures", file_name(unit_name) + ".py", interfaceContents)
-        output(rootPath / "measures", file_name(f"Immutable{unit_name}") + ".py", immutableContents)
-        output(rootPath / "measures", file_name(f"Mut{unit_name}") + ".py", mutableContents)
+        # output(rootPath / "measures", file_name(f"Immutable{unit_name}") + ".py", immutableContents)
+        # output(rootPath / "measures", file_name(f"Mut{unit_name}") + ".py", mutableContents)
 
     output(
         rootPath / "measures",

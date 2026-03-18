@@ -2,15 +2,13 @@ from abc import ABC, abstractmethod
 from typing import Any, Generic, TypeVar
 from smartunits import (
     Unit,
-    MutableMeasure,
-    Dimensionless,
+    # Dimensionless,
     PerUnit,
-    MultUnit,
-    TimeUnit,
-    VelocityUnit,
-    ImmutableMeasure,
-    Value,
-    DimensionlessUnit,
+    # MultUnit,
+    # TimeUnit,
+    # VelocityUnit,
+    # Value,
+    # DimensionlessUnit,
 )
 
 U = TypeVar("U", bound=Unit)  # this is the type of the measure itself
@@ -20,183 +18,154 @@ M = TypeVar("M", bound="Measure[Other]")
 
 class Measure(ABC, Generic[U]):
     EQUIVALENCE_THRESHOLD: float = 1e-12
+    _magnitude: float
+    _base_unit_magnitude: float
+    _unit: U
 
-    @abstractmethod
     def magnitude(self) -> float:
-        pass
+        return self._magnitude
 
-    @abstractmethod
     def base_unit_magnitude(self) -> float:
-        pass
+        return self._base_unit_magnitude
 
-    @abstractmethod
     def unit(self) -> U:
-        pass
+        return self._unit
 
     def in_unit(self, unit: U) -> float:
-        if self.unit() == unit:
-            return self.magnitude()
-        else:
-            return unit.from_base_units(self.base_unit_magnitude())
+        if self._unit == unit:
+            return self._magnitude
+        return unit.from_base_units(self._base_unit_magnitude)
 
     def base_unit(self) -> U:
-        return self.unit().base_unit()
+        return self._unit._base_unit
 
-    def abs(self, u: U) -> float:
-        return abs(self.in_unit(u))
+    # def abs(self, u: U) -> float:
+    #     return abs(self.in_unit(u))
 
-    def copy_sign(self, other: "Measure[U]", u: U) -> float:
-        return self.in_unit(u) * (1 if other.in_unit(u) >= 0 else -1)
+    # def copy_sign(self, other: "Measure[U]", u: U) -> float:
+    #     return self.in_unit(u) * (1 if other.in_unit(u) >= 0 else -1)
 
-    @abstractmethod
-    def copy(self) -> "Measure[U]":
-        pass
+    # def times_measure(self, multiplier: "Measure[Any]") -> "Measure[Any]":
+    #     base_unit_result = self.base_unit_magnitude() * multiplier.base_unit_magnitude()
 
-    @abstractmethod
-    def mutable_copy(self) -> "MutableMeasure[U, Any, Any]":
-        pass
+    #     # First try to eliminate any common units
+    #     if (
+    #         isinstance(self.unit(), Dimensionless)
+    #     ):
+    #         return self.times_dimensionless(multiplier)
+    #     elif (
+    #         isinstance(self.unit(), PerUnit)
+    #         and multiplier.base_unit() == self.unit().denominator().base_unit()
+    #     ):
+    #         # PerUnit<N, D> * D -> yield N
+    #         # Case 1: denominator of the PerUnit cancels out, return with just the units of the numerator
+    #         return self.unit().numerator().from_base_units(base_unit_result)
+    #     elif (
+    #         isinstance(multiplier.base_unit(), PerUnit)
+    #         and self.base_unit() == multiplier.unit().denominator().base_unit()
+    #     ):
+    #         # D * PerUnit<N, D> -> yield N
+    #         # Case 2: Same as Case 1, just flipped between this and the multiplier
+    #         return multiplier.unit().numerator().from_base_units(base_unit_result)
+    #     elif (
+    #         isinstance(self.unit(), PerUnit)
+    #         and isinstance(multiplier.unit(), PerUnit)
+    #         and self.unit().denominator().base_unit()
+    #         == multiplier.unit().numerator().base_unit()
+    #         and self.unit().numerator().base_unit()
+    #         == multiplier.unit().denominator().base_unit()
+    #     ):
+    #         # multiplying eg meters per second * milliseconds per foot
+    #         # return a scalar
+    #         return Value.of(base_unit_result)
 
-    @abstractmethod
-    def unary_minus(self) -> "Measure[U]":
-        pass
+    #     # No common units to eliminate, is one of them dimensionless?
+    #     # Note that this must come *after* the multiplier cases, otherwise
+    #     # Per<U, Dimensionless> * Dimensionless will not return a U
+    #     if isinstance(multiplier.unit(), DimensionlessUnit):
+    #         # scalar multiplication of this
+    #         return self.times_scalar(multiplier.base_unit_magnitude())
+    #     elif isinstance(self.unit(), DimensionlessUnit):
+    #         # scalar multiplication of multiplier
+    #         return multiplier.times_scalar(self.base_unit_magnitude())
 
-    @abstractmethod
-    def plus(self, other: "Measure[U]") -> "Measure[U]":
-        pass
+    #     return MultUnit.combine(self.unit(), multiplier.unit()).of_base_units(
+    #         self.base_unit_magnitude() * multiplier.base_unit_magnitude()
+    #     )
 
-    @abstractmethod
-    def minus(self, other: "Measure[U]") -> "Measure[U]":
-        pass
+    # def times_conversion_factor(
+    #     self, conversion_factor: "Measure[PerUnit[Other, U]]"
+    # ) -> M:
+    #     return (
+    #         conversion_factor.unit()
+    #         .get_base_unit()
+    #         .numerator()
+    #         .of_base_units(
+    #             self.base_unit_magnitude() * conversion_factor.base_unit_magnitude()
+    #         )
+    #     )
 
-    @abstractmethod
-    def times_scalar(self, scalar: float) -> "Measure[U]":
-        pass
+    # def times_inverse(self, multiplier: "Measure") -> Dimensionless:
+    #     return Value.of_base_units(
+    #         self.base_unit_magnitude() / multiplier.base_unit_magnitude()
+    #     )
 
-    @abstractmethod
-    def times_dimensionless(self, multiplier: Dimensionless) -> "Measure[U]":
-        pass
+    # def times_ratio(self, ratio: "Measure[PerUnit[Other, U]]") -> "Measure[Other]":
+    #     return Measure.of_base_units(
+    #         self.base_unit_magnitude() * ratio.base_unit_magnitude(),
+    #         self.unit().numerator(),
+    #     )
 
-    def times_measure(self, multiplier: "Measure[Any]") -> "Measure[Any]":
-        base_unit_result = self.base_unit_magnitude() * multiplier.base_unit_magnitude()
+    # @abstractmethod
+    # def divide_by_scalar(self, scalar: float) -> "Measure[U]":
+    #     pass
 
-        # First try to eliminate any common units
-        if (
-            isinstance(self.unit(), Dimensionless)
-        ):
-            return self.times_dimensionless(multiplier)
-        elif (
-            isinstance(self.unit(), PerUnit)
-            and multiplier.base_unit() == self.unit().denominator().base_unit()
-        ):
-            # PerUnit<N, D> * D -> yield N
-            # Case 1: denominator of the PerUnit cancels out, return with just the units of the numerator
-            return self.unit().numerator().from_base_units(base_unit_result)
-        elif (
-            isinstance(multiplier.base_unit(), PerUnit)
-            and self.base_unit() == multiplier.unit().denominator().base_unit()
-        ):
-            # D * PerUnit<N, D> -> yield N
-            # Case 2: Same as Case 1, just flipped between this and the multiplier
-            return multiplier.unit().numerator().from_base_units(base_unit_result)
-        elif (
-            isinstance(self.unit(), PerUnit)
-            and isinstance(multiplier.unit(), PerUnit)
-            and self.unit().denominator().base_unit()
-            == multiplier.unit().numerator().base_unit()
-            and self.unit().numerator().base_unit()
-            == multiplier.unit().denominator().base_unit()
-        ):
-            # multiplying eg meters per second * milliseconds per foot
-            # return a scalar
-            return Value.of(base_unit_result)
+    # @abstractmethod
+    # def divide_by_dimensionless(self, divisor: Dimensionless) -> "Measure[U]":
+    #     pass
 
-        # No common units to eliminate, is one of them dimensionless?
-        # Note that this must come *after* the multiplier cases, otherwise
-        # Per<U, Dimensionless> * Dimensionless will not return a U
-        if isinstance(multiplier.unit(), DimensionlessUnit):
-            # scalar multiplication of this
-            return self.times_scalar(multiplier.base_unit_magnitude())
-        elif isinstance(self.unit(), DimensionlessUnit):
-            # scalar multiplication of multiplier
-            return multiplier.times_scalar(self.base_unit_magnitude())
+    # def divide_by_measure(self, divisor: "Measure[Any]") -> "Measure[Any]":
+    #     base_unit_result = self.base_unit_magnitude() / divisor.base_unit_magnitude()
 
-        return MultUnit.combine(self.unit(), multiplier.unit()).of_base_units(
-            self.base_unit_magnitude() * multiplier.base_unit_magnitude()
-        )
+    #     if (
+    #         isinstance(self.unit(), PerUnit)
+    #         and divisor.base_unit() == self.unit().denominator().base_unit()
+    #     ):
+    #         return Value.of_base_units(base_unit_result)
 
-    def times_conversion_factor(
-        self, conversion_factor: "Measure[PerUnit[Other, U]]"
-    ) -> M:
-        return (
-            conversion_factor.unit()
-            .get_base_unit()
-            .numerator()
-            .of_base_units(
-                self.base_unit_magnitude() * conversion_factor.base_unit_magnitude()
-            )
-        )
+    #     if isinstance(divisor, Dimensionless):
+    #         return self.unit().of_base_units(base_unit_result)
 
-    def times_inverse(self, multiplier: "Measure") -> Dimensionless:
-        return Value.of_base_units(
-            self.base_unit_magnitude() / multiplier.base_unit_magnitude()
-        )
+    #     if isinstance(divisor.unit(), Dimensionless) and isinstance(
+    #         divisor.unit(), PerUnit
+    #     ):
+    #         return divisor.unit().reciprocal().of_base_units(base_unit_result)
 
-    def times_ratio(self, ratio: "Measure[PerUnit[Other, U]]") -> "Measure[Other]":
-        return ImmutableMeasure.of_base_units(
-            self.base_unit_magnitude() * ratio.base_unit_magnitude(),
-            self.unit().numerator(),
-        )
+    #     if (
+    #         isinstance(divisor.unit(), PerUnit)
+    #         and divisor.unit().numerator().get_base_unit() == self.base_unit()
+    #     ):
+    #         return divisor.unit().denominator().of_base_units(base_unit_result)
 
-    @abstractmethod
-    def divide_by_scalar(self, scalar: float) -> "Measure[U]":
-        pass
+    #     if isinstance(divisor.unit(), TimeUnit):
+    #         return VelocityUnit.combine(self.unit(), divisor.unit()).of_base_units(
+    #             base_unit_result
+    #         )
 
-    @abstractmethod
-    def divide_by_dimensionless(self, divisor: Dimensionless) -> "Measure[U]":
-        pass
+    #     return PerUnit.combine(self.unit(), divisor.unit()).of_base_units(
+    #         base_unit_result
+    #     )
 
-    def divide_by_measure(self, divisor: "Measure[Any]") -> "Measure[Any]":
-        base_unit_result = self.base_unit_magnitude() / divisor.base_unit_magnitude()
+    # def per(self, divisor_unit: Unit) -> "Measure[Any]":
+    #     return self.divide_by_measure(divisor_unit.one())
 
-        if (
-            isinstance(self.unit(), PerUnit)
-            and divisor.base_unit() == self.unit().denominator().base_unit()
-        ):
-            return Value.of_base_units(base_unit_result)
-
-        if isinstance(divisor, Dimensionless):
-            return self.unit().of_base_units(base_unit_result)
-
-        if isinstance(divisor.unit(), Dimensionless) and isinstance(
-            divisor.unit(), PerUnit
-        ):
-            return divisor.unit().reciprocal().of_base_units(base_unit_result)
-
-        if (
-            isinstance(divisor.unit(), PerUnit)
-            and divisor.unit().numerator().get_base_unit() == self.base_unit()
-        ):
-            return divisor.unit().denominator().of_base_units(base_unit_result)
-
-        if isinstance(divisor.unit(), TimeUnit):
-            return VelocityUnit.combine(self.unit(), divisor.unit()).of_base_units(
-                base_unit_result
-            )
-
-        return PerUnit.combine(self.unit(), divisor.unit()).of_base_units(
-            base_unit_result
-        )
-
-    def per(self, divisor_unit: Unit) -> "Measure[Any]":
-        return self.divide_by_measure(divisor_unit.one())
-
-    def divide_by_ratio(
-        self, divisor: "Measure[PerUnit[U, Other]]"
-    ) -> "Measure[Other]":
-        return ImmutableMeasure.of_base_units(
-            self.base_unit_magnitude() / divisor.base_unit_magnitude(),
-            divisor.unit().denominator(),
-        )
+    # def divide_by_ratio(
+    #     self, divisor: "Measure[PerUnit[U, Other]]"
+    # ) -> "Measure[Other]":
+    #     return Measure.of_base_units(
+    #         self.base_unit_magnitude() / divisor.base_unit_magnitude(),
+    #         divisor.unit().denominator(),
+    #     )
 
     def is_near_other_measure(
         self, other: "Measure[Other]", variance_threshold: float
@@ -276,27 +245,32 @@ class Measure(ABC, Generic[U]):
     def to_long_string(self) -> str:
         return f"{self.magnitude()} {self.unit().name()}"
 
-    def __abs__(self) -> float:
-        return self.abs(self.unit())
+    # def __abs__(self) -> float:
+    #     return self.abs(self.unit())
 
+    @abstractmethod
     def __neg__(self) -> "Measure[U]":
-        return self.unary_minus()
+        pass
 
+    @abstractmethod
     def __add__(self, other: "Measure[U]") -> "Measure[U]":
-        return self.plus(other)
+        pass
 
+    @abstractmethod
     def __sub__(self, other: "Measure[U]") -> "Measure[U]":
-        return self.minus(other)
+        pass
     
-    def __mul__(self, other: Any) -> "Measure[Any]":
-        if isinstance(other, (int, float)):
-            return self.times_scalar(float(other))
-        elif isinstance(other, Dimensionless):
-            return self.times_dimensionless(other)
-        elif isinstance(other, Measure):
-            return self.times_measure(other)
-        else:
-            raise NotImplementedError(f"Cannot multiply Measure by {type(other)}")
+    @abstractmethod
+    def __mul__(self, other: float) -> "Measure[Any]":
+        pass
+        # if isinstance(other, (int, float)):
+        #     return self.times_scalar(float(other))
+        # elif isinstance(other, Dimensionless):
+        #     return self.times_dimensionless(other)
+        # elif isinstance(other, Measure):
+        #     return self.times_measure(other)
+        # else:
+        #     raise NotImplementedError(f"Cannot multiply Measure by {type(other)}")
 
     def __str__(self) -> str:
         return self.to_long_string()
