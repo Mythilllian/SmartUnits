@@ -3,23 +3,41 @@ from typing import Callable
 
 
 class UnaryFunction:
+    __slots__ = ("identity")
+
     def __init__(self, func: Callable[[float], float]) -> None:
         self.identity: Callable[[float], float] = func
 
     @staticmethod
-    def from_multiplier(value: float) -> tuple["UnaryFunction", "UnaryFunction"]:
+    def from_multiplier(value: float) -> "UnaryFunction":
+        return UnaryFunction(lambda x: x * value)
+
+    @staticmethod
+    def from_divisor(value: float) -> "UnaryFunction":
+        return UnaryFunction(lambda x: x / value)
+
+    @staticmethod
+    def from_offset(value: float) -> "UnaryFunction":
+        return UnaryFunction(lambda x: x + value)
+
+    @staticmethod
+    def from_exponent(value: float) -> "UnaryFunction":
+        return UnaryFunction(lambda x: x**value)
+    
+    @staticmethod
+    def pair_from_multiplier(value: float) -> tuple["UnaryFunction", "UnaryFunction"]:
         return UnaryFunction(lambda x: x * value), UnaryFunction(lambda x: x / value)
 
     @staticmethod
-    def from_divisor(value: float) -> tuple["UnaryFunction", "UnaryFunction"]:
+    def pair_from_divisor(value: float) -> tuple["UnaryFunction", "UnaryFunction"]:
         return UnaryFunction(lambda x: x / value), UnaryFunction(lambda x: x * value)
 
     @staticmethod
-    def from_offset(value: float) -> tuple["UnaryFunction", "UnaryFunction"]:
+    def pair_from_offset(value: float) -> tuple["UnaryFunction", "UnaryFunction"]:
         return UnaryFunction(lambda x: x + value), UnaryFunction(lambda x: x - value)
 
     @staticmethod
-    def from_exponent(value: float) -> tuple["UnaryFunction", "UnaryFunction"]:
+    def pair_from_exponent(value: float) -> tuple["UnaryFunction", "UnaryFunction"]:
         return UnaryFunction(lambda x: x**value), UnaryFunction(lambda x: x ** (1 / value))
 
     # @staticmethod
@@ -61,12 +79,6 @@ class UnaryFunction:
 
     def exponentiate(self, exponent: float) -> "UnaryFunction":
         return UnaryFunction(lambda x: self.apply(x) ** exponent)
-
-    def from_offset_and_multiplier(
-        self, offset: float, multiplier: float
-    ) -> tuple["UnaryFunction", "UnaryFunction"]:
-
-        return UnaryFunction(lambda x: (x + offset) * multiplier), UnaryFunction(lambda x: (x / multiplier) - offset)
 
     def apply(self, value: float) -> float:
         return self.identity(value)

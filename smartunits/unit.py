@@ -1,10 +1,27 @@
-from smartunits import Measure, UnaryFunction, MutableMeasure, TimeUnit
+from smartunits import Measure, UnaryFunction, TimeUnit
 
 from abc import ABC, abstractmethod
 from typing import Any
 
 
 class Unit(ABC):
+    __slots__ = (
+        "_base_unit",
+        "_to_base_converter",
+        "_from_base_converter",
+        "_name",
+        "_symbol",
+        "_zero",
+        "_one",
+    )
+    _base_unit: "Unit"
+    _to_base_converter: UnaryFunction
+    _from_base_converter: UnaryFunction
+    _name: str
+    _symbol: str
+    _zero: "Measure[Any]"
+    _one: "Measure[Any]"
+
     def __init__(
         self,
         base_unit: "Unit",
@@ -21,18 +38,6 @@ class Unit(ABC):
 
         self._zero: "Measure[Any]" = self.of(0)
         self._one: "Measure[Any]" = self.of(1)
-
-    @staticmethod
-    def base_unit_equivalent_converters(
-        base_unit_equivalent: float
-    ) -> tuple[UnaryFunction, UnaryFunction]:
-        """
-        Returns both conversion functions (to_base and from_base accordingly) for a unit that is equivalent to the base unit by a simple multiplier.
-        """
-        return (
-            UnaryFunction(lambda x: x * base_unit_equivalent),
-            UnaryFunction(lambda x: x / base_unit_equivalent),
-        )
 
     def from_base_multiplier(
         self, base_unit: "Unit", base_unit_equivalent: float, name: str, symbol: str
@@ -56,10 +61,6 @@ class Unit(ABC):
     def of_base_units(self, magnitude: float) -> "Measure[Any]":
         pass
 
-    @abstractmethod
-    def mutable(self, initial_magnitude: float) -> "MutableMeasure[Any, Any, Any]":
-        pass
-
     def zero(self) -> "Measure[Any]":
         return self._zero
 
@@ -70,6 +71,18 @@ class Unit(ABC):
     def per(self, time: TimeUnit) -> "Unit":
         pass
 
+    def convert_from(self, magnitude: float, other_unit: "Unit") -> float:
+        return other_unit._to_base_converter(self._from_base_converter(magnitude))
+    
+    def convert_to(self, magnitude: float, other_unit: "Unit") -> float:
+        return self._to_base_converter(other_unit._from_base_converter(magnitude))
+
+    def conversion_from(self, other_unit: "Unit") -> UnaryFunction:
+        return UnaryFunction(lambda x: other_unit._to_base_converter(self._from_base_converter(x)))
+
+    def conversion_to(self, other_unit: "Unit") -> UnaryFunction:
+        return UnaryFunction(lambda x: self._to_base_converter(other_unit._from_base_converter(x)))
+
     def get_base_unit(self) -> "Unit":
         return self._base_unit
 
@@ -79,7 +92,7 @@ class Unit(ABC):
     def from_base_units(self, value_in_base_units: float) -> float:
         return self._from_base_converter(value_in_base_units)
 
-    def to_base_units(self, value_in_native_units: float):
+    def to_base_units(self, value_in_native_units: float) -> float:
         return self._to_base_converter(value_in_native_units)
 
     def get_converter_to_base(self) -> UnaryFunction:
@@ -131,4 +144,4 @@ class Unit(ABC):
         return self._symbol
 
     def __str__(self) -> str:
-        return self.name()
+        return self._name
