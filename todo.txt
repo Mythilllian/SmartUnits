@@ -1,3 +1,8 @@
+- refactor unit.py, unit_builder.py, measure.py, etc. to lower overhead
+- maybe get rid of unaryfunctions for all units except temperature?
+- build up units.py
+- testing
+
 U = unstarted
 I = incomplete
 C = complete

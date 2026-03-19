@@ -1,4 +1,4 @@
-from smartunits.measures import ImmutablePer, MutPer, Per
+from smartunits.measures import Per
 from smartunits import Unit, UnaryFunction, CombinatoryUnitCache, TimeUnit, VelocityUnit, Units, Measure
 from typing import Any, TypeVar, Generic, override
 
@@ -44,7 +44,8 @@ class PerUnit(Unit, Generic[N, D]):
             numerator.symbol() + "/" + denominator.symbol(),
         )
     
-    def combine(self, numerator: N, denominator: D) -> "PerUnit[N, D]":
+    @staticmethod
+    def combine(numerator: N, denominator: D) -> "PerUnit[N, D]":
         return _cache.combine(numerator, denominator)
     
     @override
@@ -95,13 +96,6 @@ class PerUnit(Unit, Generic[N, D]):
     @override
     def one(self) -> Per[N, D]:
         return super().one()
-    
-    @override
-    def mutable(self, initial_magnitude: float) -> MutPer[N, D]:
-        return self.mutable_native(initial_magnitude)
-    
-    def mutable_native(self, initial_magnitude: float) -> MutPer[N, D]:
-        return MutPer[N, D](initial_magnitude, self.to_base_units(initial_magnitude), self)
 
     @override
     def per(self, time: TimeUnit) -> "PerUnit[N, TimeUnit]":
