@@ -6,22 +6,24 @@
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import override, Any
-from smartunits import *
-from smartunits.measures import *
+from typing import override, Any, TYPE_CHECKING
+from smartunits import Measure
+
+if TYPE_CHECKING:
+    from smartunits import AngleUnit 
 
 @dataclass(frozen=True, slots=True)
-class Angle(Measure[AngleUnit], ABC):
+class Angle(Measure["AngleUnit"], ABC):
   _magnitude: float
   _base_unit_magnitude: float
-  _unit: AngleUnit
+  _unit: "AngleUnit"
 
   @staticmethod
-  def of(magnitude: float, unit: AngleUnit) -> "Angle":
+  def of(magnitude: float, unit: "AngleUnit") -> "Angle":
     return Angle(magnitude, unit.to_base_units(magnitude), unit)
 
   @staticmethod
-  def of_base_units(base_unit_magnitude: float, unit: AngleUnit) -> "Angle":
+  def of_base_units(base_unit_magnitude: float, unit: "AngleUnit") -> "Angle":
     return Angle(unit.from_base_units(base_unit_magnitude), base_unit_magnitude, unit)
 
   @override
@@ -33,14 +35,14 @@ class Angle(Measure[AngleUnit], ABC):
     return self._base_unit_magnitude
   
   @override
-  def unit(self) -> AngleUnit:
+  def unit(self) -> "AngleUnit":
     return self._unit
 
   @override
-  def base_unit(self) -> AngleUnit:
+  def base_unit(self) -> "AngleUnit":
     return self._unit._base_unit
 
-  def in_units(self, unit: AngleUnit) -> float:
+  def in_units(self, unit: "AngleUnit") -> float:
     if unit is self._unit:
       return self._magnitude
     return unit.from_base_units(self._base_unit_magnitude)
@@ -50,14 +52,14 @@ class Angle(Measure[AngleUnit], ABC):
     return Angle(-self._magnitude, -self._base_unit_magnitude, self._unit)
   
   @override
-  def __add__(self, other: Measure[AngleUnit]) -> "Angle":
+  def __add__(self, other: Measure["AngleUnit"]) -> "Angle":
     if self._unit is other._unit:
-      return Angle(self._magnitude + other._magnitude, self._base_unit_magnitude, self._unit)
+      return Angle(self._magnitude + other._magnitude, self._base_unit_magnitude + other._magnitude, self._unit)
     
     return self._unit.of_base_units(self._base_unit_magnitude + other._base_unit_magnitude)
   
   @override
-  def __sub__(self, other: Measure[AngleUnit]) -> "Angle":
+  def __sub__(self, other: Measure["AngleUnit"]) -> "Angle":
     if self._unit is other._unit:
       return Angle(self._magnitude - other._magnitude, self._base_unit_magnitude, self._unit)
     
@@ -68,38 +70,53 @@ class Angle(Measure[AngleUnit], ABC):
     if isinstance(other, (int, float)):
         return Angle(self._magnitude * other, self._base_unit_magnitude * other, self._unit)
 
+    # handles Angle
+    if isinstance(other, Angle):
+        return self.of_base_units(self._base_unit_magnitude * other._base_unit_magnitude)
+
     # handle Dimensionless
+    from smartunits.measures import Dimensionless
     if isinstance(other, Dimensionless):
         factor = other._base_unit_magnitude
         return Angle(self._magnitude * factor, self._base_unit_magnitude * factor, self._unit)
 
-    # handle custom multiply implementations
+    # handle unit-specific multiply implementations
+    from smartunits.measures import Frequency
     if isinstance(other, Frequency):
+      from smartunits.measures import RadiansPerSecond
       return RadiansPerSecond.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
     # fallback generic
     base_result = self._base_unit_magnitude * other._base_unit_magnitude
-
     other_unit = other._unit
 
     # handle PerUnit and MultUnit
+    from smartunits.measures import PerUnit
     if isinstance(other_unit, PerUnit):
         if self._unit._base_unit == other_unit._denominator._base_unit:
             return other_unit._numerator.from_base_units(base_result)
 
     # fallback to MultUnit
+    from smartunits.measure import MultUnit
     return MultUnit.combine(self._unit, other_unit).of_base_units(base_result)
 
-  def __truediv__(self, other: Any) -> "Angle":
+  def __truediv__(self, other: Any) -> Measure[Any]:
     if isinstance(other, (int, float)):
       return Angle(self._magnitude / other, self._base_unit_magnitude / other, self._unit)
 
+    # handles Angle
+    if isinstance(other, Angle):
+        return (self._base_unit_magnitude / other._base_unit_magnitude)
+
+    # handle Dimensionless
+    from smartunits.measures import Dimensionless
     if isinstance(other, Dimensionless):
       factor = other._base_unit_magnitude
       return Angle(self._magnitude / factor, self._base_unit_magnitude / factor, self._unit)
 
     base_result = self._base_unit_magnitude / other._base_unit_magnitude
 
+    from smartunits.measures import PerUnit
     return PerUnit.combine(self._unit, other._unit).of_base_units(base_result)
 
   def __str__(self) -> str:

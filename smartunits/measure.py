@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 from typing import Any, Generic, TypeVar
 from smartunits import (
     Unit,
@@ -15,12 +16,12 @@ U = TypeVar("U", bound=Unit)  # this is the type of the measure itself
 Other = TypeVar("Other", bound="Unit")
 M = TypeVar("M", bound="Measure[Other]")
 
-
+@dataclass(frozen=True, slots=True)
 class Measure(ABC, Generic[U]):
-    EQUIVALENCE_THRESHOLD: float = 1e-12
     _magnitude: float
     _base_unit_magnitude: float
     _unit: U
+    EQUIVALENCE_THRESHOLD: float = 1e-12
 
     def magnitude(self) -> float:
         return self._magnitude
@@ -263,14 +264,6 @@ class Measure(ABC, Generic[U]):
     @abstractmethod
     def __mul__(self, other: float) -> "Measure[Any]":
         pass
-        # if isinstance(other, (int, float)):
-        #     return self.times_scalar(float(other))
-        # elif isinstance(other, Dimensionless):
-        #     return self.times_dimensionless(other)
-        # elif isinstance(other, Measure):
-        #     return self.times_measure(other)
-        # else:
-        #     raise NotImplementedError(f"Cannot multiply Measure by {type(other)}")
 
     def __eq__(self, other: "Measure[U]") -> bool:
         return self.is_equivalent(other)

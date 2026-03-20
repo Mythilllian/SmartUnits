@@ -6,22 +6,24 @@
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import override, Any
-from smartunits import *
-from smartunits.measures import *
+from typing import override, Any, TYPE_CHECKING
+from smartunits import Measure
+
+if TYPE_CHECKING:
+    from smartunits import MassUnit 
 
 @dataclass(frozen=True, slots=True)
-class Mass(Measure[MassUnit], ABC):
+class Mass(Measure["MassUnit"], ABC):
   _magnitude: float
   _base_unit_magnitude: float
-  _unit: MassUnit
+  _unit: "MassUnit"
 
   @staticmethod
-  def of(magnitude: float, unit: MassUnit) -> "Mass":
+  def of(magnitude: float, unit: "MassUnit") -> "Mass":
     return Mass(magnitude, unit.to_base_units(magnitude), unit)
 
   @staticmethod
-  def of_base_units(base_unit_magnitude: float, unit: MassUnit) -> "Mass":
+  def of_base_units(base_unit_magnitude: float, unit: "MassUnit") -> "Mass":
     return Mass(unit.from_base_units(base_unit_magnitude), base_unit_magnitude, unit)
 
   @override
@@ -33,14 +35,14 @@ class Mass(Measure[MassUnit], ABC):
     return self._base_unit_magnitude
   
   @override
-  def unit(self) -> MassUnit:
+  def unit(self) -> "MassUnit":
     return self._unit
 
   @override
-  def base_unit(self) -> MassUnit:
+  def base_unit(self) -> "MassUnit":
     return self._unit._base_unit
 
-  def in_units(self, unit: MassUnit) -> float:
+  def in_units(self, unit: "MassUnit") -> float:
     if unit is self._unit:
       return self._magnitude
     return unit.from_base_units(self._base_unit_magnitude)
@@ -50,14 +52,14 @@ class Mass(Measure[MassUnit], ABC):
     return Mass(-self._magnitude, -self._base_unit_magnitude, self._unit)
   
   @override
-  def __add__(self, other: Measure[MassUnit]) -> "Mass":
+  def __add__(self, other: Measure["MassUnit"]) -> "Mass":
     if self._unit is other._unit:
-      return Mass(self._magnitude + other._magnitude, self._base_unit_magnitude, self._unit)
+      return Mass(self._magnitude + other._magnitude, self._base_unit_magnitude + other._magnitude, self._unit)
     
     return self._unit.of_base_units(self._base_unit_magnitude + other._base_unit_magnitude)
   
   @override
-  def __sub__(self, other: Measure[MassUnit]) -> "Mass":
+  def __sub__(self, other: Measure["MassUnit"]) -> "Mass":
     if self._unit is other._unit:
       return Mass(self._magnitude - other._magnitude, self._base_unit_magnitude, self._unit)
     
@@ -68,38 +70,53 @@ class Mass(Measure[MassUnit], ABC):
     if isinstance(other, (int, float)):
         return Mass(self._magnitude * other, self._base_unit_magnitude * other, self._unit)
 
+    # handles Mass
+    if isinstance(other, Mass):
+        return self.of_base_units(self._base_unit_magnitude * other._base_unit_magnitude)
+
     # handle Dimensionless
+    from smartunits.measures import Dimensionless
     if isinstance(other, Dimensionless):
         factor = other._base_unit_magnitude
         return Mass(self._magnitude * factor, self._base_unit_magnitude * factor, self._unit)
 
-    # handle custom multiply implementations
+    # handle unit-specific multiply implementations
+    from smartunits.measures import LinearAcceleration
     if isinstance(other, LinearAcceleration):
+      from smartunits.measures import Newtons
       return Newtons.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
     # fallback generic
     base_result = self._base_unit_magnitude * other._base_unit_magnitude
-
     other_unit = other._unit
 
     # handle PerUnit and MultUnit
+    from smartunits.measures import PerUnit
     if isinstance(other_unit, PerUnit):
         if self._unit._base_unit == other_unit._denominator._base_unit:
             return other_unit._numerator.from_base_units(base_result)
 
     # fallback to MultUnit
+    from smartunits.measure import MultUnit
     return MultUnit.combine(self._unit, other_unit).of_base_units(base_result)
 
-  def __truediv__(self, other: Any) -> "Mass":
+  def __truediv__(self, other: Any) -> Measure[Any]:
     if isinstance(other, (int, float)):
       return Mass(self._magnitude / other, self._base_unit_magnitude / other, self._unit)
 
+    # handles Mass
+    if isinstance(other, Mass):
+        return (self._base_unit_magnitude / other._base_unit_magnitude)
+
+    # handle Dimensionless
+    from smartunits.measures import Dimensionless
     if isinstance(other, Dimensionless):
       factor = other._base_unit_magnitude
       return Mass(self._magnitude / factor, self._base_unit_magnitude / factor, self._unit)
 
     base_result = self._base_unit_magnitude / other._base_unit_magnitude
 
+    from smartunits.measures import PerUnit
     return PerUnit.combine(self._unit, other._unit).of_base_units(base_result)
 
   def __str__(self) -> str:

@@ -1,6 +1,5 @@
 from typing import override
-from smartunits import Unit, UnaryFunction, PerUnit, TimeUnit, VelocityUnit
-from smartunits.measure import Measure
+from smartunits import Unit, UnaryFunction, Measure, PerUnit, TimeUnit, VelocityUnit
 from smartunits.measures import Temperature
 
 class TemperatureUnit(Unit):

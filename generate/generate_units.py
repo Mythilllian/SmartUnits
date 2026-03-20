@@ -46,7 +46,7 @@ MATH_OPERATION_UNITS = [
     "Power",
     "Resistance",
     "Temperature",
-    "Temporal",
+    "Time",
     "Torque",
     "Velocity[Any, Any]",
     "Voltage",
@@ -63,11 +63,11 @@ UNIT_CONFIGURATIONS = {
     "Angle": {
         "base_unit": "Radians",
         "multiply": {"Frequency": "AngularVelocity"},
-        "divide": {"Temporal": "AngularVelocity"},
+        "divide": {"Time": "AngularVelocity"},
     },
     "AngularAcceleration": {
         "base_unit": "RadiansPerSecondPerSecond",
-        "multiply": {"Temporal": "AngularVelocity"},
+        "multiply": {"Time": "AngularVelocity"},
         "divide": {"Frequency": "AngularVelocity"},
     },
     "AngularMomentum": {
@@ -77,14 +77,14 @@ UNIT_CONFIGURATIONS = {
     },
     "AngularVelocity": {
         "base_unit": "RadiansPerSecond",
-        "multiply": {"Temporal": "Angle", "Frequency": "AngularAcceleration"},
-        "divide": {"Temporal": "AngularAcceleration"},
-        "extra": inspect.cleandoc(
+        "multiply": {"Time": "Angle", "Frequency": "AngularAcceleration"},
+        "divide": {"Time": "AngularAcceleration"},
+        "extra": {"code": inspect.cleandoc(
             """
-          def as_frequency(self) -> Frequency:
+          def as_frequency(self) -> "Frequency":
           \treturn Hertz.of_units(self.base_unit_magnitude())
         """
-        ),
+        ), "types":{"Frequency"}},
     },
     "Current": {
         "base_unit": "Amps",
@@ -112,19 +112,19 @@ UNIT_CONFIGURATIONS = {
             "Power": "Power",
             "Resistance": "Resistance",
             "Temperature": "Temperature",
-            "Temporal": "Temporal",
+            "Time": "Time",
             "Torque": "Torque",
             "Voltage": "Voltage",
         },
         "divide": {
-            "Temporal": "Frequency",
+            "Time": "Frequency",
             # TODO:
-            # "AngularVelocity": "Per<TemporalUnit, AngleUnit>",
-            # "AngularAcceleration": "Per<TemporalUnit, AngularVelocityUnit>",
-            # "LinearVelocity": "Per<TemporalUnit, DistanceUnit>",
-            # "LinearAcceleration": "Per<TemporalUnit, LinearVelocityUnit>",
-            # "Velocity<?>": "Per<TemporalUnit, ?>",
-            # "Acceleration<?>": "Per<TemporalUnit, VelocityUnit<?>>
+            # "AngularVelocity": "Per<TimeUnit, AngleUnit>",
+            # "AngularAcceleration": "Per<TimeUnit, AngularVelocityUnit>",
+            # "LinearVelocity": "Per<TimeUnit, DistanceUnit>",
+            # "LinearAcceleration": "Per<TimeUnit, LinearVelocityUnit>",
+            # "Velocity<?>": "Per<TimeUnit, ?>",
+            # "Acceleration<?>": "Per<TimeUnit, VelocityUnit<?>>
             # "Per<N, D>": "Per<D, N>"
         },
     },
@@ -136,12 +136,12 @@ UNIT_CONFIGURATIONS = {
             # Force x Distance = Energy
             "Force": "Torque",
         },
-        "divide": {"Temporal": "LinearVelocity", "LinearVelocity": "Temporal"},
+        "divide": {"Time": "LinearVelocity", "LinearVelocity": "Time"},
     },
     "Energy": {
         "base_unit": "Joules",
         "multiply": {"Frequency": "Power"},
-        "divide": {"Temporal": "Power"},
+        "divide": {"Time": "Power"},
     },
     "Force": {
         "base_unit": "Newtons",
@@ -155,34 +155,34 @@ UNIT_CONFIGURATIONS = {
     "Frequency": {
         "base_unit": "Hertz",
         "multiply": {
-            "Temporal": "Dimensionless",
+            "Time": "Dimensionless",
             "Distance": "LinearVelocity",
             "LinearVelocity": "LinearAcceleration",
             "Angle": "AngularVelocity",
             "AngularVelocity": "AngularAcceleration",
         },
         "divide": {},
-        "extra": inspect.cleandoc(
+        "extra": {"code":inspect.cleandoc(
             """
-          def as_period(self) -> Temporal:
+          def as_period(self) -> "Time":
           \treturn Seconds.of(1 / self.base_unit_magnitude());
         """
-        ),
+        ), "types":{"Time"}},
     },
     "LinearAcceleration": {
         "base_unit": "MetersPerSecondPerSecond",
-        "multiply": {"Temporal": "LinearVelocity"},
+        "multiply": {"Time": "LinearVelocity"},
         "divide": {"Frequency": "LinearVelocity"},
     },
     "LinearMomentum": {
         "base_unit": "KilogramMetersPerSecond",
         "multiply": {"Frequency": "Force"},
-        "divide": {"Mass": "LinearVelocity", "LinearVelocity": "Mass", "Temporal": "Force"},
+        "divide": {"Mass": "LinearVelocity", "LinearVelocity": "Mass", "Time": "Force"},
     },
     "LinearVelocity": {
         "base_unit": "MetersPerSecond",
-        "multiply": {"Temporal": "Distance", "Frequency": "LinearAcceleration"},
-        "divide": {"Temporal": "LinearAcceleration"},
+        "multiply": {"Time": "Distance", "Frequency": "LinearAcceleration"},
+        "divide": {"Time": "LinearAcceleration"},
     },
     "Mass": {
         "base_unit": "Kilograms",
@@ -205,23 +205,23 @@ UNIT_CONFIGURATIONS = {
         "generics": {"Dividend": {"extends": "Unit"}, "Divisor": {"extends": "Unit"}},
         "multiply": {},
         "divide": {},
-        "extra": inspect.cleandoc(
+        "extra": {"code":inspect.cleandoc(
             """
           def times_divisor(self, multiplier: Measure[Divisor]) ->  Measure[Dividend]: {
-          \treturn self.base_unit().numerator().of_base_units(self.base_unit_magnitude() * multiplier.base_unit_magnitude());
+          \treturn self._base_unit._numerator.of_base_units(self._base_unit_magnitude * multiplier._base_unit_magnitude);
           }
 
-          default Measure<? extends PerUnit<Divisor, Dividend>> reciprocal(self) {
-          \t# May return a velocity if Divisor == TemporalUnit, so we can't guarantee a "Per" instance
-          \treturn self.base_unit().reciprocal().of_base_units(1 / self.base_unit_magnitude());
+          def reciprocal(self) -> PerUnit[Divisor, Dividend]:
+          \t# May return a velocity if Divisor == TimeUnit, so we can't guarantee a "Per" instance
+          \treturn self._base_unit.reciprocal().of_base_units(1 / self._base_unit_magnitude)
           }
         """
-        ),
+        ), "types":{}},
     },
     "Power": {
         "base_unit": "Watts",
         "multiply": {
-            "Temporal": "Energy",
+            "Time": "Energy",
         },
         "divide": {"Voltage": "Current", "Current": "Voltage", "Energy": "Frequency"},
     },
@@ -233,7 +233,7 @@ UNIT_CONFIGURATIONS = {
         "divide": {},
     },
     "Temperature": {"base_unit": "Kelvin", "multiply": {}, "divide": {}},
-    "Temporal": {
+    "Time": {
         "base_unit": "Seconds",
         "multiply": {
             "Frequency": "Dimensionless",
@@ -246,17 +246,17 @@ UNIT_CONFIGURATIONS = {
             # "Velocity<D>": "Measure<D>"
         },
         "divide": {
-            # Temporal specifically needs this to be called out so generated methods like
-            # `per(TemporalUnit)` or `divide(Temporal)` will return dimensionless values instead of
-            # `Velocity<TemporalUnit>` (i.e. a time per unit time ratio)
-            "Temporal": "Dimensionless"
+            # Time specifically needs this to be called out so generated methods like
+            # `per(TimeUnit)` or `divide(Time)` will return dimensionless values instead of
+            # `Velocity<TimeUnit>` (i.e. a time per unit time ratio)
+            "Time": "Dimensionless"
         },
-        "extra": inspect.cleandoc(
+        "extra": {"code":inspect.cleandoc(
             """
-          def as_frequency(self) -> Frequency:
+          def as_frequency(self) -> "Frequency":
           \treturn Hertz.of(1 / self.base_unit_magnitude())
         """
-        ),
+        ), "types":{"Frequency"}},
     },
     "Torque": {
         "base_unit": "NewtonMeters",
@@ -267,13 +267,10 @@ UNIT_CONFIGURATIONS = {
         "base_unit": "unit()",
         "generics": {"D": {"extends": "Unit"}},
         "multiply": {
-            "Temporal": {
+            "Time": {
                 "implementation": inspect.cleandoc(
                     """
-                  @Override
-                  default Measure<D> times(Temporal multiplier) {
-                    return (Measure<D>) unit().numerator().ofBaseUnits(baseUnitMagnitude() * multiplier.baseUnitMagnitude());
-                  }
+                  \nreturn self._unit._numerator._of_base_units(self._base_unit_magnitude * other._base_unit_magnitude)
                 """
                 )
             }
@@ -325,21 +322,10 @@ def type_vars(measure_name):
 
 def class_header(measure_name):
     has_generics = bool(generics_list(measure_name))
-    # if(prefix == "Immutable"):
-    #     if has_generics:
-    #         return f"@dataclass(frozen = True)\nclass Immutable{measure_name}({type_usage(measure_name)}, Generic{generics_usage(measure_name)}):"
-    #     else:
-    #         return f"@dataclass(frozen = True)\nclass Immutable{measure_name}({type_usage(measure_name)}):"
-    # elif(prefix == "Mut"):
-    #     if has_generics:
-    #         return f"class Mut{measure_name}(MutableMeasureBase[{mtou(measure_name)}, {type_usage(measure_name)}, Mut{type_usage(measure_name)}], {type_usage(measure_name)}, Generic{generics_usage(measure_name)}):"
-    #     else:
-    #         return f"class Mut{measure_name}(MutableMeasureBase[{mtou(measure_name)}, {type_usage(measure_name)}, Mut{type_usage(measure_name)}], {type_usage(measure_name)}):"
-    # else:
     if has_generics:
-        return f"class {measure_name}(Measure[{mtou(measure_name)}], ABC, Generic{generics_usage(measure_name)}):"
+        return f'class {measure_name}(Measure["{mtou(measure_name)}"], ABC, Generic{generics_usage(measure_name)}):'
     else:
-        return f"class {measure_name}(Measure[{mtou(measure_name)}], ABC):"
+        return f'class {measure_name}(Measure["{mtou(measure_name)}"], ABC):'
 
 
 def type_usage(measure_name):

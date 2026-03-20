@@ -6,24 +6,26 @@
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import override, Any, Generic, TypeVar
-from smartunits import *
-from smartunits.measures import *
+from typing import override, Any, TYPE_CHECKING, Generic, TypeVar
+from smartunits import Measure
 
 A = TypeVar('A', bound=Unit)
 B = TypeVar('B', bound=Unit)
+if TYPE_CHECKING:
+    from smartunits import MultUnit 
+
 @dataclass(frozen=True, slots=True)
-class Mult(Measure[MultUnit[A, B]], ABC, Generic[A, B]):
+class Mult(Measure["MultUnit[A, B]"], ABC, Generic[A, B]):
   _magnitude: float
   _base_unit_magnitude: float
-  _unit: MultUnit[A, B]
+  _unit: "MultUnit[A, B]"
 
   @staticmethod
-  def of(magnitude: float, unit: MultUnit[A, B]) -> "Mult[A, B]":
+  def of(magnitude: float, unit: "MultUnit[A, B]") -> "Mult[A, B]":
     return Mult[A, B](magnitude, unit.to_base_units(magnitude), unit)
 
   @staticmethod
-  def of_base_units(base_unit_magnitude: float, unit: MultUnit[A, B]) -> "Mult[A, B]":
+  def of_base_units(base_unit_magnitude: float, unit: "MultUnit[A, B]") -> "Mult[A, B]":
     return Mult[A, B](unit.from_base_units(base_unit_magnitude), base_unit_magnitude, unit)
 
   @override
@@ -35,14 +37,14 @@ class Mult(Measure[MultUnit[A, B]], ABC, Generic[A, B]):
     return self._base_unit_magnitude
   
   @override
-  def unit(self) -> MultUnit[A, B]:
+  def unit(self) -> "MultUnit[A, B]":
     return self._unit
 
   @override
-  def base_unit(self) -> MultUnit[A, B]:
+  def base_unit(self) -> "MultUnit[A, B]":
     return self._unit._base_unit
 
-  def in_units(self, unit: MultUnit[A, B]) -> float:
+  def in_units(self, unit: "MultUnit[A, B]") -> float:
     if unit is self._unit:
       return self._magnitude
     return unit.from_base_units(self._base_unit_magnitude)
@@ -52,14 +54,14 @@ class Mult(Measure[MultUnit[A, B]], ABC, Generic[A, B]):
     return Mult[A, B](-self._magnitude, -self._base_unit_magnitude, self._unit)
   
   @override
-  def __add__(self, other: Measure[MultUnit[A, B]]) -> "Mult[A, B]":
+  def __add__(self, other: Measure["MultUnit[A, B]"]) -> "Mult[A, B]":
     if self._unit is other._unit:
-      return Mult[A, B](self._magnitude + other._magnitude, self._base_unit_magnitude, self._unit)
+      return Mult[A, B](self._magnitude + other._magnitude, self._base_unit_magnitude + other._magnitude, self._unit)
     
     return self._unit.of_base_units(self._base_unit_magnitude + other._base_unit_magnitude)
   
   @override
-  def __sub__(self, other: Measure[MultUnit[A, B]]) -> "Mult[A, B]":
+  def __sub__(self, other: Measure["MultUnit[A, B]"]) -> "Mult[A, B]":
     if self._unit is other._unit:
       return Mult[A, B](self._magnitude - other._magnitude, self._base_unit_magnitude, self._unit)
     
@@ -70,35 +72,48 @@ class Mult(Measure[MultUnit[A, B]], ABC, Generic[A, B]):
     if isinstance(other, (int, float)):
         return Mult[A, B](self._magnitude * other, self._base_unit_magnitude * other, self._unit)
 
+    # handles Mult[A, B]
+    if isinstance(other, Mult[A, B]):
+        return self.of_base_units(self._base_unit_magnitude * other._base_unit_magnitude)
+
     # handle Dimensionless
+    from smartunits.measures import Dimensionless
     if isinstance(other, Dimensionless):
         factor = other._base_unit_magnitude
         return Mult[A, B](self._magnitude * factor, self._base_unit_magnitude * factor, self._unit)
 
-    # handle custom multiply implementations
+    # handle unit-specific multiply implementations
     # fallback generic
     base_result = self._base_unit_magnitude * other._base_unit_magnitude
-
     other_unit = other._unit
 
     # handle PerUnit and MultUnit
+    from smartunits.measures import PerUnit
     if isinstance(other_unit, PerUnit):
         if self._unit._base_unit == other_unit._denominator._base_unit:
             return other_unit._numerator.from_base_units(base_result)
 
     # fallback to MultUnit
+    from smartunits.measure import MultUnit
     return MultUnit.combine(self._unit, other_unit).of_base_units(base_result)
 
-  def __truediv__(self, other: Any) -> "Mult[A, B]":
+  def __truediv__(self, other: Any) -> Measure[Any]:
     if isinstance(other, (int, float)):
       return Mult[A, B](self._magnitude / other, self._base_unit_magnitude / other, self._unit)
 
+    # handles Mult
+    if isinstance(other, Mult[A, B]):
+        return (self._base_unit_magnitude / other._base_unit_magnitude)
+
+    # handle Dimensionless
+    from smartunits.measures import Dimensionless
     if isinstance(other, Dimensionless):
       factor = other._base_unit_magnitude
       return Mult[A, B](self._magnitude / factor, self._base_unit_magnitude / factor, self._unit)
 
     base_result = self._base_unit_magnitude / other._base_unit_magnitude
 
+    from smartunits.measures import PerUnit
     return PerUnit.combine(self._unit, other._unit).of_base_units(base_result)
 
   def __str__(self) -> str:

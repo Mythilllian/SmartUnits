@@ -7,25 +7,32 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 {% if config[name]['generics'] -%}
-from typing import override, Any, Generic, TypeVar
+from typing import override, Any, TYPE_CHECKING, Generic, TypeVar
 {%- else -%}
-from typing import override, Any
+from typing import override, Any, TYPE_CHECKING
 {%- endif %}
-from smartunits import *
-from smartunits.measures import *
+from smartunits import Measure
 {{ helpers['type_vars'](name) }}
+if TYPE_CHECKING:
+    from smartunits import {{ name }}Unit
+    {%- if 'extra' in config[name] -%} 
+    {%- for t in config[name]['extra']['types'] -%} 
+    , {{ t }}
+    {%- endfor -%}
+    {%- endif %} 
+
 @dataclass(frozen=True, slots=True)
 {{ helpers['class_header'](name)}}
   _magnitude: float
   _base_unit_magnitude: float
-  _unit: {{ helpers['mtou'](name) }}
+  _unit: "{{ helpers['mtou'](name) }}"
 
   @staticmethod
-  def of(magnitude: float, unit: {{ helpers['mtou'](name) }}) -> "{{ helpers['type_usage'](name) }}":
+  def of(magnitude: float, unit: "{{ helpers['mtou'](name) }}") -> "{{ helpers['type_usage'](name) }}":
     return {{ helpers['type_usage'](name) }}(magnitude, unit.to_base_units(magnitude), unit)
 
   @staticmethod
-  def of_base_units(base_unit_magnitude: float, unit: {{ helpers['mtou'](name) }}) -> "{{ helpers['type_usage'](name) }}":
+  def of_base_units(base_unit_magnitude: float, unit: "{{ helpers['mtou'](name) }}") -> "{{ helpers['type_usage'](name) }}":
     return {{ helpers['type_usage'](name) }}(unit.from_base_units(base_unit_magnitude), base_unit_magnitude, unit)
 
   @override
@@ -37,14 +44,14 @@ from smartunits.measures import *
     return self._base_unit_magnitude
   
   @override
-  def unit(self) -> {{ helpers['mtou'](name) }}:
+  def unit(self) -> "{{ helpers['mtou'](name) }}":
     return self._unit
 
   @override
-  def base_unit(self) -> {{ helpers['mtou'](name) }}:
+  def base_unit(self) -> "{{ helpers['mtou'](name) }}":
     return self._unit._base_unit
 
-  def in_units(self, unit: {{ helpers['mtou'](name) }}) -> float:
+  def in_units(self, unit: "{{ helpers['mtou'](name) }}") -> float:
     if unit is self._unit:
       return self._magnitude
     return unit.from_base_units(self._base_unit_magnitude)
@@ -54,14 +61,14 @@ from smartunits.measures import *
     return {{ helpers['type_usage'](name) }}(-self._magnitude, -self._base_unit_magnitude, self._unit)
   
   @override
-  def __add__(self, other: Measure[{{ helpers['mtou'](name) }}]) -> "{{ helpers['type_usage'](name) }}":
+  def __add__(self, other: Measure["{{ helpers['mtou'](name) }}"]) -> "{{ helpers['type_usage'](name) }}":
     if self._unit is other._unit:
       return {{ helpers['type_usage'](name) }}(self._magnitude + other._magnitude, self._base_unit_magnitude + other._magnitude, self._unit)
     
     return self._unit.of_base_units(self._base_unit_magnitude + other._base_unit_magnitude)
   
   @override
-  def __sub__(self, other: Measure[{{ helpers['mtou'](name) }}]) -> "{{ helpers['type_usage'](name) }}":
+  def __sub__(self, other: Measure["{{ helpers['mtou'](name) }}"]) -> "{{ helpers['type_usage'](name) }}":
     if self._unit is other._unit:
       return {{ helpers['type_usage'](name) }}(self._magnitude - other._magnitude, self._base_unit_magnitude, self._unit)
     
@@ -72,18 +79,25 @@ from smartunits.measures import *
     if isinstance(other, (int, float)):
         return {{ helpers['type_usage'](name) }}(self._magnitude * other, self._base_unit_magnitude * other, self._unit)
 
+    # handles {{ helpers['type_usage'](name) }}
+    if isinstance(other, {{ helpers['type_usage'](name) }}):
+        return self.of_base_units(self._base_unit_magnitude * other._base_unit_magnitude)
+
     # handle Dimensionless
+    from smartunits.measures import Dimensionless
     if isinstance(other, Dimensionless):
         factor = other._base_unit_magnitude
         return {{ helpers['type_usage'](name) }}(self._magnitude * factor, self._base_unit_magnitude * factor, self._unit)
 
-    # handle custom multiply implementations
+    # handle unit-specific multiply implementations
     {% for unit in math_units -%}
     {% if unit in config[name]['multiply'] -%}
+    from smartunits.measures import {{ unit }}
     if isinstance(other, {{ unit }}):
       {%- if 'implementation' in config[name]['multiply'][unit] -%}
       {{ helpers['indent'](config[name]['multiply'][unit]['implementation'], 6) }}
-      {% else %}
+      {%- else %}
+      from smartunits.measures import {{ config[config[name]['multiply'][unit]]['base_unit'] }}
       return {{ config[config[name]['multiply'][unit]]['base_unit'] }}.of(self._base_unit_magnitude * other._base_unit_magnitude)
       {% endif %}
     {% endif %}
@@ -91,30 +105,41 @@ from smartunits.measures import *
 
     # fallback generic
     base_result = self._base_unit_magnitude * other._base_unit_magnitude
-
     other_unit = other._unit
 
     # handle PerUnit and MultUnit
+    from smartunits.measures import PerUnit
     if isinstance(other_unit, PerUnit):
         if self._unit._base_unit == other_unit._denominator._base_unit:
             return other_unit._numerator.from_base_units(base_result)
 
     # fallback to MultUnit
+    from smartunits.measure import MultUnit
     return MultUnit.combine(self._unit, other_unit).of_base_units(base_result)
 
-  def __truediv__(self, other: Any) -> "{{ helpers['type_usage'](name) }}":
+  def __truediv__(self, other: Any) -> Measure[Any]:
     if isinstance(other, (int, float)):
       return {{ helpers['type_usage'](name) }}(self._magnitude / other, self._base_unit_magnitude / other, self._unit)
 
+    # handles {{ name }}
+    if isinstance(other, {{ helpers['type_usage'](name) }}):
+      {# TODO: is Dimensionless better than scalar? -#}
+      return self._base_unit_magnitude / other._base_unit_magnitude
+
+    # handle Dimensionless
+    from smartunits.measures import Dimensionless
     if isinstance(other, Dimensionless):
       factor = other._base_unit_magnitude
       return {{ helpers['type_usage'](name) }}(self._magnitude / factor, self._base_unit_magnitude / factor, self._unit)
 
     base_result = self._base_unit_magnitude / other._base_unit_magnitude
 
+    from smartunits.measures import PerUnit
     return PerUnit.combine(self._unit, other._unit).of_base_units(base_result)
 
   def __str__(self) -> str:
     return f"{self._magnitude:.3e} {self._unit._symbol}"
 
-  {{ config[name]['extra'] }}
+  {% if 'extra' in config[name] -%} 
+  {{ config[name]['extra']['code'] }}
+  {%- endif %}

@@ -6,22 +6,24 @@
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import override, Any
-from smartunits import *
-from smartunits.measures import *
+from typing import override, Any, TYPE_CHECKING
+from smartunits import Measure
+
+if TYPE_CHECKING:
+    from smartunits import ForceUnit 
 
 @dataclass(frozen=True, slots=True)
-class Force(Measure[ForceUnit], ABC):
+class Force(Measure["ForceUnit"], ABC):
   _magnitude: float
   _base_unit_magnitude: float
-  _unit: ForceUnit
+  _unit: "ForceUnit"
 
   @staticmethod
-  def of(magnitude: float, unit: ForceUnit) -> "Force":
+  def of(magnitude: float, unit: "ForceUnit") -> "Force":
     return Force(magnitude, unit.to_base_units(magnitude), unit)
 
   @staticmethod
-  def of_base_units(base_unit_magnitude: float, unit: ForceUnit) -> "Force":
+  def of_base_units(base_unit_magnitude: float, unit: "ForceUnit") -> "Force":
     return Force(unit.from_base_units(base_unit_magnitude), base_unit_magnitude, unit)
 
   @override
@@ -33,14 +35,14 @@ class Force(Measure[ForceUnit], ABC):
     return self._base_unit_magnitude
   
   @override
-  def unit(self) -> ForceUnit:
+  def unit(self) -> "ForceUnit":
     return self._unit
 
   @override
-  def base_unit(self) -> ForceUnit:
+  def base_unit(self) -> "ForceUnit":
     return self._unit._base_unit
 
-  def in_units(self, unit: ForceUnit) -> float:
+  def in_units(self, unit: "ForceUnit") -> float:
     if unit is self._unit:
       return self._magnitude
     return unit.from_base_units(self._base_unit_magnitude)
@@ -50,14 +52,14 @@ class Force(Measure[ForceUnit], ABC):
     return Force(-self._magnitude, -self._base_unit_magnitude, self._unit)
   
   @override
-  def __add__(self, other: Measure[ForceUnit]) -> "Force":
+  def __add__(self, other: Measure["ForceUnit"]) -> "Force":
     if self._unit is other._unit:
-      return Force(self._magnitude + other._magnitude, self._base_unit_magnitude, self._unit)
+      return Force(self._magnitude + other._magnitude, self._base_unit_magnitude + other._magnitude, self._unit)
     
     return self._unit.of_base_units(self._base_unit_magnitude + other._base_unit_magnitude)
   
   @override
-  def __sub__(self, other: Measure[ForceUnit]) -> "Force":
+  def __sub__(self, other: Measure["ForceUnit"]) -> "Force":
     if self._unit is other._unit:
       return Force(self._magnitude - other._magnitude, self._base_unit_magnitude, self._unit)
     
@@ -68,38 +70,53 @@ class Force(Measure[ForceUnit], ABC):
     if isinstance(other, (int, float)):
         return Force(self._magnitude * other, self._base_unit_magnitude * other, self._unit)
 
+    # handles Force
+    if isinstance(other, Force):
+        return self.of_base_units(self._base_unit_magnitude * other._base_unit_magnitude)
+
     # handle Dimensionless
+    from smartunits.measures import Dimensionless
     if isinstance(other, Dimensionless):
         factor = other._base_unit_magnitude
         return Force(self._magnitude * factor, self._base_unit_magnitude * factor, self._unit)
 
-    # handle custom multiply implementations
+    # handle unit-specific multiply implementations
+    from smartunits.measures import Distance
     if isinstance(other, Distance):
+      from smartunits.measures import Joules
       return Joules.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
     # fallback generic
     base_result = self._base_unit_magnitude * other._base_unit_magnitude
-
     other_unit = other._unit
 
     # handle PerUnit and MultUnit
+    from smartunits.measures import PerUnit
     if isinstance(other_unit, PerUnit):
         if self._unit._base_unit == other_unit._denominator._base_unit:
             return other_unit._numerator.from_base_units(base_result)
 
     # fallback to MultUnit
+    from smartunits.measure import MultUnit
     return MultUnit.combine(self._unit, other_unit).of_base_units(base_result)
 
-  def __truediv__(self, other: Any) -> "Force":
+  def __truediv__(self, other: Any) -> Measure[Any]:
     if isinstance(other, (int, float)):
       return Force(self._magnitude / other, self._base_unit_magnitude / other, self._unit)
 
+    # handles Force
+    if isinstance(other, Force):
+        return (self._base_unit_magnitude / other._base_unit_magnitude)
+
+    # handle Dimensionless
+    from smartunits.measures import Dimensionless
     if isinstance(other, Dimensionless):
       factor = other._base_unit_magnitude
       return Force(self._magnitude / factor, self._base_unit_magnitude / factor, self._unit)
 
     base_result = self._base_unit_magnitude / other._base_unit_magnitude
 
+    from smartunits.measures import PerUnit
     return PerUnit.combine(self._unit, other._unit).of_base_units(base_result)
 
   def __str__(self) -> str:

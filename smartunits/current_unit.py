@@ -1,8 +1,6 @@
 from typing import override
-from smartunits import Unit, UnaryFunction, PerUnit, TimeUnit, VelocityUnit, PowerUnit, VoltageUnit
-from smartunits.measure import Measure
+from smartunits import Unit, UnaryFunction, Measure, PerUnit, TimeUnit, VelocityUnit, PowerUnit, VoltageUnit
 from smartunits.measures import Current
-from smartunits.voltage_unit import VoltageUnit
 
 class CurrentUnit(Unit):
     __slots__ = (

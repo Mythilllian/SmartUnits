@@ -1,6 +1,5 @@
 from typing import override
-from smartunits import Unit, UnaryFunction, PerUnit, TimeUnit, PowerUnit
-from smartunits.measure import Measure
+from smartunits import Unit, UnaryFunction, Measure, PerUnit, TimeUnit, PowerUnit
 from smartunits.measures import Energy
 
 class EnergyUnit(Unit):

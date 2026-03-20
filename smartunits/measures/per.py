@@ -6,24 +6,26 @@
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import override, Any, Generic, TypeVar
-from smartunits import *
-from smartunits.measures import *
+from typing import override, Any, TYPE_CHECKING, Generic, TypeVar
+from smartunits import Measure
 
 Dividend = TypeVar('Dividend', bound=Unit)
 Divisor = TypeVar('Divisor', bound=Unit)
+if TYPE_CHECKING:
+    from smartunits import PerUnit 
+
 @dataclass(frozen=True, slots=True)
-class Per(Measure[PerUnit[Dividend, Divisor]], ABC, Generic[Dividend, Divisor]):
+class Per(Measure["PerUnit[Dividend, Divisor]"], ABC, Generic[Dividend, Divisor]):
   _magnitude: float
   _base_unit_magnitude: float
-  _unit: PerUnit[Dividend, Divisor]
+  _unit: "PerUnit[Dividend, Divisor]"
 
   @staticmethod
-  def of(magnitude: float, unit: PerUnit[Dividend, Divisor]) -> "Per[Dividend, Divisor]":
+  def of(magnitude: float, unit: "PerUnit[Dividend, Divisor]") -> "Per[Dividend, Divisor]":
     return Per[Dividend, Divisor](magnitude, unit.to_base_units(magnitude), unit)
 
   @staticmethod
-  def of_base_units(base_unit_magnitude: float, unit: PerUnit[Dividend, Divisor]) -> "Per[Dividend, Divisor]":
+  def of_base_units(base_unit_magnitude: float, unit: "PerUnit[Dividend, Divisor]") -> "Per[Dividend, Divisor]":
     return Per[Dividend, Divisor](unit.from_base_units(base_unit_magnitude), base_unit_magnitude, unit)
 
   @override
@@ -35,14 +37,14 @@ class Per(Measure[PerUnit[Dividend, Divisor]], ABC, Generic[Dividend, Divisor]):
     return self._base_unit_magnitude
   
   @override
-  def unit(self) -> PerUnit[Dividend, Divisor]:
+  def unit(self) -> "PerUnit[Dividend, Divisor]":
     return self._unit
 
   @override
-  def base_unit(self) -> PerUnit[Dividend, Divisor]:
+  def base_unit(self) -> "PerUnit[Dividend, Divisor]":
     return self._unit._base_unit
 
-  def in_units(self, unit: PerUnit[Dividend, Divisor]) -> float:
+  def in_units(self, unit: "PerUnit[Dividend, Divisor]") -> float:
     if unit is self._unit:
       return self._magnitude
     return unit.from_base_units(self._base_unit_magnitude)
@@ -52,14 +54,14 @@ class Per(Measure[PerUnit[Dividend, Divisor]], ABC, Generic[Dividend, Divisor]):
     return Per[Dividend, Divisor](-self._magnitude, -self._base_unit_magnitude, self._unit)
   
   @override
-  def __add__(self, other: Measure[PerUnit[Dividend, Divisor]]) -> "Per[Dividend, Divisor]":
+  def __add__(self, other: Measure["PerUnit[Dividend, Divisor]"]) -> "Per[Dividend, Divisor]":
     if self._unit is other._unit:
-      return Per[Dividend, Divisor](self._magnitude + other._magnitude, self._base_unit_magnitude, self._unit)
+      return Per[Dividend, Divisor](self._magnitude + other._magnitude, self._base_unit_magnitude + other._magnitude, self._unit)
     
     return self._unit.of_base_units(self._base_unit_magnitude + other._base_unit_magnitude)
   
   @override
-  def __sub__(self, other: Measure[PerUnit[Dividend, Divisor]]) -> "Per[Dividend, Divisor]":
+  def __sub__(self, other: Measure["PerUnit[Dividend, Divisor]"]) -> "Per[Dividend, Divisor]":
     if self._unit is other._unit:
       return Per[Dividend, Divisor](self._magnitude - other._magnitude, self._base_unit_magnitude, self._unit)
     
@@ -70,45 +72,58 @@ class Per(Measure[PerUnit[Dividend, Divisor]], ABC, Generic[Dividend, Divisor]):
     if isinstance(other, (int, float)):
         return Per[Dividend, Divisor](self._magnitude * other, self._base_unit_magnitude * other, self._unit)
 
+    # handles Per[Dividend, Divisor]
+    if isinstance(other, Per[Dividend, Divisor]):
+        return self.of_base_units(self._base_unit_magnitude * other._base_unit_magnitude)
+
     # handle Dimensionless
+    from smartunits.measures import Dimensionless
     if isinstance(other, Dimensionless):
         factor = other._base_unit_magnitude
         return Per[Dividend, Divisor](self._magnitude * factor, self._base_unit_magnitude * factor, self._unit)
 
-    # handle custom multiply implementations
+    # handle unit-specific multiply implementations
     # fallback generic
     base_result = self._base_unit_magnitude * other._base_unit_magnitude
-
     other_unit = other._unit
 
     # handle PerUnit and MultUnit
+    from smartunits.measures import PerUnit
     if isinstance(other_unit, PerUnit):
         if self._unit._base_unit == other_unit._denominator._base_unit:
             return other_unit._numerator.from_base_units(base_result)
 
     # fallback to MultUnit
+    from smartunits.measure import MultUnit
     return MultUnit.combine(self._unit, other_unit).of_base_units(base_result)
 
-  def __truediv__(self, other: Any) -> "Per[Dividend, Divisor]":
+  def __truediv__(self, other: Any) -> Measure[Any]:
     if isinstance(other, (int, float)):
       return Per[Dividend, Divisor](self._magnitude / other, self._base_unit_magnitude / other, self._unit)
 
+    # handles Per
+    if isinstance(other, Per[Dividend, Divisor]):
+        return (self._base_unit_magnitude / other._base_unit_magnitude)
+
+    # handle Dimensionless
+    from smartunits.measures import Dimensionless
     if isinstance(other, Dimensionless):
       factor = other._base_unit_magnitude
       return Per[Dividend, Divisor](self._magnitude / factor, self._base_unit_magnitude / factor, self._unit)
 
     base_result = self._base_unit_magnitude / other._base_unit_magnitude
 
+    from smartunits.measures import PerUnit
     return PerUnit.combine(self._unit, other._unit).of_base_units(base_result)
 
   def __str__(self) -> str:
     return f"{self._magnitude:.3e} {self._unit._symbol}"
 
   def times_divisor(self, multiplier: Measure[Divisor]) ->  Measure[Dividend]: {
-      return self.base_unit().numerator().of_base_units(self.base_unit_magnitude() * multiplier.base_unit_magnitude());
+      return self._base_unit._numerator.of_base_units(self._base_unit_magnitude * multiplier._base_unit_magnitude);
 }
 
-default Measure<? extends PerUnit<Divisor, Dividend>> reciprocal(self) {
-      # May return a velocity if Divisor == TemporalUnit, so we can't guarantee a "Per" instance
-      return self.base_unit().reciprocal().of_base_units(1 / self.base_unit_magnitude());
+def reciprocal(self) -> PerUnit[Divisor, Dividend]:
+      # May return a velocity if Divisor == TimeUnit, so we can't guarantee a "Per" instance
+      return self._base_unit.reciprocal().of_base_units(1 / self._base_unit_magnitude)
 }

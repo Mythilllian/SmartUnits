@@ -6,22 +6,24 @@
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import override, Any
-from smartunits import *
-from smartunits.measures import *
+from typing import override, Any, TYPE_CHECKING
+from smartunits import Measure
+
+if TYPE_CHECKING:
+    from smartunits import CurrentUnit 
 
 @dataclass(frozen=True, slots=True)
-class Current(Measure[CurrentUnit], ABC):
+class Current(Measure["CurrentUnit"], ABC):
   _magnitude: float
   _base_unit_magnitude: float
-  _unit: CurrentUnit
+  _unit: "CurrentUnit"
 
   @staticmethod
-  def of(magnitude: float, unit: CurrentUnit) -> "Current":
+  def of(magnitude: float, unit: "CurrentUnit") -> "Current":
     return Current(magnitude, unit.to_base_units(magnitude), unit)
 
   @staticmethod
-  def of_base_units(base_unit_magnitude: float, unit: CurrentUnit) -> "Current":
+  def of_base_units(base_unit_magnitude: float, unit: "CurrentUnit") -> "Current":
     return Current(unit.from_base_units(base_unit_magnitude), base_unit_magnitude, unit)
 
   @override
@@ -33,14 +35,14 @@ class Current(Measure[CurrentUnit], ABC):
     return self._base_unit_magnitude
   
   @override
-  def unit(self) -> CurrentUnit:
+  def unit(self) -> "CurrentUnit":
     return self._unit
 
   @override
-  def base_unit(self) -> CurrentUnit:
+  def base_unit(self) -> "CurrentUnit":
     return self._unit._base_unit
 
-  def in_units(self, unit: CurrentUnit) -> float:
+  def in_units(self, unit: "CurrentUnit") -> float:
     if unit is self._unit:
       return self._magnitude
     return unit.from_base_units(self._base_unit_magnitude)
@@ -50,14 +52,14 @@ class Current(Measure[CurrentUnit], ABC):
     return Current(-self._magnitude, -self._base_unit_magnitude, self._unit)
   
   @override
-  def __add__(self, other: Measure[CurrentUnit]) -> "Current":
+  def __add__(self, other: Measure["CurrentUnit"]) -> "Current":
     if self._unit is other._unit:
-      return Current(self._magnitude + other._magnitude, self._base_unit_magnitude, self._unit)
+      return Current(self._magnitude + other._magnitude, self._base_unit_magnitude + other._magnitude, self._unit)
     
     return self._unit.of_base_units(self._base_unit_magnitude + other._base_unit_magnitude)
   
   @override
-  def __sub__(self, other: Measure[CurrentUnit]) -> "Current":
+  def __sub__(self, other: Measure["CurrentUnit"]) -> "Current":
     if self._unit is other._unit:
       return Current(self._magnitude - other._magnitude, self._base_unit_magnitude, self._unit)
     
@@ -68,41 +70,58 @@ class Current(Measure[CurrentUnit], ABC):
     if isinstance(other, (int, float)):
         return Current(self._magnitude * other, self._base_unit_magnitude * other, self._unit)
 
+    # handles Current
+    if isinstance(other, Current):
+        return self.of_base_units(self._base_unit_magnitude * other._base_unit_magnitude)
+
     # handle Dimensionless
+    from smartunits.measures import Dimensionless
     if isinstance(other, Dimensionless):
         factor = other._base_unit_magnitude
         return Current(self._magnitude * factor, self._base_unit_magnitude * factor, self._unit)
 
-    # handle custom multiply implementations
+    # handle unit-specific multiply implementations
+    from smartunits.measures import Resistance
     if isinstance(other, Resistance):
+      from smartunits.measures import Volts
       return Volts.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import Voltage
     if isinstance(other, Voltage):
+      from smartunits.measures import Watts
       return Watts.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
     # fallback generic
     base_result = self._base_unit_magnitude * other._base_unit_magnitude
-
     other_unit = other._unit
 
     # handle PerUnit and MultUnit
+    from smartunits.measures import PerUnit
     if isinstance(other_unit, PerUnit):
         if self._unit._base_unit == other_unit._denominator._base_unit:
             return other_unit._numerator.from_base_units(base_result)
 
     # fallback to MultUnit
+    from smartunits.measure import MultUnit
     return MultUnit.combine(self._unit, other_unit).of_base_units(base_result)
 
-  def __truediv__(self, other: Any) -> "Current":
+  def __truediv__(self, other: Any) -> Measure[Any]:
     if isinstance(other, (int, float)):
       return Current(self._magnitude / other, self._base_unit_magnitude / other, self._unit)
 
+    # handles Current
+    if isinstance(other, Current):
+        return (self._base_unit_magnitude / other._base_unit_magnitude)
+
+    # handle Dimensionless
+    from smartunits.measures import Dimensionless
     if isinstance(other, Dimensionless):
       factor = other._base_unit_magnitude
       return Current(self._magnitude / factor, self._base_unit_magnitude / factor, self._unit)
 
     base_result = self._base_unit_magnitude / other._base_unit_magnitude
 
+    from smartunits.measures import PerUnit
     return PerUnit.combine(self._unit, other._unit).of_base_units(base_result)
 
   def __str__(self) -> str:

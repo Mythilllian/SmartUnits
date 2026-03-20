@@ -6,23 +6,25 @@
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import override, Any
-from smartunits import *
-from smartunits.measures import *
+from typing import override, Any, TYPE_CHECKING
+from smartunits import Measure
+
+if TYPE_CHECKING:
+    from smartunits import TimeUnit, Frequency 
 
 @dataclass(frozen=True, slots=True)
-class Temporal(Measure[TemporalUnit], ABC):
+class Time(Measure["TimeUnit"], ABC):
   _magnitude: float
   _base_unit_magnitude: float
-  _unit: TemporalUnit
+  _unit: "TimeUnit"
 
   @staticmethod
-  def of(magnitude: float, unit: TemporalUnit) -> "Temporal":
-    return Temporal(magnitude, unit.to_base_units(magnitude), unit)
+  def of(magnitude: float, unit: "TimeUnit") -> "Time":
+    return Time(magnitude, unit.to_base_units(magnitude), unit)
 
   @staticmethod
-  def of_base_units(base_unit_magnitude: float, unit: TemporalUnit) -> "Temporal":
-    return Temporal(unit.from_base_units(base_unit_magnitude), base_unit_magnitude, unit)
+  def of_base_units(base_unit_magnitude: float, unit: "TimeUnit") -> "Time":
+    return Time(unit.from_base_units(base_unit_magnitude), base_unit_magnitude, unit)
 
   @override
   def magnitude(self) -> float:
@@ -33,89 +35,112 @@ class Temporal(Measure[TemporalUnit], ABC):
     return self._base_unit_magnitude
   
   @override
-  def unit(self) -> TemporalUnit:
+  def unit(self) -> "TimeUnit":
     return self._unit
 
   @override
-  def base_unit(self) -> TemporalUnit:
+  def base_unit(self) -> "TimeUnit":
     return self._unit._base_unit
 
-  def in_units(self, unit: TemporalUnit) -> float:
+  def in_units(self, unit: "TimeUnit") -> float:
     if unit is self._unit:
       return self._magnitude
     return unit.from_base_units(self._base_unit_magnitude)
   
   @override
-  def __neg__(self) -> "Temporal":
-    return Temporal(-self._magnitude, -self._base_unit_magnitude, self._unit)
+  def __neg__(self) -> "Time":
+    return Time(-self._magnitude, -self._base_unit_magnitude, self._unit)
   
   @override
-  def __add__(self, other: Measure[TemporalUnit]) -> "Temporal":
+  def __add__(self, other: Measure["TimeUnit"]) -> "Time":
     if self._unit is other._unit:
-      return Temporal(self._magnitude + other._magnitude, self._base_unit_magnitude, self._unit)
+      return Time(self._magnitude + other._magnitude, self._base_unit_magnitude + other._magnitude, self._unit)
     
     return self._unit.of_base_units(self._base_unit_magnitude + other._base_unit_magnitude)
   
   @override
-  def __sub__(self, other: Measure[TemporalUnit]) -> "Temporal":
+  def __sub__(self, other: Measure["TimeUnit"]) -> "Time":
     if self._unit is other._unit:
-      return Temporal(self._magnitude - other._magnitude, self._base_unit_magnitude, self._unit)
+      return Time(self._magnitude - other._magnitude, self._base_unit_magnitude, self._unit)
     
     return self._unit.of_base_units(self._base_unit_magnitude - other._base_unit_magnitude)
 
   def __mul__(self, other: Any) -> Measure[Any]:
     # handles scalar
     if isinstance(other, (int, float)):
-        return Temporal(self._magnitude * other, self._base_unit_magnitude * other, self._unit)
+        return Time(self._magnitude * other, self._base_unit_magnitude * other, self._unit)
+
+    # handles Time
+    if isinstance(other, Time):
+        return self.of_base_units(self._base_unit_magnitude * other._base_unit_magnitude)
 
     # handle Dimensionless
+    from smartunits.measures import Dimensionless
     if isinstance(other, Dimensionless):
         factor = other._base_unit_magnitude
-        return Temporal(self._magnitude * factor, self._base_unit_magnitude * factor, self._unit)
+        return Time(self._magnitude * factor, self._base_unit_magnitude * factor, self._unit)
 
-    # handle custom multiply implementations
+    # handle unit-specific multiply implementations
+    from smartunits.measures import AngularAcceleration
     if isinstance(other, AngularAcceleration):
+      from smartunits.measures import RadiansPerSecond
       return RadiansPerSecond.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import AngularVelocity
     if isinstance(other, AngularVelocity):
+      from smartunits.measures import Radians
       return Radians.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import Frequency
     if isinstance(other, Frequency):
+      from smartunits.measures import Value
       return Value.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import LinearAcceleration
     if isinstance(other, LinearAcceleration):
+      from smartunits.measures import MetersPerSecond
       return MetersPerSecond.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import LinearVelocity
     if isinstance(other, LinearVelocity):
+      from smartunits.measures import Meters
       return Meters.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
     # fallback generic
     base_result = self._base_unit_magnitude * other._base_unit_magnitude
-
     other_unit = other._unit
 
     # handle PerUnit and MultUnit
+    from smartunits.measures import PerUnit
     if isinstance(other_unit, PerUnit):
         if self._unit._base_unit == other_unit._denominator._base_unit:
             return other_unit._numerator.from_base_units(base_result)
 
     # fallback to MultUnit
+    from smartunits.measure import MultUnit
     return MultUnit.combine(self._unit, other_unit).of_base_units(base_result)
 
-  def __truediv__(self, other: Any) -> "Temporal":
+  def __truediv__(self, other: Any) -> Measure[Any]:
     if isinstance(other, (int, float)):
-      return Temporal(self._magnitude / other, self._base_unit_magnitude / other, self._unit)
+      return Time(self._magnitude / other, self._base_unit_magnitude / other, self._unit)
 
+    # handles Time
+    if isinstance(other, Time):
+        return (self._base_unit_magnitude / other._base_unit_magnitude)
+
+    # handle Dimensionless
+    from smartunits.measures import Dimensionless
     if isinstance(other, Dimensionless):
       factor = other._base_unit_magnitude
-      return Temporal(self._magnitude / factor, self._base_unit_magnitude / factor, self._unit)
+      return Time(self._magnitude / factor, self._base_unit_magnitude / factor, self._unit)
 
     base_result = self._base_unit_magnitude / other._base_unit_magnitude
 
+    from smartunits.measures import PerUnit
     return PerUnit.combine(self._unit, other._unit).of_base_units(base_result)
 
   def __str__(self) -> str:
     return f"{self._magnitude:.3e} {self._unit._symbol}"
 
-  def as_frequency(self) -> Frequency:
+  def as_frequency(self) -> "Frequency":
       return Hertz.of(1 / self.base_unit_magnitude())

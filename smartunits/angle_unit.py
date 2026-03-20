@@ -1,6 +1,5 @@
 from typing import override
-from smartunits import Unit, UnaryFunction, PerUnit, TimeUnit, AngularVelocityUnit
-from smartunits.measure import Measure
+from smartunits import Unit, UnaryFunction, Measure, PerUnit, TimeUnit, AngularVelocityUnit
 from smartunits.measures import Angle
 
 class AngleUnit(Unit):

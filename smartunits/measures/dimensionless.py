@@ -6,22 +6,24 @@
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import override, Any
-from smartunits import *
-from smartunits.measures import *
+from typing import override, Any, TYPE_CHECKING
+from smartunits import Measure
+
+if TYPE_CHECKING:
+    from smartunits import DimensionlessUnit 
 
 @dataclass(frozen=True, slots=True)
-class Dimensionless(Measure[DimensionlessUnit], ABC):
+class Dimensionless(Measure["DimensionlessUnit"], ABC):
   _magnitude: float
   _base_unit_magnitude: float
-  _unit: DimensionlessUnit
+  _unit: "DimensionlessUnit"
 
   @staticmethod
-  def of(magnitude: float, unit: DimensionlessUnit) -> "Dimensionless":
+  def of(magnitude: float, unit: "DimensionlessUnit") -> "Dimensionless":
     return Dimensionless(magnitude, unit.to_base_units(magnitude), unit)
 
   @staticmethod
-  def of_base_units(base_unit_magnitude: float, unit: DimensionlessUnit) -> "Dimensionless":
+  def of_base_units(base_unit_magnitude: float, unit: "DimensionlessUnit") -> "Dimensionless":
     return Dimensionless(unit.from_base_units(base_unit_magnitude), base_unit_magnitude, unit)
 
   @override
@@ -33,14 +35,14 @@ class Dimensionless(Measure[DimensionlessUnit], ABC):
     return self._base_unit_magnitude
   
   @override
-  def unit(self) -> DimensionlessUnit:
+  def unit(self) -> "DimensionlessUnit":
     return self._unit
 
   @override
-  def base_unit(self) -> DimensionlessUnit:
+  def base_unit(self) -> "DimensionlessUnit":
     return self._unit._base_unit
 
-  def in_units(self, unit: DimensionlessUnit) -> float:
+  def in_units(self, unit: "DimensionlessUnit") -> float:
     if unit is self._unit:
       return self._magnitude
     return unit.from_base_units(self._base_unit_magnitude)
@@ -50,14 +52,14 @@ class Dimensionless(Measure[DimensionlessUnit], ABC):
     return Dimensionless(-self._magnitude, -self._base_unit_magnitude, self._unit)
   
   @override
-  def __add__(self, other: Measure[DimensionlessUnit]) -> "Dimensionless":
+  def __add__(self, other: Measure["DimensionlessUnit"]) -> "Dimensionless":
     if self._unit is other._unit:
-      return Dimensionless(self._magnitude + other._magnitude, self._base_unit_magnitude, self._unit)
+      return Dimensionless(self._magnitude + other._magnitude, self._base_unit_magnitude + other._magnitude, self._unit)
     
     return self._unit.of_base_units(self._base_unit_magnitude + other._base_unit_magnitude)
   
   @override
-  def __sub__(self, other: Measure[DimensionlessUnit]) -> "Dimensionless":
+  def __sub__(self, other: Measure["DimensionlessUnit"]) -> "Dimensionless":
     if self._unit is other._unit:
       return Dimensionless(self._magnitude - other._magnitude, self._base_unit_magnitude, self._unit)
     
@@ -68,98 +70,153 @@ class Dimensionless(Measure[DimensionlessUnit], ABC):
     if isinstance(other, (int, float)):
         return Dimensionless(self._magnitude * other, self._base_unit_magnitude * other, self._unit)
 
+    # handles Dimensionless
+    if isinstance(other, Dimensionless):
+        return self.of_base_units(self._base_unit_magnitude * other._base_unit_magnitude)
+
     # handle Dimensionless
+    from smartunits.measures import Dimensionless
     if isinstance(other, Dimensionless):
         factor = other._base_unit_magnitude
         return Dimensionless(self._magnitude * factor, self._base_unit_magnitude * factor, self._unit)
 
-    # handle custom multiply implementations
+    # handle unit-specific multiply implementations
+    from smartunits.measures import Angle
     if isinstance(other, Angle):
+      from smartunits.measures import Radians
       return Radians.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import AngularAcceleration
     if isinstance(other, AngularAcceleration):
+      from smartunits.measures import RadiansPerSecondPerSecond
       return RadiansPerSecondPerSecond.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import AngularMomentum
     if isinstance(other, AngularMomentum):
+      from smartunits.measures import KilogramMetersSquaredPerSecond
       return KilogramMetersSquaredPerSecond.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import AngularVelocity
     if isinstance(other, AngularVelocity):
+      from smartunits.measures import RadiansPerSecond
       return RadiansPerSecond.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import Current
     if isinstance(other, Current):
+      from smartunits.measures import Amps
       return Amps.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import Dimensionless
     if isinstance(other, Dimensionless):
+      from smartunits.measures import Value
       return Value.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import Distance
     if isinstance(other, Distance):
+      from smartunits.measures import Meters
       return Meters.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import Energy
     if isinstance(other, Energy):
+      from smartunits.measures import Joules
       return Joules.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import Force
     if isinstance(other, Force):
+      from smartunits.measures import Newtons
       return Newtons.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import Frequency
     if isinstance(other, Frequency):
+      from smartunits.measures import Hertz
       return Hertz.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import LinearAcceleration
     if isinstance(other, LinearAcceleration):
+      from smartunits.measures import MetersPerSecondPerSecond
       return MetersPerSecondPerSecond.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import LinearMomentum
     if isinstance(other, LinearMomentum):
+      from smartunits.measures import KilogramMetersPerSecond
       return KilogramMetersPerSecond.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import LinearVelocity
     if isinstance(other, LinearVelocity):
+      from smartunits.measures import MetersPerSecond
       return MetersPerSecond.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import Mass
     if isinstance(other, Mass):
+      from smartunits.measures import Kilograms
       return Kilograms.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import MomentOfInertia
     if isinstance(other, MomentOfInertia):
+      from smartunits.measures import KilogramSquareMeters
       return KilogramSquareMeters.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import Power
     if isinstance(other, Power):
+      from smartunits.measures import Watts
       return Watts.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import Resistance
     if isinstance(other, Resistance):
+      from smartunits.measures import Ohms
       return Ohms.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import Temperature
     if isinstance(other, Temperature):
+      from smartunits.measures import Kelvin
       return Kelvin.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
-    if isinstance(other, Temporal):
+    from smartunits.measures import Time
+    if isinstance(other, Time):
+      from smartunits.measures import Seconds
       return Seconds.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import Torque
     if isinstance(other, Torque):
+      from smartunits.measures import NewtonMeters
       return NewtonMeters.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
+    from smartunits.measures import Voltage
     if isinstance(other, Voltage):
+      from smartunits.measures import Volts
       return Volts.of(self._base_unit_magnitude * other._base_unit_magnitude)
       
     # fallback generic
     base_result = self._base_unit_magnitude * other._base_unit_magnitude
-
     other_unit = other._unit
 
     # handle PerUnit and MultUnit
+    from smartunits.measures import PerUnit
     if isinstance(other_unit, PerUnit):
         if self._unit._base_unit == other_unit._denominator._base_unit:
             return other_unit._numerator.from_base_units(base_result)
 
     # fallback to MultUnit
+    from smartunits.measure import MultUnit
     return MultUnit.combine(self._unit, other_unit).of_base_units(base_result)
 
-  def __truediv__(self, other: Any) -> "Dimensionless":
+  def __truediv__(self, other: Any) -> Measure[Any]:
     if isinstance(other, (int, float)):
       return Dimensionless(self._magnitude / other, self._base_unit_magnitude / other, self._unit)
 
+    # handles Dimensionless
+    if isinstance(other, Dimensionless):
+        return (self._base_unit_magnitude / other._base_unit_magnitude)
+
+    # handle Dimensionless
+    from smartunits.measures import Dimensionless
     if isinstance(other, Dimensionless):
       factor = other._base_unit_magnitude
       return Dimensionless(self._magnitude / factor, self._base_unit_magnitude / factor, self._unit)
 
     base_result = self._base_unit_magnitude / other._base_unit_magnitude
 
+    from smartunits.measures import PerUnit
     return PerUnit.combine(self._unit, other._unit).of_base_units(base_result)
 
   def __str__(self) -> str:

@@ -1,5 +1,5 @@
-from smartunits.measures import Per
 from smartunits import Unit, UnaryFunction, CombinatoryUnitCache, TimeUnit, VelocityUnit, Units, Measure
+from smartunits.measures import Per
 from typing import Any, TypeVar, Generic, override
 
 N = TypeVar("N", bound=Unit)  # numerator

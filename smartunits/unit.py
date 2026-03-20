@@ -1,6 +1,7 @@
 from smartunits import UnaryFunction
-# circular dependency issues
-# from smartunits import Measure, TimeUnit
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from smartunits import Measure, TimeUnit
 
 from abc import ABC, abstractmethod
 from typing import Any
@@ -51,7 +52,7 @@ class Unit(ABC):
         return self._one
 
     @abstractmethod
-    def per(self, time: TimeUnit) -> "Unit":
+    def per(self, time: "TimeUnit") -> "Unit":
         pass
 
     @abstractmethod
@@ -92,7 +93,7 @@ class Unit(ABC):
     def conversion_to_base_units(self) -> UnaryFunction:
         pass
 
-    def equivalent(self, other: "Unit") -> bool:
+    def equivalent(self, other: "Unit", equivalence_threshold: float = 1e-12) -> bool:
         from smartunits import Measure # temporary, TODO CHANGE LATER
         if type(self) is not type(other):
             return False
@@ -104,12 +105,12 @@ class Unit(ABC):
                 self.from_base_units(arbitrary)
                 - other.from_base_units(arbitrary)
             )
-            <= Measure.EQUIVALENCE_THRESHOLD
+            <= equivalence_threshold
             and abs(
                 self.to_base_units(arbitrary) 
                 - other.to_base_units(arbitrary)
             )
-            <= Measure.EQUIVALENCE_THRESHOLD
+            <= equivalence_threshold
         )
 
     def __eq__(self, o: object) -> bool:

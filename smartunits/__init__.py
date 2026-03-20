@@ -7,7 +7,11 @@ from .measure import Measure
 # from .voltage_unit import VoltageUnit
 from .distance_unit import DistanceUnit
 # from .current_unit import CurrentUnit
+from .time_unit import TimeUnit
+
+from smartunits.measures import *
 
 __all__: list[str] = ["Measure", "Unit", "UnaryFunction", "Units"]
 
-__all__ += ["DistanceUnit"]
+__all__ += ["DistanceUnit", "TimeUnit"]
+__all__ += measures.__all__

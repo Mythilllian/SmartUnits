@@ -1,12 +1,9 @@
-from operator import add
 from typing import Callable
+from dataclasses import dataclass
 
-
+@dataclass(frozen=True, slots=True)
 class UnaryFunction:
-    __slots__ = ("identity")
-
-    def __init__(self, func: Callable[[float], float]) -> None:
-        self.identity: Callable[[float], float] = func
+    identity: Callable[[float], float]
 
     @staticmethod
     def from_multiplier(value: float) -> "UnaryFunction":
