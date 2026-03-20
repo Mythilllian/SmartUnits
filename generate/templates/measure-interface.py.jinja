@@ -18,7 +18,7 @@ from smartunits.measures import *
 {{ helpers['class_header'](name)}}
   _magnitude: float
   _base_unit_magnitude: float
-  _unit: {{ helpers['type_usage'](name) }}Unit
+  _unit: {{ helpers['mtou'](name) }}
 
   @staticmethod
   def of(magnitude: float, unit: {{ helpers['mtou'](name) }}) -> "{{ helpers['type_usage'](name) }}":
@@ -56,7 +56,7 @@ from smartunits.measures import *
   @override
   def __add__(self, other: Measure[{{ helpers['mtou'](name) }}]) -> "{{ helpers['type_usage'](name) }}":
     if self._unit is other._unit:
-      return {{ helpers['type_usage'](name) }}(self._magnitude + other._magnitude, self._base_unit_magnitude, self._unit)
+      return {{ helpers['type_usage'](name) }}(self._magnitude + other._magnitude, self._base_unit_magnitude + other._magnitude, self._unit)
     
     return self._unit.of_base_units(self._base_unit_magnitude + other._base_unit_magnitude)
   
@@ -85,9 +85,9 @@ from smartunits.measures import *
       {{ helpers['indent'](config[name]['multiply'][unit]['implementation'], 6) }}
       {% else %}
       return {{ config[config[name]['multiply'][unit]]['base_unit'] }}.of(self._base_unit_magnitude * other._base_unit_magnitude)
-      {%- endif %}
-    {%- endif %}
-    {%- endfor %}
+      {% endif %}
+    {% endif %}
+    {%- endfor -%}
 
     # fallback generic
     base_result = self._base_unit_magnitude * other._base_unit_magnitude

@@ -75,9 +75,11 @@ class Distance(Measure[DistanceUnit], ABC):
 
     # handle custom multiply implementations
     if isinstance(other, Force):
-      return NewtonMeters.of(self._base_unit_magnitude * other._base_unit_magnitude)if isinstance(other, Frequency):
+      return NewtonMeters.of(self._base_unit_magnitude * other._base_unit_magnitude)
+      
+    if isinstance(other, Frequency):
       return MetersPerSecond.of(self._base_unit_magnitude * other._base_unit_magnitude)
-
+      
     # fallback generic
     base_result = self._base_unit_magnitude * other._base_unit_magnitude
 

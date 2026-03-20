@@ -2,6 +2,8 @@
 - maybe get rid of unaryfunctions for all units except temperature?
 - build up units.py
 - testing
+- measures should support multiplication with other measures
+- clean up circular dependencies
 
 U = unstarted
 I = incomplete
@@ -37,7 +39,7 @@ U - TimeUnit
 U - TorqueUnit
 C - UnaryFunction
 C - Unit
-C - UnitBuilder
+X - UnitBuilder
 I - Units 
 U - VelocityUnit
 C - VoltageUnit

@@ -420,7 +420,7 @@ def generate_units(output_directory: Path, template_directory: Path):
         #     config=UNIT_CONFIGURATIONS,
         #     helpers=helpers,
         # )
-        init_imports.append(f"from {file_name(unit_name)} import {unit_name}")
+        init_imports.append(f"from .{file_name(unit_name)} import {unit_name}")
         # init_imports.append(f"from immutable_{file_name(unit_name)} import Immutable{unit_name}")
         # init_imports.append(f"from mut_{file_name(unit_name)} import Mut{unit_name}")
         init_all.append(f"{unit_name}")

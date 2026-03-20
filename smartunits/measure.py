@@ -3,7 +3,7 @@ from typing import Any, Generic, TypeVar
 from smartunits import (
     Unit,
     # Dimensionless,
-    PerUnit,
+    # PerUnit,
     # MultUnit,
     # TimeUnit,
     # VelocityUnit,
@@ -271,6 +271,9 @@ class Measure(ABC, Generic[U]):
         #     return self.times_measure(other)
         # else:
         #     raise NotImplementedError(f"Cannot multiply Measure by {type(other)}")
+
+    def __eq__(self, other: "Measure[U]") -> bool:
+        return self.is_equivalent(other)
 
     def __str__(self) -> str:
         return self.to_long_string()
