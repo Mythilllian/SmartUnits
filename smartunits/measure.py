@@ -1,16 +1,7 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any, Generic, TypeVar
-from smartunits import (
-    Unit,
-    # Dimensionless,
-    # PerUnit,
-    # MultUnit,
-    # TimeUnit,
-    # VelocityUnit,
-    # Value,
-    # DimensionlessUnit,
-)
+from typing import Any, ClassVar, Generic, TypeVar
+from smartunits.unit import Unit
 
 U = TypeVar("U", bound=Unit)  # this is the type of the measure itself
 Other = TypeVar("Other", bound="Unit")
@@ -21,7 +12,7 @@ class Measure(ABC, Generic[U]):
     _magnitude: float
     _base_unit_magnitude: float
     _unit: U
-    EQUIVALENCE_THRESHOLD: float = 1e-12
+    EQUIVALENCE_THRESHOLD: ClassVar[float] = 1e-12
 
     def magnitude(self) -> float:
         return self._magnitude

@@ -1,0 +1,5 @@
+smartunits/* linguist-generated
+smartunits/measures/* linguist-generated
+smartunits/measure.py -linguist-generated
+smartunits/unit.py -linguist-generated
+smartunits/unary_function.py -linguist-generated

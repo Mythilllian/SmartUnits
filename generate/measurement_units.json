@@ -1,0 +1,2307 @@
+[
+    {
+        "name": "Acceleration",
+        "unit_type": "AccelerationUnit",
+        "units": [
+            {
+                "variable": "meters_per_second_squared",
+                "name": "meter per second squared",
+                "symbol": "m/s^2",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "feet_per_second_squared",
+                "name": "foot per second squared",
+                "symbol": "ft/s^2",
+                "conversion_factor": 0.3048
+            },
+            {
+                "variable": "inches_per_second_squared",
+                "name": "inch per second squared",
+                "symbol": "in/s^2",
+                "conversion_factor": 0.0254
+            },
+            {
+                "variable": "gs",
+                "name": "G",
+                "symbol": "G",
+                "conversion_factor": 9.80665
+            },
+            {
+                "variable": "standard_gravity",
+                "name": "standard gravity",
+                "symbol": "standard gravity",
+                "conversion_factor": 9.80665
+            }
+        ]
+    },
+    {
+        "name": "Angle",
+        "unit_type": "AngleUnit",
+        "units": [
+            {
+                "variable": "radians",
+                "name": "radian",
+                "symbol": "rad",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "revolutions",
+                "name": "revolution",
+                "symbol": "R",
+                "conversion_factor": 6.283185307179586
+            },
+            {
+                "variable": "rotations",
+                "name": "rotation",
+                "symbol": "R",
+                "conversion_factor": 6.283185307179586
+            },
+            {
+                "variable": "degrees",
+                "name": "degree",
+                "symbol": "\u00b0",
+                "conversion_factor": 0.017453292519943295
+            },
+            {
+                "variable": "nanoradians",
+                "name": "nanoradians",
+                "symbol": "nanoradians",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "microradians",
+                "name": "microradians",
+                "symbol": "microradians",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "milliradians",
+                "name": "milliradians",
+                "symbol": "milliradians",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "kiloradians",
+                "name": "kiloradians",
+                "symbol": "kiloradians",
+                "conversion_factor": 1000.0
+            },
+            {
+                "variable": "arcminutes",
+                "name": "arcminutes",
+                "symbol": "arcminutes",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "arcseconds",
+                "name": "arcseconds",
+                "symbol": "arcseconds",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "milliarcseconds",
+                "name": "milliarcseconds",
+                "symbol": "milliarcseconds",
+                "conversion_factor": 4.8481368110953594e-09
+            },
+            {
+                "variable": "turns",
+                "name": "turns",
+                "symbol": "turns",
+                "conversion_factor": 6.283185307179586
+            },
+            {
+                "variable": "gradians",
+                "name": "gradians",
+                "symbol": "gradians",
+                "conversion_factor": 0.015707963267948967
+            }
+        ]
+    },
+    {
+        "name": "AngularAcceleration",
+        "unit_type": "AngularAccelerationUnit",
+        "units": [
+            {
+                "variable": "radians_per_second_squared",
+                "name": "radian per second squared",
+                "symbol": "rad/s^2",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "rotations_per_second_squared",
+                "name": "rotation per second squared",
+                "symbol": "R/s^2",
+                "conversion_factor": 6.283185307179586
+            },
+            {
+                "variable": "degrees_per_second_squared",
+                "name": "degree per second squared",
+                "symbol": "\u00b0/s^2",
+                "conversion_factor": 0.017453292519943295
+            },
+            {
+                "variable": "turns_per_second_squared",
+                "name": "turns per second squared",
+                "symbol": "turns per second squared",
+                "conversion_factor": 6.283185307179586
+            }
+        ]
+    },
+    {
+        "name": "AngularMomentum",
+        "unit_type": "AngularMomentumUnit",
+        "units": [
+            {
+                "variable": "kilogram_meters_squared_per_second",
+                "name": "kilogram meter squared per second",
+                "symbol": "kg m^2/s",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "pound_inches_squared_per_second",
+                "name": "pound inch squared per second",
+                "symbol": "lb in^2/s",
+                "conversion_factor": 0.0002926396534295
+            }
+        ]
+    },
+    {
+        "name": "AngularVelocity",
+        "unit_type": "AngularVelocityUnit",
+        "units": [
+            {
+                "variable": "radians_per_second",
+                "name": "radian per second",
+                "symbol": "rad/s",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "revolutions_per_second",
+                "name": "revolution per second",
+                "symbol": "R/s",
+                "conversion_factor": 6.283185307179586
+            },
+            {
+                "variable": "rotations_per_second",
+                "name": "rotation per second",
+                "symbol": "R/s",
+                "conversion_factor": 6.283185307179586
+            },
+            {
+                "variable": "rotations_per_minute",
+                "name": "rotation per minute",
+                "symbol": "RPM",
+                "conversion_factor": 0.10471975511965977
+            },
+            {
+                "variable": "degrees_per_second",
+                "name": "degree per second",
+                "symbol": "\u00b0/s",
+                "conversion_factor": 0.017453292519943295
+            },
+            {
+                "variable": "turns_per_second",
+                "name": "turns per second",
+                "symbol": "turns per second",
+                "conversion_factor": 6.283185307179586
+            },
+            {
+                "variable": "revolutions_per_minute",
+                "name": "revolutions per minute",
+                "symbol": "revolutions per minute",
+                "conversion_factor": 0.10471975511965977
+            },
+            {
+                "variable": "milliarcseconds_per_year",
+                "name": "milliarcseconds per year",
+                "symbol": "milliarcseconds per year",
+                "conversion_factor": 1.5362818500441607e-16
+            }
+        ]
+    },
+    {
+        "name": "Current",
+        "unit_type": "CurrentUnit",
+        "units": [
+            {
+                "variable": "amps",
+                "name": "amp",
+                "symbol": "A",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "milliamps",
+                "name": "milliamp",
+                "symbol": "mA",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "amperes",
+                "name": "amperes",
+                "symbol": "amperes",
+                "conversion_factor": 1
+            },
+            {
+                "variable": "nanoamperes",
+                "name": "nanoamperes",
+                "symbol": "nanoamperes",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "microamperes",
+                "name": "microamperes",
+                "symbol": "microamperes",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "milliamperes",
+                "name": "milliamperes",
+                "symbol": "milliamperes",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "kiloamperes",
+                "name": "kiloamperes",
+                "symbol": "kiloamperes",
+                "conversion_factor": 1000.0
+            }
+        ]
+    },
+    {
+        "name": "Dimensionless",
+        "unit_type": "DimensionlessUnit",
+        "units": [
+            {
+                "variable": "value",
+                "name": "value",
+                "symbol": "",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "percent",
+                "name": "percent",
+                "symbol": "%",
+                "conversion_factor": 0.01
+            }
+        ]
+    },
+    {
+        "name": "Distance",
+        "unit_type": "DistanceUnit",
+        "units": [
+            {
+                "variable": "meters",
+                "name": "meter",
+                "symbol": "m",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "millimeters",
+                "name": "millimeter",
+                "symbol": "mm",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "centimeters",
+                "name": "centimeter",
+                "symbol": "cm",
+                "conversion_factor": 0.01
+            },
+            {
+                "variable": "inches",
+                "name": "inch",
+                "symbol": "in",
+                "conversion_factor": 0.0254
+            },
+            {
+                "variable": "feet",
+                "name": "foot",
+                "symbol": "ft",
+                "conversion_factor": 0.3048
+            },
+            {
+                "variable": "miles",
+                "name": "mile",
+                "symbol": "mi",
+                "conversion_factor": 1609.344
+            },
+            {
+                "variable": "nanometers",
+                "name": "nanometers",
+                "symbol": "nanometers",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "micrometers",
+                "name": "micrometers",
+                "symbol": "micrometers",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "kilometers",
+                "name": "kilometers",
+                "symbol": "kilometers",
+                "conversion_factor": 1000
+            },
+            {
+                "variable": "mils",
+                "name": "mils",
+                "symbol": "mils",
+                "conversion_factor": 2.54e-05
+            },
+            {
+                "variable": "nautical_miles",
+                "name": "nautical miles",
+                "symbol": "nautical miles",
+                "conversion_factor": 1852.0
+            },
+            {
+                "variable": "astronical_units",
+                "name": "astronical units",
+                "symbol": "astronical units",
+                "conversion_factor": 149597870700.0
+            },
+            {
+                "variable": "lightyears",
+                "name": "lightyears",
+                "symbol": "lightyears",
+                "conversion_factor": 9460730472580800.0
+            },
+            {
+                "variable": "parsecs",
+                "name": "parsecs",
+                "symbol": "parsecs",
+                "conversion_factor": 3.085677581491367e+16
+            },
+            {
+                "variable": "angstroms",
+                "name": "angstroms",
+                "symbol": "angstroms",
+                "conversion_factor": 1e-10
+            },
+            {
+                "variable": "cubits",
+                "name": "cubits",
+                "symbol": "cubits",
+                "conversion_factor": 0.4572
+            },
+            {
+                "variable": "fathoms",
+                "name": "fathoms",
+                "symbol": "fathoms",
+                "conversion_factor": 1.8288
+            },
+            {
+                "variable": "chains",
+                "name": "chains",
+                "symbol": "chains",
+                "conversion_factor": 20.1168
+            },
+            {
+                "variable": "furlongs",
+                "name": "furlongs",
+                "symbol": "furlongs",
+                "conversion_factor": 201.168
+            },
+            {
+                "variable": "hands",
+                "name": "hands",
+                "symbol": "hands",
+                "conversion_factor": 0.1016
+            },
+            {
+                "variable": "leagues",
+                "name": "leagues",
+                "symbol": "leagues",
+                "conversion_factor": 4828.032
+            },
+            {
+                "variable": "nautical_leagues",
+                "name": "nautical leagues",
+                "symbol": "nautical leagues",
+                "conversion_factor": 5556.0
+            },
+            {
+                "variable": "yards",
+                "name": "yards",
+                "symbol": "yards",
+                "conversion_factor": 0.9144
+            }
+        ]
+    },
+    {
+        "name": "Energy",
+        "unit_type": "EnergyUnit",
+        "units": [
+            {
+                "variable": "joules",
+                "name": "joule",
+                "symbol": "J",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "millijoules",
+                "name": "millijoule",
+                "symbol": "mJ",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "kilojoules",
+                "name": "kilojoule",
+                "symbol": "kJ",
+                "conversion_factor": 1000.0
+            },
+            {
+                "variable": "nanojoules",
+                "name": "nanojoules",
+                "symbol": "nanojoules",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "microjoules",
+                "name": "microjoules",
+                "symbol": "microjoules",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "calories",
+                "name": "calories",
+                "symbol": "calories",
+                "conversion_factor": 4.184
+            },
+            {
+                "variable": "nanocalories",
+                "name": "nanocalories",
+                "symbol": "nanocalories",
+                "conversion_factor": 4.184e-09
+            },
+            {
+                "variable": "microcalories",
+                "name": "microcalories",
+                "symbol": "microcalories",
+                "conversion_factor": 4.184e-06
+            },
+            {
+                "variable": "millicalories",
+                "name": "millicalories",
+                "symbol": "millicalories",
+                "conversion_factor": 0.004184
+            },
+            {
+                "variable": "kilocalories",
+                "name": "kilocalories",
+                "symbol": "kilocalories",
+                "conversion_factor": 4184.0
+            },
+            {
+                "variable": "kilowatt_hours",
+                "name": "kilowatt hours",
+                "symbol": "kilowatt hours",
+                "conversion_factor": 3600000.0
+            },
+            {
+                "variable": "watt_hours",
+                "name": "watt hours",
+                "symbol": "watt hours",
+                "conversion_factor": 3600.0
+            },
+            {
+                "variable": "british_thermal_units",
+                "name": "british thermal units",
+                "symbol": "british thermal units",
+                "conversion_factor": 1055.05585262
+            },
+            {
+                "variable": "british_thermal_units_iso",
+                "name": "british thermal units iso",
+                "symbol": "british thermal units iso",
+                "conversion_factor": 1055.06
+            },
+            {
+                "variable": "british_thermal_units_59",
+                "name": "british thermal units 59",
+                "symbol": "british thermal units 59",
+                "conversion_factor": 1054.804
+            },
+            {
+                "variable": "therms",
+                "name": "therms",
+                "symbol": "therms",
+                "conversion_factor": 105505585.262
+            },
+            {
+                "variable": "foot_pounds",
+                "name": "foot pounds",
+                "symbol": "foot pounds",
+                "conversion_factor": 1.3558179483314003
+            }
+        ]
+    },
+    {
+        "name": "Force",
+        "unit_type": "ForceUnit",
+        "units": [
+            {
+                "variable": "newtons",
+                "name": "newton",
+                "symbol": "N",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "pounds_force",
+                "name": "pound-force",
+                "symbol": "lbsf.",
+                "conversion_factor": 4.4482216152605
+            },
+            {
+                "variable": "ounces_force",
+                "name": "ounce-force",
+                "symbol": "ozf",
+                "conversion_factor": 0.2780138509537812
+            },
+            {
+                "variable": "nanonewtons",
+                "name": "nanonewtons",
+                "symbol": "nanonewtons",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "micronewtons",
+                "name": "micronewtons",
+                "symbol": "micronewtons",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "millinewtons",
+                "name": "millinewtons",
+                "symbol": "millinewtons",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "kilonewtons",
+                "name": "kilonewtons",
+                "symbol": "kilonewtons",
+                "conversion_factor": 1000.0
+            },
+            {
+                "variable": "pounds",
+                "name": "pounds",
+                "symbol": "pounds",
+                "conversion_factor": 4.4482216152605
+            },
+            {
+                "variable": "dynes",
+                "name": "dynes",
+                "symbol": "dynes",
+                "conversion_factor": 1e-05
+            },
+            {
+                "variable": "kiloponds",
+                "name": "kiloponds",
+                "symbol": "kiloponds",
+                "conversion_factor": 9.80665
+            },
+            {
+                "variable": "poundals",
+                "name": "poundals",
+                "symbol": "poundals",
+                "conversion_factor": 0.138254954376
+            }
+        ]
+    },
+    {
+        "name": "Frequency",
+        "unit_type": "FrequencyUnit",
+        "units": [
+            {
+                "variable": "hertz",
+                "name": "hertz",
+                "symbol": "Hz",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "millihertz",
+                "name": "millihertz",
+                "symbol": "mHz",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "nanohertz",
+                "name": "nanohertz",
+                "symbol": "nanohertz",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "microhertz",
+                "name": "microhertz",
+                "symbol": "microhertz",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "kilohertz",
+                "name": "kilohertz",
+                "symbol": "kilohertz",
+                "conversion_factor": 1000.0
+            }
+        ]
+    },
+    {
+        "name": "LinearAcceleration",
+        "unit_type": "LinearAccelerationUnit",
+        "units": [
+            {
+                "variable": "meters_per_second_squared",
+                "name": "meter per second squared",
+                "symbol": "m/s^2",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "feet_per_second_squared",
+                "name": "foot per second squared",
+                "symbol": "ft/s^2",
+                "conversion_factor": 0.3048
+            },
+            {
+                "variable": "inches_per_second_squared",
+                "name": "inch per second squared",
+                "symbol": "in/s^2",
+                "conversion_factor": 0.0254
+            },
+            {
+                "variable": "gs",
+                "name": "G",
+                "symbol": "G",
+                "conversion_factor": 9.80665
+            }
+        ]
+    },
+    {
+        "name": "LinearMomentum",
+        "unit_type": "LinearMomentumUnit",
+        "units": [
+            {
+                "variable": "kilogram_meters_per_second",
+                "name": "kilogram meter per second",
+                "symbol": "kg m/s",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "pound_inches_per_second",
+                "name": "pound inch per second",
+                "symbol": "lb in/s",
+                "conversion_factor": 0.011521616
+            }
+        ]
+    },
+    {
+        "name": "LinearVelocity",
+        "unit_type": "LinearVelocityUnit",
+        "units": [
+            {
+                "variable": "meters_per_second",
+                "name": "meter per second",
+                "symbol": "m/s",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "feet_per_second",
+                "name": "foot per second",
+                "symbol": "ft/s",
+                "conversion_factor": 0.3048
+            },
+            {
+                "variable": "inches_per_second",
+                "name": "inch per second",
+                "symbol": "in/s",
+                "conversion_factor": 0.0254
+            }
+        ]
+    },
+    {
+        "name": "Mass",
+        "unit_type": "MassUnit",
+        "units": [
+            {
+                "variable": "kilograms",
+                "name": "kilogram",
+                "symbol": "kg",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "grams",
+                "name": "gram",
+                "symbol": "g",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "pounds",
+                "name": "pound",
+                "symbol": "lb.",
+                "conversion_factor": 0.453592
+            },
+            {
+                "variable": "ounces",
+                "name": "ounce",
+                "symbol": "oz.",
+                "conversion_factor": 0.0283495
+            },
+            {
+                "variable": "nanograms",
+                "name": "nanograms",
+                "symbol": "nanograms",
+                "conversion_factor": 1e-12
+            },
+            {
+                "variable": "micrograms",
+                "name": "micrograms",
+                "symbol": "micrograms",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "milligrams",
+                "name": "milligrams",
+                "symbol": "milligrams",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "metric_tons",
+                "name": "metric tons",
+                "symbol": "metric tons",
+                "conversion_factor": 1000.0
+            },
+            {
+                "variable": "long_tons",
+                "name": "long tons",
+                "symbol": "long tons",
+                "conversion_factor": 1016.0469088
+            },
+            {
+                "variable": "short_tons",
+                "name": "short tons",
+                "symbol": "short tons",
+                "conversion_factor": 907.18474
+            },
+            {
+                "variable": "stone",
+                "name": "stone",
+                "symbol": "stone",
+                "conversion_factor": 6.35029318
+            },
+            {
+                "variable": "carats",
+                "name": "carats",
+                "symbol": "carats",
+                "conversion_factor": 0.0002
+            },
+            {
+                "variable": "slugs",
+                "name": "slugs",
+                "symbol": "slugs",
+                "conversion_factor": 14.5939029372
+            }
+        ]
+    },
+    {
+        "name": "MomentOfInertia",
+        "unit_type": "MomentOfInertiaUnit",
+        "units": [
+            {
+                "variable": "kilogram_square_meters",
+                "name": "kilogram square meter",
+                "symbol": "kg m^2",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "pound_square_inches",
+                "name": "pound square inch",
+                "symbol": "lb in^2",
+                "conversion_factor": 0.0002926396534295
+            }
+        ]
+    },
+    {
+        "name": "Mult",
+        "unit_type": "MultUnit",
+        "units": []
+    },
+    {
+        "name": "Per",
+        "unit_type": "PerUnit",
+        "units": []
+    },
+    {
+        "name": "Power",
+        "unit_type": "PowerUnit",
+        "units": [
+            {
+                "variable": "watts",
+                "name": "watt",
+                "symbol": "W",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "milliwatts",
+                "name": "milliwatt",
+                "symbol": "mW",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "horsepower",
+                "name": "horsepower",
+                "symbol": "HP",
+                "conversion_factor": 745.6998715822702
+            },
+            {
+                "variable": "nanowatts",
+                "name": "nanowatts",
+                "symbol": "nanowatts",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "microwatts",
+                "name": "microwatts",
+                "symbol": "microwatts",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "kilowatts",
+                "name": "kilowatts",
+                "symbol": "kilowatts",
+                "conversion_factor": 1000.0
+            }
+        ]
+    },
+    {
+        "name": "Resistance",
+        "unit_type": "ResistanceUnit",
+        "units": [
+            {
+                "variable": "ohms",
+                "name": "ohm",
+                "symbol": "\u03a9",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "kilo_ohms",
+                "name": "kiloohm",
+                "symbol": "k\u03a9",
+                "conversion_factor": 1000.0
+            },
+            {
+                "variable": "milli_ohms",
+                "name": "milliohm",
+                "symbol": "m\u03a9",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "nanoohms",
+                "name": "nanoohms",
+                "symbol": "nanoohms",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "microohms",
+                "name": "microohms",
+                "symbol": "microohms",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "milliohms",
+                "name": "milliohms",
+                "symbol": "milliohms",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "kiloohms",
+                "name": "kiloohms",
+                "symbol": "kiloohms",
+                "conversion_factor": 1000.0
+            }
+        ]
+    },
+    {
+        "name": "Temperature",
+        "unit_type": "TemperatureUnit",
+        "units": [
+            {
+                "variable": "kelvin",
+                "name": "kelvin",
+                "symbol": "K",
+                "to_base_multiplier": 1.0,
+                "to_base_offset": 0.0,
+                "from_base_multiplier": 1.0,
+                "from_base_offset": 0.0
+            },
+            {
+                "variable": "celsius",
+                "name": "celsius",
+                "symbol": "\u00b0C",
+                "to_base_multiplier": 1.0,
+                "to_base_offset": 273.15,
+                "from_base_multiplier": 1.0,
+                "from_base_offset": -273.15
+            },
+            {
+                "variable": "fahrenheit",
+                "name": "fahrenheit",
+                "symbol": "\u00b0F",
+                "to_base_multiplier": 0.5555555555555556,
+                "to_base_offset": 255.3722222222222,
+                "from_base_multiplier": 1.8,
+                "from_base_offset": -459.67
+            },
+            {
+                "variable": "reaumur",
+                "name": "reaumur",
+                "symbol": "reaumur",
+                "to_base_multiplier": 1.25,
+                "to_base_offset": 273.15,
+                "from_base_multiplier": 0.8,
+                "from_base_offset": -218.52
+            },
+            {
+                "variable": "rankine",
+                "name": "rankine",
+                "symbol": "rankine",
+                "to_base_multiplier": 0.5555555555555556,
+                "to_base_offset": 0.0,
+                "from_base_multiplier": 1.8,
+                "from_base_offset": 0.0
+            }
+        ]
+    },
+    {
+        "name": "Time",
+        "unit_type": "TimeUnit",
+        "units": [
+            {
+                "variable": "seconds",
+                "name": "second",
+                "symbol": "s",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "milliseconds",
+                "name": "millisecond",
+                "symbol": "ms",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "microseconds",
+                "name": "microsecond",
+                "symbol": "us",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "nanoseconds",
+                "name": "nanosecond",
+                "symbol": "ns",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "minutes",
+                "name": "minute",
+                "symbol": "min",
+                "conversion_factor": 60.0
+            },
+            {
+                "variable": "hours",
+                "name": "hour",
+                "symbol": "h",
+                "conversion_factor": 3600.0
+            },
+            {
+                "variable": "kiloseconds",
+                "name": "kiloseconds",
+                "symbol": "kiloseconds",
+                "conversion_factor": 1000.0
+            },
+            {
+                "variable": "days",
+                "name": "days",
+                "symbol": "days",
+                "conversion_factor": 86400.0
+            },
+            {
+                "variable": "weeks",
+                "name": "weeks",
+                "symbol": "weeks",
+                "conversion_factor": 604800.0
+            },
+            {
+                "variable": "years",
+                "name": "years",
+                "symbol": "years",
+                "conversion_factor": 31557600.0
+            },
+            {
+                "variable": "julian_years",
+                "name": "julian years",
+                "symbol": "julian years",
+                "conversion_factor": 31557600.0
+            },
+            {
+                "variable": "gregorian_years",
+                "name": "gregorian years",
+                "symbol": "gregorian years",
+                "conversion_factor": 31556952.0
+            }
+        ]
+    },
+    {
+        "name": "Torque",
+        "unit_type": "TorqueUnit",
+        "units": [
+            {
+                "variable": "newton_meters",
+                "name": "newton meter",
+                "symbol": "N m",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "pound_feet",
+                "name": "pound-foot",
+                "symbol": "lb ft",
+                "conversion_factor": 1.3558179483314
+            },
+            {
+                "variable": "pound_inches",
+                "name": "pound-inch",
+                "symbol": "lb in",
+                "conversion_factor": 0.11298482902761667
+            },
+            {
+                "variable": "ounce_inches",
+                "name": "ounce-inch",
+                "symbol": "oz in",
+                "conversion_factor": 0.007061551814226041
+            },
+            {
+                "variable": "foot_poundals",
+                "name": "foot poundals",
+                "symbol": "foot poundals",
+                "conversion_factor": 0.0421401100938048
+            },
+            {
+                "variable": "inch_pounds",
+                "name": "inch pounds",
+                "symbol": "inch pounds",
+                "conversion_factor": 0.1129848290276167
+            },
+            {
+                "variable": "meter_kilograms",
+                "name": "meter kilograms",
+                "symbol": "meter kilograms",
+                "conversion_factor": 9.80665
+            }
+        ]
+    },
+    {
+        "name": "Velocity",
+        "unit_type": "VelocityUnit",
+        "units": [
+            {
+                "variable": "meters_per_second",
+                "name": "meter per second",
+                "symbol": "m/s",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "feet_per_second",
+                "name": "foot per second",
+                "symbol": "ft/s",
+                "conversion_factor": 0.3048
+            },
+            {
+                "variable": "inches_per_second",
+                "name": "inch per second",
+                "symbol": "in/s",
+                "conversion_factor": 0.0254
+            },
+            {
+                "variable": "miles_per_hour",
+                "name": "miles per hour",
+                "symbol": "miles per hour",
+                "conversion_factor": 0.44704
+            },
+            {
+                "variable": "kilometers_per_hour",
+                "name": "kilometers per hour",
+                "symbol": "kilometers per hour",
+                "conversion_factor": 0.2777777777777778
+            },
+            {
+                "variable": "knots",
+                "name": "knots",
+                "symbol": "knots",
+                "conversion_factor": 0.5144444444444445
+            }
+        ]
+    },
+    {
+        "name": "Voltage",
+        "unit_type": "VoltageUnit",
+        "units": [
+            {
+                "variable": "volts",
+                "name": "volt",
+                "symbol": "V",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "millivolts",
+                "name": "millivolt",
+                "symbol": "mV",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "nanovolts",
+                "name": "nanovolts",
+                "symbol": "nanovolts",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "microvolts",
+                "name": "microvolts",
+                "symbol": "microvolts",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "kilovolts",
+                "name": "kilovolts",
+                "symbol": "kilovolts",
+                "conversion_factor": 1000.0
+            },
+            {
+                "variable": "statvolts",
+                "name": "statvolts",
+                "symbol": "statvolts",
+                "conversion_factor": 299.792458
+            },
+            {
+                "variable": "abvolts",
+                "name": "abvolts",
+                "symbol": "abvolts",
+                "conversion_factor": 1e-08
+            }
+        ]
+    },
+    {
+        "name": "Area",
+        "unit_type": "AreaUnit",
+        "units": [
+            {
+                "variable": "square_meters",
+                "name": "square meters",
+                "symbol": "square meters",
+                "conversion_factor": 1
+            },
+            {
+                "variable": "square_feet",
+                "name": "square feet",
+                "symbol": "square feet",
+                "conversion_factor": 0.09290304
+            },
+            {
+                "variable": "square_inches",
+                "name": "square inches",
+                "symbol": "square inches",
+                "conversion_factor": 0.00064516
+            },
+            {
+                "variable": "square_miles",
+                "name": "square miles",
+                "symbol": "square miles",
+                "conversion_factor": 2589988.110336
+            },
+            {
+                "variable": "square_kilometers",
+                "name": "square kilometers",
+                "symbol": "square kilometers",
+                "conversion_factor": 1000000.0
+            },
+            {
+                "variable": "hectares",
+                "name": "hectares",
+                "symbol": "hectares",
+                "conversion_factor": 10000.0
+            },
+            {
+                "variable": "acres",
+                "name": "acres",
+                "symbol": "acres",
+                "conversion_factor": 4046.8564224
+            }
+        ]
+    },
+    {
+        "name": "Capacitance",
+        "unit_type": "CapacitanceUnit",
+        "units": [
+            {
+                "variable": "farads",
+                "name": "farads",
+                "symbol": "farads",
+                "conversion_factor": 1
+            },
+            {
+                "variable": "nanofarads",
+                "name": "nanofarads",
+                "symbol": "nanofarads",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "microfarads",
+                "name": "microfarads",
+                "symbol": "microfarads",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "millifarads",
+                "name": "millifarads",
+                "symbol": "millifarads",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "kilofarads",
+                "name": "kilofarads",
+                "symbol": "kilofarads",
+                "conversion_factor": 1000.0
+            }
+        ]
+    },
+    {
+        "name": "Compound",
+        "unit_type": "CompoundUnit",
+        "units": [
+            {
+                "variable": "radians_per_meter",
+                "name": "radians per meter",
+                "symbol": "radians per meter",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "radians_per_second_per_volt",
+                "name": "radians per second per volt",
+                "symbol": "radians per second per volt",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "units_per_second",
+                "name": "units per second",
+                "symbol": "units per second",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "units_per_second_squared",
+                "name": "units per second squared",
+                "symbol": "units per second squared",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "volt_seconds",
+                "name": "volt seconds",
+                "symbol": "volt seconds",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "volt_seconds_squared",
+                "name": "volt seconds squared",
+                "symbol": "volt seconds squared",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "volt_seconds_per_meter",
+                "name": "volt seconds per meter",
+                "symbol": "volt seconds per meter",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "volt_seconds_squared_per_meter",
+                "name": "volt seconds squared per meter",
+                "symbol": "volt seconds squared per meter",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "volt_seconds_per_feet",
+                "name": "volt seconds per feet",
+                "symbol": "volt seconds per feet",
+                "conversion_factor": 3.280839895013123
+            },
+            {
+                "variable": "volt_seconds_squared_per_feet",
+                "name": "volt seconds squared per feet",
+                "symbol": "volt seconds squared per feet",
+                "conversion_factor": 3.280839895013123
+            },
+            {
+                "variable": "volt_seconds_per_radian",
+                "name": "volt seconds per radian",
+                "symbol": "volt seconds per radian",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "volt_seconds_squared_per_radian",
+                "name": "volt seconds squared per radian",
+                "symbol": "volt seconds squared per radian",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "unit_seconds_squared_per_unit",
+                "name": "unit seconds squared per unit",
+                "symbol": "unit seconds squared per unit",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "meters_per_second_squared_per_volt",
+                "name": "meters per second squared per volt",
+                "symbol": "meters per second squared per volt",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "meters_per_second_per_radian",
+                "name": "meters per second per radian",
+                "symbol": "meters per second per radian",
+                "conversion_factor": 1.0
+            }
+        ]
+    },
+    {
+        "name": "Charge",
+        "unit_type": "ChargeUnit",
+        "units": [
+            {
+                "variable": "coulombs",
+                "name": "coulombs",
+                "symbol": "coulombs",
+                "conversion_factor": 1
+            },
+            {
+                "variable": "nanocoulombs",
+                "name": "nanocoulombs",
+                "symbol": "nanocoulombs",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "microcoulombs",
+                "name": "microcoulombs",
+                "symbol": "microcoulombs",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "millicoulombs",
+                "name": "millicoulombs",
+                "symbol": "millicoulombs",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "kilocoulombs",
+                "name": "kilocoulombs",
+                "symbol": "kilocoulombs",
+                "conversion_factor": 1000.0
+            },
+            {
+                "variable": "ampere_hours",
+                "name": "ampere hours",
+                "symbol": "ampere hours",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "nanoampere_hours",
+                "name": "nanoampere hours",
+                "symbol": "nanoampere hours",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "microampere_hours",
+                "name": "microampere hours",
+                "symbol": "microampere hours",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "milliampere_hours",
+                "name": "milliampere hours",
+                "symbol": "milliampere hours",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "kiloampere_hours",
+                "name": "kiloampere hours",
+                "symbol": "kiloampere hours",
+                "conversion_factor": 1.0
+            }
+        ]
+    },
+    {
+        "name": "Concentration",
+        "unit_type": "ConcentrationUnit",
+        "units": [
+            {
+                "variable": "parts_per_million",
+                "name": "parts per million",
+                "symbol": "parts per million",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "parts_per_billion",
+                "name": "parts per billion",
+                "symbol": "parts per billion",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "parts_per_trillion",
+                "name": "parts per trillion",
+                "symbol": "parts per trillion",
+                "conversion_factor": 1e-12
+            },
+            {
+                "variable": "percent",
+                "name": "percent",
+                "symbol": "percent",
+                "conversion_factor": 0.01
+            }
+        ]
+    },
+    {
+        "name": "Conductance",
+        "unit_type": "ConductanceUnit",
+        "units": [
+            {
+                "variable": "siemens",
+                "name": "siemens",
+                "symbol": "siemens",
+                "conversion_factor": 1
+            },
+            {
+                "variable": "nanosiemens",
+                "name": "nanosiemens",
+                "symbol": "nanosiemens",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "microsiemens",
+                "name": "microsiemens",
+                "symbol": "microsiemens",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "millisiemens",
+                "name": "millisiemens",
+                "symbol": "millisiemens",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "kilosiemens",
+                "name": "kilosiemens",
+                "symbol": "kilosiemens",
+                "conversion_factor": 1000.0
+            }
+        ]
+    },
+    {
+        "name": "Data",
+        "unit_type": "DataUnit",
+        "units": [
+            {
+                "variable": "exabytes",
+                "name": "exabytes",
+                "symbol": "exabytes",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "exabits",
+                "name": "exabits",
+                "symbol": "exabits",
+                "conversion_factor": 0.125
+            }
+        ]
+    },
+    {
+        "name": "DataTransfer",
+        "unit_type": "DataTransferUnit",
+        "units": [
+            {
+                "variable": "exabytes_per_second",
+                "name": "exabytes per second",
+                "symbol": "exabytes per second",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "exabits_per_second",
+                "name": "exabits per second",
+                "symbol": "exabits per second",
+                "conversion_factor": 0.125
+            }
+        ]
+    },
+    {
+        "name": "Density",
+        "unit_type": "DensityUnit",
+        "units": [
+            {
+                "variable": "kilograms_per_cubic_meter",
+                "name": "kilograms per cubic meter",
+                "symbol": "kilograms per cubic meter",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "grams_per_milliliter",
+                "name": "grams per milliliter",
+                "symbol": "grams per milliliter",
+                "conversion_factor": 1000.0
+            },
+            {
+                "variable": "kilograms_per_liter",
+                "name": "kilograms per liter",
+                "symbol": "kilograms per liter",
+                "conversion_factor": 1000.0
+            },
+            {
+                "variable": "ounces_per_cubic_foot",
+                "name": "ounces per cubic foot",
+                "symbol": "ounces per cubic foot",
+                "conversion_factor": 1.0011539608725086
+            },
+            {
+                "variable": "ounces_per_cubic_inch",
+                "name": "ounces per cubic inch",
+                "symbol": "ounces per cubic inch",
+                "conversion_factor": 1729.9940443876953
+            },
+            {
+                "variable": "ounces_per_gallon",
+                "name": "ounces per gallon",
+                "symbol": "ounces per gallon",
+                "conversion_factor": 7.489151707306039
+            },
+            {
+                "variable": "pounds_per_cubic_foot",
+                "name": "pounds per cubic foot",
+                "symbol": "pounds per cubic foot",
+                "conversion_factor": 16.018463373960138
+            },
+            {
+                "variable": "pounds_per_cubic_inch",
+                "name": "pounds per cubic inch",
+                "symbol": "pounds per cubic inch",
+                "conversion_factor": 27679.904710203125
+            },
+            {
+                "variable": "pounds_per_gallon",
+                "name": "pounds per gallon",
+                "symbol": "pounds per gallon",
+                "conversion_factor": 119.82642731689663
+            },
+            {
+                "variable": "slugs_per_cubic_foot",
+                "name": "slugs per cubic foot",
+                "symbol": "slugs per cubic foot",
+                "conversion_factor": 515.3788183929713
+            }
+        ]
+    },
+    {
+        "name": "Illuminance",
+        "unit_type": "IlluminanceUnit",
+        "units": [
+            {
+                "variable": "luxes",
+                "name": "luxes",
+                "symbol": "luxes",
+                "conversion_factor": 1
+            },
+            {
+                "variable": "nanoluxes",
+                "name": "nanoluxes",
+                "symbol": "nanoluxes",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "microluxes",
+                "name": "microluxes",
+                "symbol": "microluxes",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "milliluxes",
+                "name": "milliluxes",
+                "symbol": "milliluxes",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "kiloluxes",
+                "name": "kiloluxes",
+                "symbol": "kiloluxes",
+                "conversion_factor": 1000.0
+            },
+            {
+                "variable": "footcandles",
+                "name": "footcandles",
+                "symbol": "footcandles",
+                "conversion_factor": 10.763910416709722
+            },
+            {
+                "variable": "lumens_per_square_inch",
+                "name": "lumens per square inch",
+                "symbol": "lumens per square inch",
+                "conversion_factor": 1550.0031000062
+            },
+            {
+                "variable": "phots",
+                "name": "phots",
+                "symbol": "phots",
+                "conversion_factor": 10000.0
+            }
+        ]
+    },
+    {
+        "name": "Inductance",
+        "unit_type": "InductanceUnit",
+        "units": [
+            {
+                "variable": "henries",
+                "name": "henries",
+                "symbol": "henries",
+                "conversion_factor": 1
+            },
+            {
+                "variable": "nanohenries",
+                "name": "nanohenries",
+                "symbol": "nanohenries",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "microhenries",
+                "name": "microhenries",
+                "symbol": "microhenries",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "millihenries",
+                "name": "millihenries",
+                "symbol": "millihenries",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "kilohenries",
+                "name": "kilohenries",
+                "symbol": "kilohenries",
+                "conversion_factor": 1000.0
+            }
+        ]
+    },
+    {
+        "name": "LuminousFlux",
+        "unit_type": "LuminousFluxUnit",
+        "units": [
+            {
+                "variable": "lumens",
+                "name": "lumens",
+                "symbol": "lumens",
+                "conversion_factor": 1
+            },
+            {
+                "variable": "nanolumens",
+                "name": "nanolumens",
+                "symbol": "nanolumens",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "microlumens",
+                "name": "microlumens",
+                "symbol": "microlumens",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "millilumens",
+                "name": "millilumens",
+                "symbol": "millilumens",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "kilolumens",
+                "name": "kilolumens",
+                "symbol": "kilolumens",
+                "conversion_factor": 1000.0
+            }
+        ]
+    },
+    {
+        "name": "LuminousIntensity",
+        "unit_type": "LuminousIntensityUnit",
+        "units": [
+            {
+                "variable": "candelas",
+                "name": "candelas",
+                "symbol": "candelas",
+                "conversion_factor": 1
+            },
+            {
+                "variable": "nanocandelas",
+                "name": "nanocandelas",
+                "symbol": "nanocandelas",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "microcandelas",
+                "name": "microcandelas",
+                "symbol": "microcandelas",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "millicandelas",
+                "name": "millicandelas",
+                "symbol": "millicandelas",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "kilocandelas",
+                "name": "kilocandelas",
+                "symbol": "kilocandelas",
+                "conversion_factor": 1000.0
+            }
+        ]
+    },
+    {
+        "name": "MagneticFlux",
+        "unit_type": "MagneticFluxUnit",
+        "units": [
+            {
+                "variable": "webers",
+                "name": "webers",
+                "symbol": "webers",
+                "conversion_factor": 1
+            },
+            {
+                "variable": "nanowebers",
+                "name": "nanowebers",
+                "symbol": "nanowebers",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "microwebers",
+                "name": "microwebers",
+                "symbol": "microwebers",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "milliwebers",
+                "name": "milliwebers",
+                "symbol": "milliwebers",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "kilowebers",
+                "name": "kilowebers",
+                "symbol": "kilowebers",
+                "conversion_factor": 1000.0
+            },
+            {
+                "variable": "maxwells",
+                "name": "maxwells",
+                "symbol": "maxwells",
+                "conversion_factor": 1e-08
+            }
+        ]
+    },
+    {
+        "name": "MagneticStrength",
+        "unit_type": "MagneticStrengthUnit",
+        "units": [
+            {
+                "variable": "teslas",
+                "name": "teslas",
+                "symbol": "teslas",
+                "conversion_factor": 1
+            },
+            {
+                "variable": "nanoteslas",
+                "name": "nanoteslas",
+                "symbol": "nanoteslas",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "microteslas",
+                "name": "microteslas",
+                "symbol": "microteslas",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "milliteslas",
+                "name": "milliteslas",
+                "symbol": "milliteslas",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "kiloteslas",
+                "name": "kiloteslas",
+                "symbol": "kiloteslas",
+                "conversion_factor": 1000.0
+            },
+            {
+                "variable": "gauss",
+                "name": "gauss",
+                "symbol": "gauss",
+                "conversion_factor": 0.0001
+            }
+        ]
+    },
+    {
+        "name": "Pressure",
+        "unit_type": "PressureUnit",
+        "units": [
+            {
+                "variable": "pascals",
+                "name": "pascals",
+                "symbol": "pascals",
+                "conversion_factor": 1
+            },
+            {
+                "variable": "nanopascals",
+                "name": "nanopascals",
+                "symbol": "nanopascals",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "micropascals",
+                "name": "micropascals",
+                "symbol": "micropascals",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "millipascals",
+                "name": "millipascals",
+                "symbol": "millipascals",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "kilopascals",
+                "name": "kilopascals",
+                "symbol": "kilopascals",
+                "conversion_factor": 1000.0
+            },
+            {
+                "variable": "bars",
+                "name": "bars",
+                "symbol": "bars",
+                "conversion_factor": 100000.0
+            },
+            {
+                "variable": "mbars",
+                "name": "mbars",
+                "symbol": "mbars",
+                "conversion_factor": 100.0
+            },
+            {
+                "variable": "atmospheres",
+                "name": "atmospheres",
+                "symbol": "atmospheres",
+                "conversion_factor": 101325.0
+            },
+            {
+                "variable": "pounds_per_square_inch",
+                "name": "pounds per square inch",
+                "symbol": "pounds per square inch",
+                "conversion_factor": 6894.757293168
+            },
+            {
+                "variable": "torrs",
+                "name": "torrs",
+                "symbol": "torrs",
+                "conversion_factor": 133.32236842105263
+            }
+        ]
+    },
+    {
+        "name": "SolidAngle",
+        "unit_type": "SolidAngleUnit",
+        "units": [
+            {
+                "variable": "steradians",
+                "name": "steradians",
+                "symbol": "steradians",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "nanosteradians",
+                "name": "nanosteradians",
+                "symbol": "nanosteradians",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "microsteradians",
+                "name": "microsteradians",
+                "symbol": "microsteradians",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "millisteradians",
+                "name": "millisteradians",
+                "symbol": "millisteradians",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "kilosteradians",
+                "name": "kilosteradians",
+                "symbol": "kilosteradians",
+                "conversion_factor": 1000.0
+            },
+            {
+                "variable": "degrees_squared",
+                "name": "degrees squared",
+                "symbol": "degrees squared",
+                "conversion_factor": 0.00030461741978670857
+            },
+            {
+                "variable": "spats",
+                "name": "spats",
+                "symbol": "spats",
+                "conversion_factor": 12.566370614359172
+            }
+        ]
+    },
+    {
+        "name": "Substance",
+        "unit_type": "SubstanceUnit",
+        "units": [
+            {
+                "variable": "moles",
+                "name": "moles",
+                "symbol": "moles",
+                "conversion_factor": 1
+            }
+        ]
+    },
+    {
+        "name": "Volume",
+        "unit_type": "VolumeUnit",
+        "units": [
+            {
+                "variable": "cubic_meters",
+                "name": "cubic meters",
+                "symbol": "cubic meters",
+                "conversion_factor": 1
+            },
+            {
+                "variable": "cubic_millimeters",
+                "name": "cubic millimeters",
+                "symbol": "cubic millimeters",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "cubic_kilometers",
+                "name": "cubic kilometers",
+                "symbol": "cubic kilometers",
+                "conversion_factor": 1000000000.0
+            },
+            {
+                "variable": "liters",
+                "name": "liters",
+                "symbol": "liters",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "nanoliters",
+                "name": "nanoliters",
+                "symbol": "nanoliters",
+                "conversion_factor": 1e-12
+            },
+            {
+                "variable": "microliters",
+                "name": "microliters",
+                "symbol": "microliters",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "milliliters",
+                "name": "milliliters",
+                "symbol": "milliliters",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "kiloliters",
+                "name": "kiloliters",
+                "symbol": "kiloliters",
+                "conversion_factor": 1.0
+            },
+            {
+                "variable": "cubic_inches",
+                "name": "cubic inches",
+                "symbol": "cubic inches",
+                "conversion_factor": 1.6387064e-05
+            },
+            {
+                "variable": "cubic_feet",
+                "name": "cubic feet",
+                "symbol": "cubic feet",
+                "conversion_factor": 0.028316846592000004
+            },
+            {
+                "variable": "cubic_yards",
+                "name": "cubic yards",
+                "symbol": "cubic yards",
+                "conversion_factor": 0.764554857984
+            },
+            {
+                "variable": "cubic_miles",
+                "name": "cubic miles",
+                "symbol": "cubic miles",
+                "conversion_factor": 4168181825.44058
+            },
+            {
+                "variable": "gallons",
+                "name": "gallons",
+                "symbol": "gallons",
+                "conversion_factor": 0.003785411784
+            },
+            {
+                "variable": "quarts",
+                "name": "quarts",
+                "symbol": "quarts",
+                "conversion_factor": 0.000946352946
+            },
+            {
+                "variable": "pints",
+                "name": "pints",
+                "symbol": "pints",
+                "conversion_factor": 0.000473176473
+            },
+            {
+                "variable": "cups",
+                "name": "cups",
+                "symbol": "cups",
+                "conversion_factor": 0.0002365882365
+            },
+            {
+                "variable": "fluid_ounces",
+                "name": "fluid ounces",
+                "symbol": "fluid ounces",
+                "conversion_factor": 2.95735295625e-05
+            },
+            {
+                "variable": "barrels",
+                "name": "barrels",
+                "symbol": "barrels",
+                "conversion_factor": 0.158987294928
+            },
+            {
+                "variable": "bushels",
+                "name": "bushels",
+                "symbol": "bushels",
+                "conversion_factor": 0.03523907016688
+            },
+            {
+                "variable": "cords",
+                "name": "cords",
+                "symbol": "cords",
+                "conversion_factor": 3.624556363776
+            },
+            {
+                "variable": "cubic_fathoms",
+                "name": "cubic fathoms",
+                "symbol": "cubic fathoms",
+                "conversion_factor": 6.116438863872
+            },
+            {
+                "variable": "tablespoons",
+                "name": "tablespoons",
+                "symbol": "tablespoons",
+                "conversion_factor": 1.478676478125e-05
+            },
+            {
+                "variable": "teaspoons",
+                "name": "teaspoons",
+                "symbol": "teaspoons",
+                "conversion_factor": 4.92892159375e-06
+            },
+            {
+                "variable": "pinches",
+                "name": "pinches",
+                "symbol": "pinches",
+                "conversion_factor": 6.1611519921875e-07
+            },
+            {
+                "variable": "dashes",
+                "name": "dashes",
+                "symbol": "dashes",
+                "conversion_factor": 6.1611519921875e-07
+            },
+            {
+                "variable": "drops",
+                "name": "drops",
+                "symbol": "drops",
+                "conversion_factor": 5e-08
+            },
+            {
+                "variable": "fifths",
+                "name": "fifths",
+                "symbol": "fifths",
+                "conversion_factor": 0.0007570823568
+            },
+            {
+                "variable": "drams",
+                "name": "drams",
+                "symbol": "drams",
+                "conversion_factor": 3.6966911953125e-06
+            },
+            {
+                "variable": "gills",
+                "name": "gills",
+                "symbol": "gills",
+                "conversion_factor": 0.00011829411825
+            },
+            {
+                "variable": "pecks",
+                "name": "pecks",
+                "symbol": "pecks",
+                "conversion_factor": 0.00880976754172
+            },
+            {
+                "variable": "sacks",
+                "name": "sacks",
+                "symbol": "sacks",
+                "conversion_factor": 0.10568821050064
+            },
+            {
+                "variable": "shots",
+                "name": "shots",
+                "symbol": "shots",
+                "conversion_factor": 4.436029434375e-05
+            },
+            {
+                "variable": "strikes",
+                "name": "strikes",
+                "symbol": "strikes",
+                "conversion_factor": 0.07047814033376
+            }
+        ]
+    },
+    {
+        "name": "Radioactivity",
+        "unit_type": "RadioactivityUnit",
+        "units": [
+            {
+                "variable": "becquerels",
+                "name": "becquerels",
+                "symbol": "becquerels",
+                "conversion_factor": 1
+            },
+            {
+                "variable": "nanobecquerels",
+                "name": "nanobecquerels",
+                "symbol": "nanobecquerels",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "microbecquerels",
+                "name": "microbecquerels",
+                "symbol": "microbecquerels",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "millibecquerels",
+                "name": "millibecquerels",
+                "symbol": "millibecquerels",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "kilobecquerels",
+                "name": "kilobecquerels",
+                "symbol": "kilobecquerels",
+                "conversion_factor": 1000.0
+            },
+            {
+                "variable": "curies",
+                "name": "curies",
+                "symbol": "curies",
+                "conversion_factor": 37000000000.0
+            },
+            {
+                "variable": "rutherfords",
+                "name": "rutherfords",
+                "symbol": "rutherfords",
+                "conversion_factor": 1000000.0
+            }
+        ]
+    },
+    {
+        "name": "AbsorbedDose",
+        "unit_type": "AbsorbedDoseUnit",
+        "units": [
+            {
+                "variable": "grays",
+                "name": "grays",
+                "symbol": "grays",
+                "conversion_factor": 1
+            },
+            {
+                "variable": "nanograys",
+                "name": "nanograys",
+                "symbol": "nanograys",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "micrograys",
+                "name": "micrograys",
+                "symbol": "micrograys",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "milligrays",
+                "name": "milligrays",
+                "symbol": "milligrays",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "kilograys",
+                "name": "kilograys",
+                "symbol": "kilograys",
+                "conversion_factor": 1000.0
+            },
+            {
+                "variable": "rads",
+                "name": "rads",
+                "symbol": "rads",
+                "conversion_factor": 0.01
+            }
+        ]
+    },
+    {
+        "name": "EquivalentDose",
+        "unit_type": "EquivalentDoseUnit",
+        "units": [
+            {
+                "variable": "sieverts",
+                "name": "sieverts",
+                "symbol": "sieverts",
+                "conversion_factor": 1
+            },
+            {
+                "variable": "nanosieverts",
+                "name": "nanosieverts",
+                "symbol": "nanosieverts",
+                "conversion_factor": 1e-09
+            },
+            {
+                "variable": "microsieverts",
+                "name": "microsieverts",
+                "symbol": "microsieverts",
+                "conversion_factor": 1e-06
+            },
+            {
+                "variable": "millisieverts",
+                "name": "millisieverts",
+                "symbol": "millisieverts",
+                "conversion_factor": 0.001
+            },
+            {
+                "variable": "kilosieverts",
+                "name": "kilosieverts",
+                "symbol": "kilosieverts",
+                "conversion_factor": 1000.0
+            }
+        ]
+    }
+]

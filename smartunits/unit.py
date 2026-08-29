@@ -1,7 +1,8 @@
-from smartunits import UnaryFunction
+from .unary_function import UnaryFunction
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from smartunits import Measure, TimeUnit
+    from .measure import Measure
+    from .time_unit import TimeUnit
 
 from abc import ABC, abstractmethod
 from typing import Any
@@ -94,7 +95,6 @@ class Unit(ABC):
         pass
 
     def equivalent(self, other: "Unit", equivalence_threshold: float = 1e-12) -> bool:
-        from smartunits import Measure # temporary, TODO CHANGE LATER
         if type(self) is not type(other):
             return False
 
