@@ -1,7 +1,7 @@
 import unittest
 
 import smartunits
-from smartunits import DistanceUnit, Measure, TemperatureUnit, UnaryFunction, Unit
+from smartunits import DistanceUnit, Measure, TemperatureUnit, UnaryFunction, Unit, radians, degrees
 from smartunits.current import amps, milliamps
 from smartunits.distance import feet, inches, meters, miles
 from smartunits.temperature import celsius, fahrenheit, kelvin
@@ -47,6 +47,10 @@ class PackageSurfaceTests(unittest.TestCase):
 		self.assertTrue(hasattr(smartunits, "Distance"))
 		self.assertTrue(hasattr(smartunits, "Temperature"))
 
+class AngleTests(unittest.TestCase):
+	def test_angle_conversions(self) -> None:
+		self.assertAlmostEqual(radians.of(3.14159).in_unit(degrees), 180.0, places=2)
+		self.assertAlmostEqual(degrees.of(180).in_unit(radians), 3.14159, places=2)
 
 if __name__ == "__main__":
 	unittest.main()

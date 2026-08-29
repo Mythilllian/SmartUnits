@@ -101,7 +101,7 @@ class PressureUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
-pascals = PressureUnit(None, 1, 0.0, 1.0, -0.0, "pascals", "pascals")
+pascals = PressureUnit(None, 1.0, 0.0, 1.0, -0.0, "pascals", "pascals")
 nanopascals = PressureUnit(pascals, 1e-09, 0.0, 999999999.9999999, -0.0, "nanopascals", "nanopascals")
 micropascals = PressureUnit(pascals, 1e-06, 0.0, 1000000.0, -0.0, "micropascals", "micropascals")
 millipascals = PressureUnit(pascals, 0.001, 0.0, 1000.0, -0.0, "millipascals", "millipascals")

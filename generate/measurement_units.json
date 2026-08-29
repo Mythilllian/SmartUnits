@@ -91,13 +91,13 @@
                 "variable": "arcminutes",
                 "name": "arcminutes",
                 "symbol": "arcminutes",
-                "conversion_factor": 1.0
+                "conversion_factor": 0.0002908882086657216
             },
             {
                 "variable": "arcseconds",
                 "name": "arcseconds",
                 "symbol": "arcseconds",
-                "conversion_factor": 1.0
+                "conversion_factor": 4.84813681109536e-06
             },
             {
                 "variable": "milliarcseconds",
@@ -163,7 +163,7 @@
                 "variable": "pound_inches_squared_per_second",
                 "name": "pound inch squared per second",
                 "symbol": "lb in^2/s",
-                "conversion_factor": 0.0002926396534295
+                "conversion_factor": 0.0002926396534292
             }
         ]
     },
@@ -241,7 +241,7 @@
                 "variable": "amperes",
                 "name": "amperes",
                 "symbol": "amperes",
-                "conversion_factor": 1
+                "conversion_factor": 1.0
             },
             {
                 "variable": "nanoamperes",
@@ -343,7 +343,7 @@
                 "variable": "kilometers",
                 "name": "kilometers",
                 "symbol": "kilometers",
-                "conversion_factor": 1000
+                "conversion_factor": 1000.0
             },
             {
                 "variable": "mils",
@@ -739,13 +739,13 @@
                 "variable": "pounds",
                 "name": "pound",
                 "symbol": "lb.",
-                "conversion_factor": 0.453592
+                "conversion_factor": 0.45359237
             },
             {
                 "variable": "ounces",
                 "name": "ounce",
                 "symbol": "oz.",
-                "conversion_factor": 0.0283495
+                "conversion_factor": 0.028349523125
             },
             {
                 "variable": "nanograms",
@@ -817,7 +817,7 @@
                 "variable": "pound_square_inches",
                 "name": "pound square inch",
                 "symbol": "lb in^2",
-                "conversion_factor": 0.0002926396534295
+                "conversion_factor": 0.0002926396534292
             }
         ]
     },
@@ -1196,7 +1196,7 @@
                 "variable": "square_meters",
                 "name": "square meters",
                 "symbol": "square meters",
-                "conversion_factor": 1
+                "conversion_factor": 1.0
             },
             {
                 "variable": "square_feet",
@@ -1244,7 +1244,7 @@
                 "variable": "farads",
                 "name": "farads",
                 "symbol": "farads",
-                "conversion_factor": 1
+                "conversion_factor": 1.0
             },
             {
                 "variable": "nanofarads",
@@ -1376,7 +1376,7 @@
                 "variable": "coulombs",
                 "name": "coulombs",
                 "symbol": "coulombs",
-                "conversion_factor": 1
+                "conversion_factor": 1.0
             },
             {
                 "variable": "nanocoulombs",
@@ -1406,31 +1406,31 @@
                 "variable": "ampere_hours",
                 "name": "ampere hours",
                 "symbol": "ampere hours",
-                "conversion_factor": 1.0
+                "conversion_factor": 3600.0
             },
             {
                 "variable": "nanoampere_hours",
                 "name": "nanoampere hours",
                 "symbol": "nanoampere hours",
-                "conversion_factor": 1.0
+                "conversion_factor": 0.0000036
             },
             {
                 "variable": "microampere_hours",
                 "name": "microampere hours",
                 "symbol": "microampere hours",
-                "conversion_factor": 1.0
+                "conversion_factor": 0.0036
             },
             {
                 "variable": "milliampere_hours",
                 "name": "milliampere hours",
                 "symbol": "milliampere hours",
-                "conversion_factor": 1.0
+                "conversion_factor": 3.6
             },
             {
                 "variable": "kiloampere_hours",
                 "name": "kiloampere hours",
                 "symbol": "kiloampere hours",
-                "conversion_factor": 1.0
+                "conversion_factor": 3600000.0
             }
         ]
     },
@@ -1472,7 +1472,7 @@
                 "variable": "siemens",
                 "name": "siemens",
                 "symbol": "siemens",
-                "conversion_factor": 1
+                "conversion_factor": 1.0
             },
             {
                 "variable": "nanosiemens",
@@ -1610,7 +1610,7 @@
                 "variable": "luxes",
                 "name": "luxes",
                 "symbol": "luxes",
-                "conversion_factor": 1
+                "conversion_factor": 1.0
             },
             {
                 "variable": "nanoluxes",
@@ -1664,7 +1664,7 @@
                 "variable": "henries",
                 "name": "henries",
                 "symbol": "henries",
-                "conversion_factor": 1
+                "conversion_factor": 1.0
             },
             {
                 "variable": "nanohenries",
@@ -1700,7 +1700,7 @@
                 "variable": "lumens",
                 "name": "lumens",
                 "symbol": "lumens",
-                "conversion_factor": 1
+                "conversion_factor": 1.0
             },
             {
                 "variable": "nanolumens",
@@ -1736,7 +1736,7 @@
                 "variable": "candelas",
                 "name": "candelas",
                 "symbol": "candelas",
-                "conversion_factor": 1
+                "conversion_factor": 1.0
             },
             {
                 "variable": "nanocandelas",
@@ -1772,7 +1772,7 @@
                 "variable": "webers",
                 "name": "webers",
                 "symbol": "webers",
-                "conversion_factor": 1
+                "conversion_factor": 1.0
             },
             {
                 "variable": "nanowebers",
@@ -1814,7 +1814,7 @@
                 "variable": "teslas",
                 "name": "teslas",
                 "symbol": "teslas",
-                "conversion_factor": 1
+                "conversion_factor": 1.0
             },
             {
                 "variable": "nanoteslas",
@@ -1856,7 +1856,7 @@
                 "variable": "pascals",
                 "name": "pascals",
                 "symbol": "pascals",
-                "conversion_factor": 1
+                "conversion_factor": 1.0
             },
             {
                 "variable": "nanopascals",
@@ -1970,7 +1970,7 @@
                 "variable": "moles",
                 "name": "moles",
                 "symbol": "moles",
-                "conversion_factor": 1
+                "conversion_factor": 1.0
             }
         ]
     },
@@ -1982,7 +1982,7 @@
                 "variable": "cubic_meters",
                 "name": "cubic meters",
                 "symbol": "cubic meters",
-                "conversion_factor": 1
+                "conversion_factor": 1.0
             },
             {
                 "variable": "cubic_millimeters",
@@ -2186,7 +2186,7 @@
                 "variable": "becquerels",
                 "name": "becquerels",
                 "symbol": "becquerels",
-                "conversion_factor": 1
+                "conversion_factor": 1.0
             },
             {
                 "variable": "nanobecquerels",
@@ -2234,7 +2234,7 @@
                 "variable": "grays",
                 "name": "grays",
                 "symbol": "grays",
-                "conversion_factor": 1
+                "conversion_factor": 1.0
             },
             {
                 "variable": "nanograys",
@@ -2276,7 +2276,7 @@
                 "variable": "sieverts",
                 "name": "sieverts",
                 "symbol": "sieverts",
-                "conversion_factor": 1
+                "conversion_factor": 1.0
             },
             {
                 "variable": "nanosieverts",

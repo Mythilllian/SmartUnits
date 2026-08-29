@@ -101,15 +101,15 @@ class ChargeUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
-coulombs = ChargeUnit(None, 1, 0.0, 1.0, -0.0, "coulombs", "coulombs")
+coulombs = ChargeUnit(None, 1.0, 0.0, 1.0, -0.0, "coulombs", "coulombs")
 nanocoulombs = ChargeUnit(coulombs, 1e-09, 0.0, 999999999.9999999, -0.0, "nanocoulombs", "nanocoulombs")
 microcoulombs = ChargeUnit(coulombs, 1e-06, 0.0, 1000000.0, -0.0, "microcoulombs", "microcoulombs")
 millicoulombs = ChargeUnit(coulombs, 0.001, 0.0, 1000.0, -0.0, "millicoulombs", "millicoulombs")
 kilocoulombs = ChargeUnit(coulombs, 1000.0, 0.0, 0.001, -0.0, "kilocoulombs", "kilocoulombs")
-ampere_hours = ChargeUnit(coulombs, 1.0, 0.0, 1.0, -0.0, "ampere hours", "ampere hours")
-nanoampere_hours = ChargeUnit(coulombs, 1.0, 0.0, 1.0, -0.0, "nanoampere hours", "nanoampere hours")
-microampere_hours = ChargeUnit(coulombs, 1.0, 0.0, 1.0, -0.0, "microampere hours", "microampere hours")
-milliampere_hours = ChargeUnit(coulombs, 1.0, 0.0, 1.0, -0.0, "milliampere hours", "milliampere hours")
-kiloampere_hours = ChargeUnit(coulombs, 1.0, 0.0, 1.0, -0.0, "kiloampere hours", "kiloampere hours")
+ampere_hours = ChargeUnit(coulombs, 3600.0, 0.0, 0.0002777777777777778, -0.0, "ampere hours", "ampere hours")
+nanoampere_hours = ChargeUnit(coulombs, 3.6e-06, 0.0, 277777.7777777778, -0.0, "nanoampere hours", "nanoampere hours")
+microampere_hours = ChargeUnit(coulombs, 0.0036, 0.0, 277.77777777777777, -0.0, "microampere hours", "microampere hours")
+milliampere_hours = ChargeUnit(coulombs, 3.6, 0.0, 0.2777777777777778, -0.0, "milliampere hours", "milliampere hours")
+kiloampere_hours = ChargeUnit(coulombs, 3600000.0, 0.0, 2.7777777777777776e-07, -0.0, "kiloampere hours", "kiloampere hours")
 
 __all__ = ["ChargeUnit", "coulombs", "nanocoulombs", "microcoulombs", "millicoulombs", "kilocoulombs", "ampere_hours", "nanoampere_hours", "microampere_hours", "milliampere_hours", "kiloampere_hours"]

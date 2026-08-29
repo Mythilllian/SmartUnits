@@ -101,7 +101,7 @@ class LuminousFluxUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
-lumens = LuminousFluxUnit(None, 1, 0.0, 1.0, -0.0, "lumens", "lumens")
+lumens = LuminousFluxUnit(None, 1.0, 0.0, 1.0, -0.0, "lumens", "lumens")
 nanolumens = LuminousFluxUnit(lumens, 1e-09, 0.0, 999999999.9999999, -0.0, "nanolumens", "nanolumens")
 microlumens = LuminousFluxUnit(lumens, 1e-06, 0.0, 1000000.0, -0.0, "microlumens", "microlumens")
 millilumens = LuminousFluxUnit(lumens, 0.001, 0.0, 1000.0, -0.0, "millilumens", "millilumens")

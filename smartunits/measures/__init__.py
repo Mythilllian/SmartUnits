@@ -1,28 +1,4 @@
-from .acceleration import Acceleration
-from .angle import Angle
-from .angular_acceleration import AngularAcceleration
-from .angular_momentum import AngularMomentum
-from .angular_velocity import AngularVelocity
-from .current import Current
-from .dimensionless import Dimensionless
-from .distance import Distance
-from .energy import Energy
-from .force import Force
-from .frequency import Frequency
-from .linear_acceleration import LinearAcceleration
-from .linear_momentum import LinearMomentum
-from .linear_velocity import LinearVelocity
-from .mass import Mass
-from .moment_of_inertia import MomentOfInertia
-from .mult import Mult
-from .per import Per
-from .power import Power
-from .resistance import Resistance
-from .temperature import Temperature
-from .time import Time
-from .torque import Torque
-from .velocity import Velocity
-from .voltage import Voltage
+import importlib
 
 __all__ = [
     "Acceleration",
@@ -51,3 +27,50 @@ __all__ = [
     "Velocity",
     "Voltage"
 ]
+
+_LAZY_IMPORTS = {
+    "Acceleration": (".acceleration", "Acceleration"),
+    "Angle": (".angle", "Angle"),
+    "AngularAcceleration": (".angular_acceleration", "AngularAcceleration"),
+    "AngularMomentum": (".angular_momentum", "AngularMomentum"),
+    "AngularVelocity": (".angular_velocity", "AngularVelocity"),
+    "Current": (".current", "Current"),
+    "Dimensionless": (".dimensionless", "Dimensionless"),
+    "Distance": (".distance", "Distance"),
+    "Energy": (".energy", "Energy"),
+    "Force": (".force", "Force"),
+    "Frequency": (".frequency", "Frequency"),
+    "LinearAcceleration": (".linear_acceleration", "LinearAcceleration"),
+    "LinearMomentum": (".linear_momentum", "LinearMomentum"),
+    "LinearVelocity": (".linear_velocity", "LinearVelocity"),
+    "Mass": (".mass", "Mass"),
+    "MomentOfInertia": (".moment_of_inertia", "MomentOfInertia"),
+    "Mult": (".mult", "Mult"),
+    "Per": (".per", "Per"),
+    "Power": (".power", "Power"),
+    "Resistance": (".resistance", "Resistance"),
+    "Temperature": (".temperature", "Temperature"),
+    "Time": (".time", "Time"),
+    "Torque": (".torque", "Torque"),
+    "Velocity": (".velocity", "Velocity"),
+    "Voltage": (".voltage", "Voltage"),
+}
+
+
+def __getattr__(name):
+    try:
+        module_name, attribute_name = _LAZY_IMPORTS[name]
+    except KeyError:
+        raise AttributeError(
+            f"module {__name__!r} has no attribute {name!r}"
+        ) from None
+
+    module = importlib.import_module(module_name, __name__)
+    value = getattr(module, attribute_name)
+
+    globals()[name] = value
+    return value
+
+
+def __dir__():
+    return sorted(list(globals()) + __all__)

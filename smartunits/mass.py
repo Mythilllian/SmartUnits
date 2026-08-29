@@ -107,8 +107,8 @@ class MassUnit(Unit):
 
 kilograms = MassUnit(None, 1.0, 0.0, 1.0, -0.0, "kilogram", "kg")
 grams = MassUnit(kilograms, 0.001, 0.0, 1000.0, -0.0, "gram", "g")
-pounds = MassUnit(kilograms, 0.453592, 0.0, 2.2046244201837775, -0.0, "pound", "lb.")
-ounces = MassUnit(kilograms, 0.0283495, 0.0, 35.27399072294044, -0.0, "ounce", "oz.")
+pounds = MassUnit(kilograms, 0.45359237, 0.0, 2.2046226218487757, -0.0, "pound", "lb.")
+ounces = MassUnit(kilograms, 0.028349523125, 0.0, 35.27396194958041, -0.0, "ounce", "oz.")
 nanograms = MassUnit(kilograms, 1e-12, 0.0, 1000000000000.0, -0.0, "nanograms", "nanograms")
 micrograms = MassUnit(kilograms, 1e-09, 0.0, 999999999.9999999, -0.0, "micrograms", "micrograms")
 milligrams = MassUnit(kilograms, 1e-06, 0.0, 1000000.0, -0.0, "milligrams", "milligrams")

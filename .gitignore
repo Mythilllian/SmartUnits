@@ -2,4 +2,4 @@
 venv
 __pycache__
 .python-version
-generate/generated/measures
+*.egg-info

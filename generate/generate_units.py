@@ -168,7 +168,10 @@ def generate_measurement_units(
     output(output_directory, "__init__.py", "")
 
 
-def generate_package_init(output_directory: Path, measurement_configurations: list[dict]):
+def generate_package_init(
+    output_directory: Path,
+    measurement_configurations: list[dict],
+):
     lazy_imports = {
         "Measure": ("smartunits.measure", "Measure"),
         "Unit": ("smartunits.unit", "Unit"),
@@ -177,12 +180,28 @@ def generate_package_init(output_directory: Path, measurement_configurations: li
     }
 
     for measure_name in UNIT_CONFIGURATIONS:
-        lazy_imports[measure_name] = (f"smartunits.measures.{file_name(measure_name)}", measure_name)
+        lazy_imports[measure_name] = (
+            f"smartunits.measures.{file_name(measure_name)}",
+            measure_name,
+        )
 
     for measurement in measurement_configurations:
         name = measurement["name"]
-        unit_name = measurement["unit_type"]
-        lazy_imports[unit_name] = (f"smartunits.{file_name(name)}", unit_name)
+        unit_type = measurement["unit_type"]
+        module_name = f"smartunits.{file_name(name)}"
+
+        lazy_imports[unit_type] = (
+            module_name,
+            unit_type,
+        )
+
+        for unit in measurement.get("units", ()):
+            unit_variable = unit["variable"]
+
+            lazy_imports[unit_variable] = (
+                module_name,
+                unit_variable,
+            )
 
     lines = [
         "from importlib import import_module",
@@ -195,7 +214,9 @@ def generate_package_init(output_directory: Path, measurement_configurations: li
     ]
 
     for name, (module_name, attribute_name) in lazy_imports.items():
-        lines.append(f'    "{name}": ("{module_name}", "{attribute_name}"),')
+        lines.append(
+            f'    "{name}": ("{module_name}", "{attribute_name}"),'
+        )
 
     lines.extend(
         [
@@ -203,21 +224,28 @@ def generate_package_init(output_directory: Path, measurement_configurations: li
             "",
             "",
             "def __getattr__(name: str):",
-            "    if name in _LAZY_IMPORTS:",
+            "    try:",
             "        module_name, attribute_name = _LAZY_IMPORTS[name]",
-            "        module = import_module(module_name)",
-            "        value = getattr(module, attribute_name)",
-            "        globals()[name] = value",
-            "        return value",
-            "    raise AttributeError(f\"module {__name__!r} has no attribute {name!r}\")",
+            "    except KeyError:",
+            '        raise AttributeError(f"module {__name__!r} has no attribute {name!r}") from None',
+            "",
+            "    module = import_module(module_name)",
+            "    value = getattr(module, attribute_name)",
+            "",
+            "    # Cache the resolved attribute so future accesses bypass __getattr__.",
+            "    globals()[name] = value",
+            "    return value",
             "",
             "",
-            "__all__ = [\"Measure\", \"Unit\", \"UnaryFunction\", \"Units\"] + list(_LAZY_IMPORTS)",
+            '__all__ = ["Measure", "Unit", "UnaryFunction", "Units"] + list(_LAZY_IMPORTS)',
         ]
     )
 
-    output(output_directory, "__init__.py", "\n".join(lines) + "\n")
-
+    output(
+        output_directory,
+        "__init__.py",
+        "\n".join(lines) + "\n",
+    )
 
 def generate_units(
     output_directory: Path, template_directory: Path, unit_output_directory: Path
@@ -250,8 +278,8 @@ def generate_units(
         "file_name": file_name,
     }
 
-    init_imports = []
     init_all = []
+
     for unit_name in UNIT_CONFIGURATIONS:
         interface_contents = interface_template.render(
             name=unit_name,
@@ -260,21 +288,62 @@ def generate_units(
             config=UNIT_CONFIGURATIONS,
             helpers=helpers,
         )
-        init_imports.append(f"from .{file_name(unit_name)} import {unit_name}")
-        init_all.append(f"{unit_name}")
 
-        output(root_path / "measures", file_name(unit_name) + ".py", interface_contents)
+        init_all.append(unit_name)
+
+        output(
+            root_path / "measures",
+            file_name(unit_name) + ".py",
+            interface_contents,
+        )
+
+    lazy_imports = "\n".join(
+        f'    "{name}": (".{file_name(name)}", "{name}"),'
+        for name in init_all
+    )
+
+    init_contents = f'''\
+import importlib
+
+__all__ = [
+    {",\n    ".join(f'"{name}"' for name in init_all)}
+]
+
+_LAZY_IMPORTS = {{
+{lazy_imports}
+}}
+
+
+def __getattr__(name):
+    try:
+        module_name, attribute_name = _LAZY_IMPORTS[name]
+    except KeyError:
+        raise AttributeError(
+            f"module {{__name__!r}} has no attribute {{name!r}}"
+        ) from None
+
+    module = importlib.import_module(module_name, __name__)
+    value = getattr(module, attribute_name)
+
+    globals()[name] = value
+    return value
+
+
+def __dir__():
+    return sorted(list(globals()) + __all__)
+'''
 
     output(
         root_path / "measures",
         "__init__.py",
-        "\n".join(init_imports)
-        + "\n\n__all__ = [\n    "
-        + ",\n    ".join(f'\"{name}\"' for name in init_all)
-        + "\n]",
+        init_contents,
     )
 
-    generate_measurement_units(unit_output_directory, template_directory, measurement_configurations)
+    generate_measurement_units(
+        unit_output_directory,
+        template_directory,
+        measurement_configurations,
+    )
     generate_package_init(root_path, measurement_configurations)
 
 def clean_output_directories(root_directory: Path, unit_output_directory: Path):

@@ -106,6 +106,6 @@ class MomentOfInertiaUnit(Unit):
 
 
 kilogram_square_meters = MomentOfInertiaUnit(None, 1.0, 0.0, 1.0, -0.0, "kilogram square meter", "kg m^2")
-pound_square_inches = MomentOfInertiaUnit(kilogram_square_meters, 0.0002926396534295, 0.0, 3417.171898205896, -0.0, "pound square inch", "lb in^2")
+pound_square_inches = MomentOfInertiaUnit(kilogram_square_meters, 0.0002926396534292, 0.0, 3417.171898209399, -0.0, "pound square inch", "lb in^2")
 
 __all__ = ["MomentOfInertiaUnit", "kilogram_square_meters", "pound_square_inches"]

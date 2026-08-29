@@ -101,7 +101,7 @@ class InductanceUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
-henries = InductanceUnit(None, 1, 0.0, 1.0, -0.0, "henries", "henries")
+henries = InductanceUnit(None, 1.0, 0.0, 1.0, -0.0, "henries", "henries")
 nanohenries = InductanceUnit(henries, 1e-09, 0.0, 999999999.9999999, -0.0, "nanohenries", "nanohenries")
 microhenries = InductanceUnit(henries, 1e-06, 0.0, 1000000.0, -0.0, "microhenries", "microhenries")
 millihenries = InductanceUnit(henries, 0.001, 0.0, 1000.0, -0.0, "millihenries", "millihenries")

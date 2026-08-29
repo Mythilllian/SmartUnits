@@ -102,6 +102,6 @@ class AngularMomentumUnit(Unit):
 
 
 kilogram_meters_squared_per_second = AngularMomentumUnit(None, 1.0, 0.0, 1.0, -0.0, "kilogram meter squared per second", "kg m^2/s")
-pound_inches_squared_per_second = AngularMomentumUnit(kilogram_meters_squared_per_second, 0.0002926396534295, 0.0, 3417.171898205896, -0.0, "pound inch squared per second", "lb in^2/s")
+pound_inches_squared_per_second = AngularMomentumUnit(kilogram_meters_squared_per_second, 0.0002926396534292, 0.0, 3417.171898209399, -0.0, "pound inch squared per second", "lb in^2/s")
 
 __all__ = ["AngularMomentumUnit", "kilogram_meters_squared_per_second", "pound_inches_squared_per_second"]

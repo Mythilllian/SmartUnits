@@ -111,7 +111,7 @@ class CurrentUnit(Unit):
 
 amps = CurrentUnit(None, 1.0, 0.0, 1.0, -0.0, "amp", "A")
 milliamps = CurrentUnit(amps, 0.001, 0.0, 1000.0, -0.0, "milliamp", "mA")
-amperes = CurrentUnit(amps, 1, 0.0, 1.0, -0.0, "amperes", "amperes")
+amperes = CurrentUnit(amps, 1.0, 0.0, 1.0, -0.0, "amperes", "amperes")
 nanoamperes = CurrentUnit(amps, 1e-09, 0.0, 999999999.9999999, -0.0, "nanoamperes", "nanoamperes")
 microamperes = CurrentUnit(amps, 1e-06, 0.0, 1000000.0, -0.0, "microamperes", "microamperes")
 milliamperes = CurrentUnit(amps, 0.001, 0.0, 1000.0, -0.0, "milliamperes", "milliamperes")

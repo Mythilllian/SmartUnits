@@ -101,7 +101,7 @@ class RadioactivityUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
-becquerels = RadioactivityUnit(None, 1, 0.0, 1.0, -0.0, "becquerels", "becquerels")
+becquerels = RadioactivityUnit(None, 1.0, 0.0, 1.0, -0.0, "becquerels", "becquerels")
 nanobecquerels = RadioactivityUnit(becquerels, 1e-09, 0.0, 999999999.9999999, -0.0, "nanobecquerels", "nanobecquerels")
 microbecquerels = RadioactivityUnit(becquerels, 1e-06, 0.0, 1000000.0, -0.0, "microbecquerels", "microbecquerels")
 millibecquerels = RadioactivityUnit(becquerels, 0.001, 0.0, 1000.0, -0.0, "millibecquerels", "millibecquerels")
