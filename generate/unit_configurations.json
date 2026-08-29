@@ -1,4 +1,9 @@
 {
+  "AbsorbedDose": {
+    "base_unit": "Grays",
+    "multiply": {},
+    "divide": {}
+  },
   "Acceleration": {
     "base_unit": "unit()",
     "generics": {
@@ -53,6 +58,36 @@
       ]
     }
   },
+  "Area": {
+    "base_unit": "SquareMeters",
+    "multiply": {},
+    "divide": {}
+  },
+  "Capacitance": {
+    "base_unit": "Farads",
+    "multiply": {},
+    "divide": {}
+  },
+  "Charge": {
+    "base_unit": "Coulombs",
+    "multiply": {},
+    "divide": {}
+  },
+  "Compound": {
+    "base_unit": "unit()",
+    "multiply": {},
+    "divide": {}
+  },
+  "Concentration": {
+    "base_unit": "PartsPerMillion",
+    "multiply": {},
+    "divide": {}
+  },
+  "Conductance": {
+    "base_unit": "Siemens",
+    "multiply": {},
+    "divide": {}
+  },
   "Current": {
     "base_unit": "Amps",
     "multiply": {
@@ -66,6 +101,21 @@
     "multiply_methods": {
       "Voltage": "PowerUnit"
     }
+  },
+  "Data": {
+    "base_unit": "Exabytes",
+    "multiply": {},
+    "divide": {}
+  },
+  "DataTransfer": {
+    "base_unit": "ExabytesPerSecond",
+    "multiply": {},
+    "divide": {}
+  },
+  "Density": {
+    "base_unit": "KilogramsPerCubicMeter",
+    "multiply": {},
+    "divide": {}
   },
   "Dimensionless": {
     "base_unit": "Value",
@@ -122,6 +172,11 @@
       "Time": "PowerUnit"
     }
   },
+  "EquivalentDose": {
+    "base_unit": "Sieverts",
+    "multiply": {},
+    "divide": {}
+  },
   "Force": {
     "base_unit": "Newtons",
     "multiply": {
@@ -159,6 +214,16 @@
         "Time"
       ]
     }
+  },
+  "Illuminance": {
+    "base_unit": "Luxes",
+    "multiply": {},
+    "divide": {}
+  },
+  "Inductance": {
+    "base_unit": "Henries",
+    "multiply": {},
+    "divide": {}
   },
   "LinearAcceleration": {
     "base_unit": "MetersPerSecondPerSecond",
@@ -202,6 +267,26 @@
       "Time": "DistanceUnit",
       "Frequency": "LinearAccelerationUnit"
     }
+  },
+  "LuminousFlux": {
+    "base_unit": "Lumens",
+    "multiply": {},
+    "divide": {}
+  },
+  "LuminousIntensity": {
+    "base_unit": "Candelas",
+    "multiply": {},
+    "divide": {}
+  },
+  "MagneticFlux": {
+    "base_unit": "Webers",
+    "multiply": {},
+    "divide": {}
+  },
+  "MagneticStrength": {
+    "base_unit": "Teslas",
+    "multiply": {},
+    "divide": {}
   },
   "Mass": {
     "base_unit": "Kilograms",
@@ -269,6 +354,16 @@
       "Energy": "FrequencyUnit"
     }
   },
+  "Pressure": {
+    "base_unit": "Pascals",
+    "multiply": {},
+    "divide": {}
+  },
+  "Radioactivity": {
+    "base_unit": "Becquerels",
+    "multiply": {},
+    "divide": {}
+  },
   "Resistance": {
     "base_unit": "Ohms",
     "multiply": {
@@ -278,6 +373,16 @@
     "per": {
       "Current": "VoltageUnit"
     }
+  },
+  "SolidAngle": {
+    "base_unit": "Steradians",
+    "multiply": {},
+    "divide": {}
+  },
+  "Substance": {
+    "base_unit": "Moles",
+    "multiply": {},
+    "divide": {}
   },
   "Temperature": {
     "base_unit": "Kelvin",
@@ -349,5 +454,10 @@
     "multiply_methods": {
       "Current": "PowerUnit"
     }
+  },
+  "Volume": {
+    "base_unit": "CubicMeters",
+    "multiply": {},
+    "divide": {}
   }
 }

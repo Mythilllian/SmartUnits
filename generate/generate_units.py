@@ -176,7 +176,6 @@ def generate_package_init(
         "Measure": ("smartunits.measure", "Measure"),
         "Unit": ("smartunits.unit", "Unit"),
         "UnaryFunction": ("smartunits.unary_function", "UnaryFunction"),
-        "Units": ("smartunits.units", "Units"),
     }
 
     for measure_name in UNIT_CONFIGURATIONS:
@@ -237,7 +236,7 @@ def generate_package_init(
             "    return value",
             "",
             "",
-            '__all__ = ["Measure", "Unit", "UnaryFunction", "Units"] + list(_LAZY_IMPORTS)',
+            '__all__ = ["Measure", "Unit", "UnaryFunction"] + list(_LAZY_IMPORTS)',
         ]
     )
 

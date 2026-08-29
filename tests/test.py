@@ -1,12 +1,12 @@
 import unittest
 
 import smartunits
-from smartunits import DistanceUnit, Measure, TemperatureUnit, UnaryFunction, Unit, radians, degrees
-from smartunits.current import amps, milliamps
-from smartunits.distance import feet, inches, meters, miles
-from smartunits.temperature import celsius, fahrenheit, kelvin
-from smartunits.voltage import millivolts, volts
-
+# from smartunits import DistanceUnit, Measure, TemperatureUnit, UnaryFunction, Unit, radians, degrees
+# from smartunits.current import amps, milliamps
+# from smartunits.distance import feet, inches, meters, miles
+# from smartunits.temperature import celsius, fahrenheit, kelvin
+# from smartunits.voltage import millivolts, volts
+from smartunits import *
 
 class DistanceTests(unittest.TestCase):
 	def test_linear_distance_conversions(self) -> None:
@@ -51,6 +51,8 @@ class AngleTests(unittest.TestCase):
 	def test_angle_conversions(self) -> None:
 		self.assertAlmostEqual(radians.of(3.14159).in_unit(degrees), 180.0, places=2)
 		self.assertAlmostEqual(degrees.of(180).in_unit(radians), 3.14159, places=2)
+		self.assertAlmostEqual(radians.conversion_to(degrees).apply(3.14159), 180.0, places=2)
+		self.assertAlmostEqual(radians.conversion_from(degrees).apply(180), 3.14159, places=2)
 
 if __name__ == "__main__":
 	unittest.main()
