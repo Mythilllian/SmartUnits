@@ -38,6 +38,19 @@ class Charge(Measure["ChargeUnit"], ABC):
     def base_unit(self) -> "ChargeUnit":
         return self._unit._base_unit
 
+    @override
+    def into(self, unit: "ChargeUnit") -> "ChargeUnit":
+        if unit is self._unit:
+            return self._magnitude
+        return "ChargeUnit".of(unit.from_base_units(self._base_unit_magnitude))
+
+    @override
+    def in_unit(self, unit: "ChargeUnit") -> float:
+        if unit is self._unit:
+            return self._magnitude
+        return unit.from_base_units(self._base_unit_magnitude)
+
+    @override
     def in_units(self, unit: "ChargeUnit") -> float:
         if unit is self._unit:
             return self._magnitude

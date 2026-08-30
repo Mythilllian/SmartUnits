@@ -38,6 +38,19 @@ class Data(Measure["DataUnit"], ABC):
     def base_unit(self) -> "DataUnit":
         return self._unit._base_unit
 
+    @override
+    def into(self, unit: "DataUnit") -> "DataUnit":
+        if unit is self._unit:
+            return self._magnitude
+        return "DataUnit".of(unit.from_base_units(self._base_unit_magnitude))
+
+    @override
+    def in_unit(self, unit: "DataUnit") -> float:
+        if unit is self._unit:
+            return self._magnitude
+        return unit.from_base_units(self._base_unit_magnitude)
+
+    @override
     def in_units(self, unit: "DataUnit") -> float:
         if unit is self._unit:
             return self._magnitude

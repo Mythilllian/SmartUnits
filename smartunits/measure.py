@@ -23,8 +23,18 @@ class Measure(ABC, Generic[U]):
     def unit(self) -> U:
         return self._unit
 
+    def into(self, unit: U) -> U:
+        if unit is self._unit:
+            return self._magnitude
+        return unit.from_base_units(self._base_unit_magnitude)
+
     def in_unit(self, unit: U) -> float:
         if self._unit == unit:
+            return self._magnitude
+        return unit.from_base_units(self._base_unit_magnitude)
+
+    def in_units(self, unit: U) -> float:
+        if unit is self._unit:
             return self._magnitude
         return unit.from_base_units(self._base_unit_magnitude)
 
@@ -258,6 +268,12 @@ class Measure(ABC, Generic[U]):
 
     def __eq__(self, other: "Measure[U]") -> bool:
         return self.is_equivalent(other)
+
+    def __int__(self) -> int:
+        return int(self.magnitude())
+
+    def __float__(self) -> float:
+        return self.magnitude()
 
     def __str__(self) -> str:
         return self.to_long_string()

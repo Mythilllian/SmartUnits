@@ -38,6 +38,19 @@ class Temperature(Measure["TemperatureUnit"], ABC):
     def base_unit(self) -> "TemperatureUnit":
         return self._unit._base_unit
 
+    @override
+    def into(self, unit: "TemperatureUnit") -> "TemperatureUnit":
+        if unit is self._unit:
+            return self._magnitude
+        return "TemperatureUnit".of(unit.from_base_units(self._base_unit_magnitude))
+
+    @override
+    def in_unit(self, unit: "TemperatureUnit") -> float:
+        if unit is self._unit:
+            return self._magnitude
+        return unit.from_base_units(self._base_unit_magnitude)
+
+    @override
     def in_units(self, unit: "TemperatureUnit") -> float:
         if unit is self._unit:
             return self._magnitude

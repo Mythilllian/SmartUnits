@@ -38,6 +38,19 @@ class LinearMomentum(Measure["LinearMomentumUnit"], ABC):
     def base_unit(self) -> "LinearMomentumUnit":
         return self._unit._base_unit
 
+    @override
+    def into(self, unit: "LinearMomentumUnit") -> "LinearMomentumUnit":
+        if unit is self._unit:
+            return self._magnitude
+        return "LinearMomentumUnit".of(unit.from_base_units(self._base_unit_magnitude))
+
+    @override
+    def in_unit(self, unit: "LinearMomentumUnit") -> float:
+        if unit is self._unit:
+            return self._magnitude
+        return unit.from_base_units(self._base_unit_magnitude)
+
+    @override
     def in_units(self, unit: "LinearMomentumUnit") -> float:
         if unit is self._unit:
             return self._magnitude

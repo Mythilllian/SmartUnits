@@ -14,6 +14,7 @@ import json
 import re
 import shutil
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -178,9 +179,14 @@ def generate_package_init(
         "UnaryFunction": ("smartunits.unary_function", "UnaryFunction"),
     }
 
+    # Maps exported names to their static type.
+    lazy_types: dict[str, str] = {}
+
     for measure_name in UNIT_CONFIGURATIONS:
+        module_name = f"smartunits.measures.{file_name(measure_name)}"
+
         lazy_imports[measure_name] = (
-            f"smartunits.measures.{file_name(measure_name)}",
+            module_name,
             measure_name,
         )
 
@@ -189,11 +195,19 @@ def generate_package_init(
         unit_type = measurement["unit_type"]
         module_name = f"smartunits.{file_name(name)}"
 
+        # Keep existing unit type lazy import.
         lazy_imports[unit_type] = (
             module_name,
             unit_type,
         )
 
+        # Add the measure itself too, e.g. Angle.
+        lazy_imports[name] = (
+            f"smartunits.measures.{file_name(name)}",
+            name,
+        )
+
+        # Add every specific unit, e.g. radians and revolutions.
         for unit in measurement.get("units", ()):
             unit_variable = unit["variable"]
 
@@ -202,15 +216,37 @@ def generate_package_init(
                 unit_variable,
             )
 
+            # radians: Angle
+            lazy_types[unit_variable] = name
+
     lines = [
         "from importlib import import_module",
+        "from typing import TYPE_CHECKING",
         "",
         "from .measure import Measure",
         "from .unit import Unit",
         "from .unary_function import UnaryFunction",
         "",
-        "_LAZY_IMPORTS: dict[str, tuple[str, str]] = {",
+        "if TYPE_CHECKING:",
     ]
+
+    type_checking_imports: dict[str, list[str]] = {}
+
+    for name, (module_name, attribute_name) in lazy_imports.items():
+        type_checking_imports.setdefault(module_name, []).append(attribute_name)
+
+    for module_name, attributes in type_checking_imports.items():
+        relative_module = module_name.replace("smartunits.", ".")
+        lines.append(
+        f"    from {relative_module} import {attributes[0]}"
+        )
+
+    lines.extend(
+        [
+            "",
+            "_LAZY_IMPORTS: dict[str, tuple[str, str]] = {",
+        ]
+    )
 
     for name, (module_name, attribute_name) in lazy_imports.items():
         lines.append(
@@ -231,12 +267,12 @@ def generate_package_init(
             "    module = import_module(module_name)",
             "    value = getattr(module, attribute_name)",
             "",
-            "    # Cache the resolved attribute so future accesses bypass __getattr__.",
+            "    # Cache resolved values for future access.",
             "    globals()[name] = value",
             "    return value",
             "",
             "",
-            '__all__ = ["Measure", "Unit", "UnaryFunction"] + list(_LAZY_IMPORTS)',
+            "__all__ = list(_LAZY_IMPORTS)",
         ]
     )
 

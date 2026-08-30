@@ -40,6 +40,19 @@ class Mult(Measure["MultUnit[A, B]"], ABC, Generic[A, B]):
     def base_unit(self) -> "MultUnit[A, B]":
         return self._unit._base_unit
 
+    @override
+    def into(self, unit: "MultUnit[A, B]") -> "MultUnit[A, B]":
+        if unit is self._unit:
+            return self._magnitude
+        return "MultUnit[A, B]".of(unit.from_base_units(self._base_unit_magnitude))
+
+    @override
+    def in_unit(self, unit: "MultUnit[A, B]") -> float:
+        if unit is self._unit:
+            return self._magnitude
+        return unit.from_base_units(self._base_unit_magnitude)
+
+    @override
     def in_units(self, unit: "MultUnit[A, B]") -> float:
         if unit is self._unit:
             return self._magnitude

@@ -38,6 +38,19 @@ class Angle(Measure["AngleUnit"], ABC):
     def base_unit(self) -> "AngleUnit":
         return self._unit._base_unit
 
+    @override
+    def into(self, unit: "AngleUnit") -> "AngleUnit":
+        if unit is self._unit:
+            return self._magnitude
+        return "AngleUnit".of(unit.from_base_units(self._base_unit_magnitude))
+
+    @override
+    def in_unit(self, unit: "AngleUnit") -> float:
+        if unit is self._unit:
+            return self._magnitude
+        return unit.from_base_units(self._base_unit_magnitude)
+
+    @override
     def in_units(self, unit: "AngleUnit") -> float:
         if unit is self._unit:
             return self._magnitude

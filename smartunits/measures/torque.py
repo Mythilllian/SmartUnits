@@ -38,6 +38,19 @@ class Torque(Measure["TorqueUnit"], ABC):
     def base_unit(self) -> "TorqueUnit":
         return self._unit._base_unit
 
+    @override
+    def into(self, unit: "TorqueUnit") -> "TorqueUnit":
+        if unit is self._unit:
+            return self._magnitude
+        return "TorqueUnit".of(unit.from_base_units(self._base_unit_magnitude))
+
+    @override
+    def in_unit(self, unit: "TorqueUnit") -> float:
+        if unit is self._unit:
+            return self._magnitude
+        return unit.from_base_units(self._base_unit_magnitude)
+
+    @override
     def in_units(self, unit: "TorqueUnit") -> float:
         if unit is self._unit:
             return self._magnitude

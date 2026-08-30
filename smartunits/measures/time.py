@@ -38,6 +38,19 @@ class Time(Measure["TimeUnit"], ABC):
     def base_unit(self) -> "TimeUnit":
         return self._unit._base_unit
 
+    @override
+    def into(self, unit: "TimeUnit") -> "TimeUnit":
+        if unit is self._unit:
+            return self._magnitude
+        return "TimeUnit".of(unit.from_base_units(self._base_unit_magnitude))
+
+    @override
+    def in_unit(self, unit: "TimeUnit") -> float:
+        if unit is self._unit:
+            return self._magnitude
+        return unit.from_base_units(self._base_unit_magnitude)
+
+    @override
     def in_units(self, unit: "TimeUnit") -> float:
         if unit is self._unit:
             return self._magnitude

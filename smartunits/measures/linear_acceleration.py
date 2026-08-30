@@ -38,6 +38,19 @@ class LinearAcceleration(Measure["LinearAccelerationUnit"], ABC):
     def base_unit(self) -> "LinearAccelerationUnit":
         return self._unit._base_unit
 
+    @override
+    def into(self, unit: "LinearAccelerationUnit") -> "LinearAccelerationUnit":
+        if unit is self._unit:
+            return self._magnitude
+        return "LinearAccelerationUnit".of(unit.from_base_units(self._base_unit_magnitude))
+
+    @override
+    def in_unit(self, unit: "LinearAccelerationUnit") -> float:
+        if unit is self._unit:
+            return self._magnitude
+        return unit.from_base_units(self._base_unit_magnitude)
+
+    @override
     def in_units(self, unit: "LinearAccelerationUnit") -> float:
         if unit is self._unit:
             return self._magnitude

@@ -38,6 +38,19 @@ class Frequency(Measure["FrequencyUnit"], ABC):
     def base_unit(self) -> "FrequencyUnit":
         return self._unit._base_unit
 
+    @override
+    def into(self, unit: "FrequencyUnit") -> "FrequencyUnit":
+        if unit is self._unit:
+            return self._magnitude
+        return "FrequencyUnit".of(unit.from_base_units(self._base_unit_magnitude))
+
+    @override
+    def in_unit(self, unit: "FrequencyUnit") -> float:
+        if unit is self._unit:
+            return self._magnitude
+        return unit.from_base_units(self._base_unit_magnitude)
+
+    @override
     def in_units(self, unit: "FrequencyUnit") -> float:
         if unit is self._unit:
             return self._magnitude

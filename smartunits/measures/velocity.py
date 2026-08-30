@@ -39,6 +39,19 @@ class Velocity(Measure["VelocityUnit[D]"], ABC, Generic[D]):
     def base_unit(self) -> "VelocityUnit[D]":
         return self._unit._base_unit
 
+    @override
+    def into(self, unit: "VelocityUnit[D]") -> "VelocityUnit[D]":
+        if unit is self._unit:
+            return self._magnitude
+        return "VelocityUnit[D]".of(unit.from_base_units(self._base_unit_magnitude))
+
+    @override
+    def in_unit(self, unit: "VelocityUnit[D]") -> float:
+        if unit is self._unit:
+            return self._magnitude
+        return unit.from_base_units(self._base_unit_magnitude)
+
+    @override
     def in_units(self, unit: "VelocityUnit[D]") -> float:
         if unit is self._unit:
             return self._magnitude

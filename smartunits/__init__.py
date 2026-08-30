@@ -1,8 +1,108 @@
 from importlib import import_module
+from typing import TYPE_CHECKING
 
 from .measure import Measure
 from .unit import Unit
 from .unary_function import UnaryFunction
+
+if TYPE_CHECKING:
+    from .measure import Measure
+    from .unit import Unit
+    from .unary_function import UnaryFunction
+    from .measures.absorbed_dose import AbsorbedDose
+    from .measures.acceleration import Acceleration
+    from .measures.angle import Angle
+    from .measures.angular_acceleration import AngularAcceleration
+    from .measures.angular_momentum import AngularMomentum
+    from .measures.angular_velocity import AngularVelocity
+    from .measures.area import Area
+    from .measures.capacitance import Capacitance
+    from .measures.charge import Charge
+    from .measures.compound import Compound
+    from .measures.concentration import Concentration
+    from .measures.conductance import Conductance
+    from .measures.current import Current
+    from .measures.data import Data
+    from .measures.data_transfer import DataTransfer
+    from .measures.density import Density
+    from .measures.dimensionless import Dimensionless
+    from .measures.distance import Distance
+    from .measures.energy import Energy
+    from .measures.equivalent_dose import EquivalentDose
+    from .measures.force import Force
+    from .measures.frequency import Frequency
+    from .measures.illuminance import Illuminance
+    from .measures.inductance import Inductance
+    from .measures.linear_acceleration import LinearAcceleration
+    from .measures.linear_momentum import LinearMomentum
+    from .measures.linear_velocity import LinearVelocity
+    from .measures.luminous_flux import LuminousFlux
+    from .measures.luminous_intensity import LuminousIntensity
+    from .measures.magnetic_flux import MagneticFlux
+    from .measures.magnetic_strength import MagneticStrength
+    from .measures.mass import Mass
+    from .measures.moment_of_inertia import MomentOfInertia
+    from .measures.mult import Mult
+    from .measures.per import Per
+    from .measures.power import Power
+    from .measures.pressure import Pressure
+    from .measures.radioactivity import Radioactivity
+    from .measures.resistance import Resistance
+    from .measures.solid_angle import SolidAngle
+    from .measures.substance import Substance
+    from .measures.temperature import Temperature
+    from .measures.time import Time
+    from .measures.torque import Torque
+    from .measures.velocity import Velocity
+    from .measures.voltage import Voltage
+    from .measures.volume import Volume
+    from .acceleration import AccelerationUnit
+    from .linear_acceleration import meters_per_second_squared
+    from .angle import AngleUnit
+    from .angular_acceleration import AngularAccelerationUnit
+    from .angular_momentum import AngularMomentumUnit
+    from .angular_velocity import AngularVelocityUnit
+    from .current import CurrentUnit
+    from .dimensionless import DimensionlessUnit
+    from .concentration import percent
+    from .distance import DistanceUnit
+    from .energy import EnergyUnit
+    from .force import ForceUnit
+    from .mass import pounds
+    from .frequency import FrequencyUnit
+    from .linear_momentum import LinearMomentumUnit
+    from .linear_velocity import LinearVelocityUnit
+    from .velocity import meters_per_second
+    from .moment_of_inertia import MomentOfInertiaUnit
+    from .mult import MultUnit
+    from .per import PerUnit
+    from .power import PowerUnit
+    from .resistance import ResistanceUnit
+    from .temperature import TemperatureUnit
+    from .time import TimeUnit
+    from .torque import TorqueUnit
+    from .voltage import VoltageUnit
+    from .area import AreaUnit
+    from .capacitance import CapacitanceUnit
+    from .compound import CompoundUnit
+    from .charge import ChargeUnit
+    from .conductance import ConductanceUnit
+    from .data import DataUnit
+    from .data_transfer import DataTransferUnit
+    from .density import DensityUnit
+    from .illuminance import IlluminanceUnit
+    from .inductance import InductanceUnit
+    from .luminous_flux import LuminousFluxUnit
+    from .luminous_intensity import LuminousIntensityUnit
+    from .magnetic_flux import MagneticFluxUnit
+    from .magnetic_strength import MagneticStrengthUnit
+    from .pressure import PressureUnit
+    from .solid_angle import SolidAngleUnit
+    from .substance import SubstanceUnit
+    from .volume import VolumeUnit
+    from .radioactivity import RadioactivityUnit
+    from .absorbed_dose import AbsorbedDoseUnit
+    from .equivalent_dose import EquivalentDoseUnit
 
 _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "Measure": ("smartunits.measure", "Measure"),
@@ -440,9 +540,9 @@ def __getattr__(name: str):
     module = import_module(module_name)
     value = getattr(module, attribute_name)
 
-    # Cache the resolved attribute so future accesses bypass __getattr__.
+    # Cache resolved values for future access.
     globals()[name] = value
     return value
 
 
-__all__ = ["Measure", "Unit", "UnaryFunction"] + list(_LAZY_IMPORTS)
+__all__ = list(_LAZY_IMPORTS)

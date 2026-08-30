@@ -38,6 +38,19 @@ class LuminousFlux(Measure["LuminousFluxUnit"], ABC):
     def base_unit(self) -> "LuminousFluxUnit":
         return self._unit._base_unit
 
+    @override
+    def into(self, unit: "LuminousFluxUnit") -> "LuminousFluxUnit":
+        if unit is self._unit:
+            return self._magnitude
+        return "LuminousFluxUnit".of(unit.from_base_units(self._base_unit_magnitude))
+
+    @override
+    def in_unit(self, unit: "LuminousFluxUnit") -> float:
+        if unit is self._unit:
+            return self._magnitude
+        return unit.from_base_units(self._base_unit_magnitude)
+
+    @override
     def in_units(self, unit: "LuminousFluxUnit") -> float:
         if unit is self._unit:
             return self._magnitude

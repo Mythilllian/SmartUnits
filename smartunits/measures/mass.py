@@ -38,6 +38,19 @@ class Mass(Measure["MassUnit"], ABC):
     def base_unit(self) -> "MassUnit":
         return self._unit._base_unit
 
+    @override
+    def into(self, unit: "MassUnit") -> "MassUnit":
+        if unit is self._unit:
+            return self._magnitude
+        return "MassUnit".of(unit.from_base_units(self._base_unit_magnitude))
+
+    @override
+    def in_unit(self, unit: "MassUnit") -> float:
+        if unit is self._unit:
+            return self._magnitude
+        return unit.from_base_units(self._base_unit_magnitude)
+
+    @override
     def in_units(self, unit: "MassUnit") -> float:
         if unit is self._unit:
             return self._magnitude

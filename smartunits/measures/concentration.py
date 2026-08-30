@@ -38,6 +38,19 @@ class Concentration(Measure["ConcentrationUnit"], ABC):
     def base_unit(self) -> "ConcentrationUnit":
         return self._unit._base_unit
 
+    @override
+    def into(self, unit: "ConcentrationUnit") -> "ConcentrationUnit":
+        if unit is self._unit:
+            return self._magnitude
+        return "ConcentrationUnit".of(unit.from_base_units(self._base_unit_magnitude))
+
+    @override
+    def in_unit(self, unit: "ConcentrationUnit") -> float:
+        if unit is self._unit:
+            return self._magnitude
+        return unit.from_base_units(self._base_unit_magnitude)
+
+    @override
     def in_units(self, unit: "ConcentrationUnit") -> float:
         if unit is self._unit:
             return self._magnitude

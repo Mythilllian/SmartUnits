@@ -38,6 +38,19 @@ class AbsorbedDose(Measure["AbsorbedDoseUnit"], ABC):
     def base_unit(self) -> "AbsorbedDoseUnit":
         return self._unit._base_unit
 
+    @override
+    def into(self, unit: "AbsorbedDoseUnit") -> "AbsorbedDoseUnit":
+        if unit is self._unit:
+            return self._magnitude
+        return "AbsorbedDoseUnit".of(unit.from_base_units(self._base_unit_magnitude))
+
+    @override
+    def in_unit(self, unit: "AbsorbedDoseUnit") -> float:
+        if unit is self._unit:
+            return self._magnitude
+        return unit.from_base_units(self._base_unit_magnitude)
+
+    @override
     def in_units(self, unit: "AbsorbedDoseUnit") -> float:
         if unit is self._unit:
             return self._magnitude

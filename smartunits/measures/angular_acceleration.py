@@ -38,6 +38,19 @@ class AngularAcceleration(Measure["AngularAccelerationUnit"], ABC):
     def base_unit(self) -> "AngularAccelerationUnit":
         return self._unit._base_unit
 
+    @override
+    def into(self, unit: "AngularAccelerationUnit") -> "AngularAccelerationUnit":
+        if unit is self._unit:
+            return self._magnitude
+        return "AngularAccelerationUnit".of(unit.from_base_units(self._base_unit_magnitude))
+
+    @override
+    def in_unit(self, unit: "AngularAccelerationUnit") -> float:
+        if unit is self._unit:
+            return self._magnitude
+        return unit.from_base_units(self._base_unit_magnitude)
+
+    @override
     def in_units(self, unit: "AngularAccelerationUnit") -> float:
         if unit is self._unit:
             return self._magnitude

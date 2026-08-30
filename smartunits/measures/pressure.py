@@ -38,6 +38,19 @@ class Pressure(Measure["PressureUnit"], ABC):
     def base_unit(self) -> "PressureUnit":
         return self._unit._base_unit
 
+    @override
+    def into(self, unit: "PressureUnit") -> "PressureUnit":
+        if unit is self._unit:
+            return self._magnitude
+        return "PressureUnit".of(unit.from_base_units(self._base_unit_magnitude))
+
+    @override
+    def in_unit(self, unit: "PressureUnit") -> float:
+        if unit is self._unit:
+            return self._magnitude
+        return unit.from_base_units(self._base_unit_magnitude)
+
+    @override
     def in_units(self, unit: "PressureUnit") -> float:
         if unit is self._unit:
             return self._magnitude

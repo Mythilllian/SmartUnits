@@ -38,6 +38,19 @@ class Density(Measure["DensityUnit"], ABC):
     def base_unit(self) -> "DensityUnit":
         return self._unit._base_unit
 
+    @override
+    def into(self, unit: "DensityUnit") -> "DensityUnit":
+        if unit is self._unit:
+            return self._magnitude
+        return "DensityUnit".of(unit.from_base_units(self._base_unit_magnitude))
+
+    @override
+    def in_unit(self, unit: "DensityUnit") -> float:
+        if unit is self._unit:
+            return self._magnitude
+        return unit.from_base_units(self._base_unit_magnitude)
+
+    @override
     def in_units(self, unit: "DensityUnit") -> float:
         if unit is self._unit:
             return self._magnitude

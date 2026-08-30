@@ -38,6 +38,19 @@ class Energy(Measure["EnergyUnit"], ABC):
     def base_unit(self) -> "EnergyUnit":
         return self._unit._base_unit
 
+    @override
+    def into(self, unit: "EnergyUnit") -> "EnergyUnit":
+        if unit is self._unit:
+            return self._magnitude
+        return "EnergyUnit".of(unit.from_base_units(self._base_unit_magnitude))
+
+    @override
+    def in_unit(self, unit: "EnergyUnit") -> float:
+        if unit is self._unit:
+            return self._magnitude
+        return unit.from_base_units(self._base_unit_magnitude)
+
+    @override
     def in_units(self, unit: "EnergyUnit") -> float:
         if unit is self._unit:
             return self._magnitude
