@@ -1,5 +1,4 @@
 [
-  "Acceleration<Any>",
   "Angle",
   "AngularAcceleration",
   "AngularMomentum",
@@ -15,13 +14,10 @@
   "LinearVelocity",
   "Mass",
   "MomentOfInertia",
-  "Mult<Any, Any>",
-  "Per<Any, Any>",
   "Power",
   "Resistance",
   "Temperature",
   "Time",
   "Torque",
-  "Velocity[Any, Any]",
   "Voltage"
 ]

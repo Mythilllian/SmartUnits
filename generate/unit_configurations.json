@@ -4,16 +4,6 @@
     "multiply": {},
     "divide": {}
   },
-  "Acceleration": {
-    "base_unit": "unit()",
-    "generics": {
-      "D": {
-        "extends": "Unit"
-      }
-    },
-    "multiply": {},
-    "divide": {}
-  },
   "Angle": {
     "base_unit": "Radians",
     "multiply": {
@@ -52,10 +42,13 @@
       "Time": "AngularAcceleration"
     },
     "extra": {
-      "code": "def as_frequency(self) -> \"Frequency\":\n      return Hertz.of_units(self.base_unit_magnitude())",
+      "code": "def as_frequency(self) -> \"Frequency\":\n      from .frequency import hertz\n      return hertz.of(self.base_unit_magnitude() * 0.15915494309189535) # 1/(2*pi)",
       "types": [
         "Frequency"
       ]
+    },
+    "per": {
+      "Time": "AngularAccelerationUnit"
     }
   },
   "Area": {
@@ -70,11 +63,6 @@
   },
   "Charge": {
     "base_unit": "Coulombs",
-    "multiply": {},
-    "divide": {}
-  },
-  "Compound": {
-    "base_unit": "unit()",
     "multiply": {},
     "divide": {}
   },
@@ -95,9 +83,6 @@
       "Resistance": "Voltage"
     },
     "divide": {},
-    "per": {
-      "Time": "VelocityUnit"
-    },
     "multiply_methods": {
       "Voltage": "PowerUnit"
     }
@@ -201,15 +186,8 @@
       "AngularVelocity": "AngularAcceleration"
     },
     "divide": {},
-    "per": {
-      "Time": "DimensionlessUnit",
-      "Distance": "LinearVelocityUnit",
-      "LinearVelocity": "LinearAccelerationUnit",
-      "Angle": "AngularVelocityUnit",
-      "AngularVelocity": "AngularAccelerationUnit"
-    },
     "extra": {
-      "code": "def as_period(self) -> \"Time\":\n      return Seconds.of(1 / self.base_unit_magnitude());",
+      "code": "def as_period(self) -> \"Time\":\n      from .time import seconds\n      return seconds.of(1 / self.base_unit_magnitude())",
       "types": [
         "Time"
       ]
@@ -232,9 +210,6 @@
     },
     "divide": {
       "Frequency": "LinearVelocity"
-    },
-    "per": {
-      "Time": "LinearVelocityUnit"
     }
   },
   "LinearMomentum": {
@@ -248,7 +223,6 @@
       "Time": "Force"
     },
     "per": {
-      "Frequency": "ForceUnit",
       "Mass": "LinearVelocityUnit",
       "LinearVelocity": "MassUnit",
       "Time": "ForceUnit"
@@ -264,8 +238,8 @@
       "Time": "LinearAcceleration"
     },
     "per": {
-      "Time": "DistanceUnit",
-      "Frequency": "LinearAccelerationUnit"
+      "Time": "LinearAccelerationUnit",
+      "Frequency": "DistanceUnit"
     }
   },
   "LuminousFlux": {
@@ -293,50 +267,14 @@
     "multiply": {
       "LinearAcceleration": "Force"
     },
-    "divide": {},
-    "per": {
-      "LinearAcceleration": "ForceUnit"
-    }
+    "divide": {}
   },
   "MomentOfInertia": {
     "base_unit": "KilogramSquareMeters",
     "multiply": {
       "AngularVelocity": "AngularMomentum"
     },
-    "divide": {},
-    "per": {
-      "AngularVelocity": "AngularMomentumUnit"
-    }
-  },
-  "Mult": {
-    "base_unit": "unit()",
-    "generics": {
-      "A": {
-        "extends": "Unit"
-      },
-      "B": {
-        "extends": "Unit"
-      }
-    },
-    "multiply": {},
     "divide": {}
-  },
-  "Per": {
-    "base_unit": "unit()",
-    "generics": {
-      "Dividend": {
-        "extends": "Unit"
-      },
-      "Divisor": {
-        "extends": "Unit"
-      }
-    },
-    "multiply": {},
-    "divide": {},
-    "extra": {
-      "code": "def times_divisor(self, multiplier: Measure[Divisor]) ->  Measure[Dividend]: \n      return self._base_unit._numerator.of_base_units(self._base_unit_magnitude * multiplier._base_unit_magnitude);\n\ndef reciprocal(self) -> PerUnit[Divisor, Dividend]:\n      # May return a velocity if Divisor == TimeUnit, so we can't guarantee a \"Per\" instance\n      return self._base_unit.reciprocal().of_base_units(1 / self._base_unit_magnitude)\n",
-      "types": {}
-    }
   },
   "Power": {
     "base_unit": "Watts",
@@ -369,10 +307,7 @@
     "multiply": {
       "Current": "Voltage"
     },
-    "divide": {},
-    "per": {
-      "Current": "VoltageUnit"
-    }
+    "divide": {}
   },
   "SolidAngle": {
     "base_unit": "Steradians",
@@ -405,7 +340,7 @@
       "Time": "DimensionlessUnit"
     },
     "extra": {
-      "code": "def as_frequency(self) -> \"Frequency\":\n      return Hertz.of(1 / self.base_unit_magnitude())",
+      "code": "def as_frequency(self) -> \"Frequency\":\n      from .frequency import hertz\n      return hertz.of(1 / self.base_unit_magnitude())",
       "types": [
         "Frequency"
       ]
@@ -423,20 +358,6 @@
       "Force": "DistanceUnit"
     }
   },
-  "Velocity": {
-    "base_unit": "unit()",
-    "generics": {
-      "D": {
-        "extends": "Unit"
-      }
-    },
-    "multiply": {
-      "Time": {
-        "implementation": "                  \nreturn self._unit._numerator._of_base_units(self._base_unit_magnitude * other._base_unit_magnitude)\n                "
-      }
-    },
-    "divide": {}
-  },
   "Voltage": {
     "base_unit": "Volts",
     "multiply": {
@@ -447,7 +368,6 @@
       "Current": "Resistance"
     },
     "per": {
-      "Time": "VelocityUnit",
       "Resistance": "CurrentUnit",
       "Current": "ResistanceUnit"
     },

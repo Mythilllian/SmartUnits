@@ -2,10 +2,17 @@ from .unary_function import UnaryFunction
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .measure import Measure
-    from .time_unit import TimeUnit
 
+import math
 from abc import ABC, abstractmethod
 from typing import Any
+
+EQUIVALENCE_THRESHOLD: float = 1e-12
+
+
+def is_close(a: float, b: float, threshold: float = EQUIVALENCE_THRESHOLD) -> bool:
+    return math.isclose(a, b, rel_tol=threshold, abs_tol=threshold)
+
 
 class Unit(ABC):
 
@@ -24,7 +31,7 @@ class Unit(ABC):
         name: str,
         symbol: str,
     ) -> None:
-        self._base_unit: "Unit" = base_unit
+        self._base_unit: "Unit" = base_unit if base_unit is not None else self
         self._name: str = name
         self._symbol: str = symbol
 
@@ -40,21 +47,31 @@ class Unit(ABC):
         )
 
     @abstractmethod
-    def of(self, magnitude: float) -> "Measure[Any]":
+    def of(self, magnitude: float) -> "Measure":
         pass
 
-    def of_base_units(self, magnitude: float) -> "Measure[Any]":
+    def of_base_units(self, magnitude: float) -> "Measure":
         return self.of(self.from_base_units(magnitude))        
 
-    def zero(self) -> "Measure[Any]":
+    def zero(self) -> "Measure":
         return self._zero
 
-    def one(self) -> "Measure[Any]":
+    def one(self) -> "Measure":
         return self._one
 
-    @abstractmethod
-    def per(self, time: "TimeUnit") -> "Unit":
-        pass
+    def per(self, other: "Unit") -> "Unit":
+        from .per import PerUnit
+        return PerUnit.combine(self, other)
+
+    def mult(self, other: "Unit") -> "Unit":
+        from .mult import MultUnit
+        return MultUnit.combine(self, other)
+
+    def __mul__(self, other: "Unit") -> "Unit":
+        return self.mult(other)
+
+    def __truediv__(self, other: "Unit") -> "Unit":
+        return self.per(other)
 
     @abstractmethod
     def convert_from(self, magnitude: float, other_unit: "Unit") -> float:
@@ -75,6 +92,9 @@ class Unit(ABC):
     def get_base_unit(self) -> "Unit":
         return self._base_unit
 
+    def base_scale(self) -> float:
+        return self.to_base_units(1) - self.to_base_units(0)
+
     def is_base_unit(self) -> bool:
         return self == self._base_unit
 
@@ -94,23 +114,23 @@ class Unit(ABC):
     def conversion_to_base_units(self) -> UnaryFunction:
         pass
 
-    def equivalent(self, other: "Unit", equivalence_threshold: float = 1e-12) -> bool:
+    def equivalent(self, other: "Unit", equivalence_threshold: float = EQUIVALENCE_THRESHOLD) -> bool:
         if type(self) is not type(other):
             return False
 
         arbitrary: float = 16_777.214  # test value, should be essentially random
 
         return (
-            abs(
-                self.from_base_units(arbitrary)
-                - other.from_base_units(arbitrary)
+            is_close(
+                self.from_base_units(arbitrary),
+                other.from_base_units(arbitrary),
+                equivalence_threshold,
             )
-            <= equivalence_threshold
-            and abs(
-                self.to_base_units(arbitrary) 
-                - other.to_base_units(arbitrary)
+            and is_close(
+                self.to_base_units(arbitrary),
+                other.to_base_units(arbitrary),
+                equivalence_threshold,
             )
-            <= equivalence_threshold
         )
 
     def __eq__(self, o: object) -> bool:
@@ -126,8 +146,6 @@ class Unit(ABC):
             (
                 self._name,
                 self._symbol,
-                self._base_unit,
-                self._one
             )
         )
 

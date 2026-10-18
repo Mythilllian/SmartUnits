@@ -1,166 +1,536 @@
 from importlib import import_module
 from typing import TYPE_CHECKING
 
-from .measure import Measure
-from .unit import Unit
-from .unary_function import UnaryFunction
+from .core.measure import Measure
+from .core.unit import Unit
+from .core.unary_function import UnaryFunction
 
 if TYPE_CHECKING:
-    from .measure import Measure
-    from .unit import Unit
-    from .unary_function import UnaryFunction
-    from .measures.absorbed_dose import AbsorbedDose
-    from .measures.acceleration import Acceleration
-    from .measures.angle import Angle
-    from .measures.angular_acceleration import AngularAcceleration
-    from .measures.angular_momentum import AngularMomentum
-    from .measures.angular_velocity import AngularVelocity
-    from .measures.area import Area
-    from .measures.capacitance import Capacitance
-    from .measures.charge import Charge
-    from .measures.compound import Compound
-    from .measures.concentration import Concentration
-    from .measures.conductance import Conductance
-    from .measures.current import Current
-    from .measures.data import Data
-    from .measures.data_transfer import DataTransfer
-    from .measures.density import Density
-    from .measures.dimensionless import Dimensionless
-    from .measures.distance import Distance
-    from .measures.energy import Energy
-    from .measures.equivalent_dose import EquivalentDose
-    from .measures.force import Force
-    from .measures.frequency import Frequency
-    from .measures.illuminance import Illuminance
-    from .measures.inductance import Inductance
-    from .measures.linear_acceleration import LinearAcceleration
-    from .measures.linear_momentum import LinearMomentum
-    from .measures.linear_velocity import LinearVelocity
-    from .measures.luminous_flux import LuminousFlux
-    from .measures.luminous_intensity import LuminousIntensity
-    from .measures.magnetic_flux import MagneticFlux
-    from .measures.magnetic_strength import MagneticStrength
-    from .measures.mass import Mass
-    from .measures.moment_of_inertia import MomentOfInertia
-    from .measures.mult import Mult
-    from .measures.per import Per
-    from .measures.power import Power
-    from .measures.pressure import Pressure
-    from .measures.radioactivity import Radioactivity
-    from .measures.resistance import Resistance
-    from .measures.solid_angle import SolidAngle
-    from .measures.substance import Substance
-    from .measures.temperature import Temperature
-    from .measures.time import Time
-    from .measures.torque import Torque
-    from .measures.velocity import Velocity
-    from .measures.voltage import Voltage
-    from .measures.volume import Volume
-    from .acceleration import AccelerationUnit
-    from .linear_acceleration import meters_per_second_squared
-    from .angle import AngleUnit
-    from .angular_acceleration import AngularAccelerationUnit
-    from .angular_momentum import AngularMomentumUnit
-    from .angular_velocity import AngularVelocityUnit
-    from .current import CurrentUnit
-    from .dimensionless import DimensionlessUnit
-    from .concentration import percent
-    from .distance import DistanceUnit
-    from .energy import EnergyUnit
-    from .force import ForceUnit
-    from .mass import pounds
-    from .frequency import FrequencyUnit
-    from .linear_momentum import LinearMomentumUnit
-    from .linear_velocity import LinearVelocityUnit
-    from .velocity import meters_per_second
-    from .moment_of_inertia import MomentOfInertiaUnit
-    from .mult import MultUnit
-    from .per import PerUnit
-    from .power import PowerUnit
-    from .resistance import ResistanceUnit
-    from .temperature import TemperatureUnit
-    from .time import TimeUnit
-    from .torque import TorqueUnit
-    from .voltage import VoltageUnit
-    from .area import AreaUnit
-    from .capacitance import CapacitanceUnit
-    from .compound import CompoundUnit
-    from .charge import ChargeUnit
-    from .conductance import ConductanceUnit
-    from .data import DataUnit
-    from .data_transfer import DataTransferUnit
-    from .density import DensityUnit
-    from .illuminance import IlluminanceUnit
-    from .inductance import InductanceUnit
-    from .luminous_flux import LuminousFluxUnit
-    from .luminous_intensity import LuminousIntensityUnit
-    from .magnetic_flux import MagneticFluxUnit
-    from .magnetic_strength import MagneticStrengthUnit
-    from .pressure import PressureUnit
-    from .solid_angle import SolidAngleUnit
-    from .substance import SubstanceUnit
-    from .volume import VolumeUnit
-    from .radioactivity import RadioactivityUnit
-    from .absorbed_dose import AbsorbedDoseUnit
-    from .equivalent_dose import EquivalentDoseUnit
+    from .core.measure import (
+        Measure,
+    )
+    from .core.unit import (
+        Unit,
+    )
+    from .core.unary_function import (
+        UnaryFunction,
+    )
+    from .core.per import (
+        Per,
+        PerUnit,
+    )
+    from .core.mult import (
+        Mult,
+        MultUnit,
+    )
+    from .angle import (
+        Angle,
+        AngleUnit,
+        radians,
+        revolutions,
+        rotations,
+        degrees,
+        nanoradians,
+        microradians,
+        milliradians,
+        kiloradians,
+        arcminutes,
+        arcseconds,
+        milliarcseconds,
+        turns,
+        gradians,
+    )
+    from .angular_acceleration import (
+        AngularAcceleration,
+        AngularAccelerationUnit,
+        radians_per_second_squared,
+        rotations_per_second_squared,
+        degrees_per_second_squared,
+        turns_per_second_squared,
+    )
+    from .angular_momentum import (
+        AngularMomentum,
+        AngularMomentumUnit,
+        kilogram_meters_squared_per_second,
+        pound_inches_squared_per_second,
+    )
+    from .angular_velocity import (
+        AngularVelocity,
+        AngularVelocityUnit,
+        radians_per_second,
+        revolutions_per_second,
+        rotations_per_second,
+        rotations_per_minute,
+        degrees_per_second,
+        turns_per_second,
+        revolutions_per_minute,
+        milliarcseconds_per_year,
+    )
+    from .current import (
+        Current,
+        CurrentUnit,
+        amps,
+        milliamps,
+        amperes,
+        nanoamperes,
+        microamperes,
+        milliamperes,
+        kiloamperes,
+    )
+    from .dimensionless import (
+        Dimensionless,
+        DimensionlessUnit,
+        value,
+    )
+    from .concentration import (
+        percent,
+        Concentration,
+        ConcentrationUnit,
+        parts_per_million,
+        parts_per_billion,
+        parts_per_trillion,
+    )
+    from .distance import (
+        Distance,
+        DistanceUnit,
+        meters,
+        millimeters,
+        centimeters,
+        inches,
+        feet,
+        miles,
+        nanometers,
+        micrometers,
+        kilometers,
+        mils,
+        nautical_miles,
+        astronical_units,
+        lightyears,
+        parsecs,
+        angstroms,
+        cubits,
+        fathoms,
+        chains,
+        furlongs,
+        hands,
+        leagues,
+        nautical_leagues,
+        yards,
+    )
+    from .energy import (
+        Energy,
+        EnergyUnit,
+        joules,
+        millijoules,
+        kilojoules,
+        nanojoules,
+        microjoules,
+        calories,
+        nanocalories,
+        microcalories,
+        millicalories,
+        kilocalories,
+        kilowatt_hours,
+        watt_hours,
+        british_thermal_units,
+        british_thermal_units_iso,
+        british_thermal_units_59,
+        therms,
+        foot_pounds,
+    )
+    from .force import (
+        Force,
+        ForceUnit,
+        newtons,
+        pounds_force,
+        ounces_force,
+        nanonewtons,
+        micronewtons,
+        millinewtons,
+        kilonewtons,
+        dynes,
+        kiloponds,
+        poundals,
+    )
+    from .mass import (
+        pounds,
+        Mass,
+        MassUnit,
+        kilograms,
+        grams,
+        ounces,
+        nanograms,
+        micrograms,
+        milligrams,
+        metric_tons,
+        long_tons,
+        short_tons,
+        stone,
+        carats,
+        slugs,
+    )
+    from .frequency import (
+        Frequency,
+        FrequencyUnit,
+        hertz,
+        millihertz,
+        nanohertz,
+        microhertz,
+        kilohertz,
+    )
+    from .linear_acceleration import (
+        LinearAcceleration,
+        LinearAccelerationUnit,
+        meters_per_second_squared,
+        feet_per_second_squared,
+        inches_per_second_squared,
+        gs,
+        standard_gravity,
+    )
+    from .linear_momentum import (
+        LinearMomentum,
+        LinearMomentumUnit,
+        kilogram_meters_per_second,
+        pound_inches_per_second,
+    )
+    from .linear_velocity import (
+        LinearVelocity,
+        LinearVelocityUnit,
+        meters_per_second,
+        feet_per_second,
+        inches_per_second,
+        miles_per_hour,
+        kilometers_per_hour,
+        knots,
+    )
+    from .moment_of_inertia import (
+        MomentOfInertia,
+        MomentOfInertiaUnit,
+        kilogram_square_meters,
+        pound_square_inches,
+    )
+    from .power import (
+        Power,
+        PowerUnit,
+        watts,
+        milliwatts,
+        horsepower,
+        nanowatts,
+        microwatts,
+        kilowatts,
+    )
+    from .resistance import (
+        Resistance,
+        ResistanceUnit,
+        ohms,
+        kilo_ohms,
+        milli_ohms,
+        nanoohms,
+        microohms,
+        milliohms,
+        kiloohms,
+    )
+    from .temperature import (
+        Temperature,
+        TemperatureUnit,
+        kelvin,
+        celsius,
+        fahrenheit,
+        reaumur,
+        rankine,
+    )
+    from .time import (
+        Time,
+        TimeUnit,
+        seconds,
+        milliseconds,
+        microseconds,
+        nanoseconds,
+        minutes,
+        hours,
+        kiloseconds,
+        days,
+        weeks,
+        years,
+        julian_years,
+        gregorian_years,
+    )
+    from .torque import (
+        Torque,
+        TorqueUnit,
+        newton_meters,
+        pound_feet,
+        pound_inches,
+        ounce_inches,
+        foot_poundals,
+        inch_pounds,
+        meter_kilograms,
+    )
+    from .voltage import (
+        Voltage,
+        VoltageUnit,
+        volts,
+        millivolts,
+        nanovolts,
+        microvolts,
+        kilovolts,
+        statvolts,
+        abvolts,
+    )
+    from .area import (
+        Area,
+        AreaUnit,
+        square_meters,
+        square_feet,
+        square_inches,
+        square_miles,
+        square_kilometers,
+        hectares,
+        acres,
+    )
+    from .capacitance import (
+        Capacitance,
+        CapacitanceUnit,
+        farads,
+        nanofarads,
+        microfarads,
+        millifarads,
+        kilofarads,
+    )
+    from .compound import (
+        radians_per_meter,
+        radians_per_second_per_volt,
+        units_per_second,
+        units_per_second_squared,
+        volt_seconds,
+        volt_seconds_squared,
+        volt_seconds_per_meter,
+        volt_seconds_squared_per_meter,
+        volt_seconds_per_feet,
+        volt_seconds_squared_per_feet,
+        volt_seconds_per_radian,
+        volt_seconds_squared_per_radian,
+        unit_seconds,
+        unit_seconds_squared,
+        unit_seconds_squared_per_unit,
+        meters_per_second_squared_per_volt,
+        meters_per_second_per_radian,
+    )
+    from .charge import (
+        Charge,
+        ChargeUnit,
+        coulombs,
+        nanocoulombs,
+        microcoulombs,
+        millicoulombs,
+        kilocoulombs,
+        ampere_hours,
+        nanoampere_hours,
+        microampere_hours,
+        milliampere_hours,
+        kiloampere_hours,
+    )
+    from .conductance import (
+        Conductance,
+        ConductanceUnit,
+        siemens,
+        nanosiemens,
+        microsiemens,
+        millisiemens,
+        kilosiemens,
+    )
+    from .data import (
+        Data,
+        DataUnit,
+        exabytes,
+        exabits,
+    )
+    from .data_transfer import (
+        DataTransfer,
+        DataTransferUnit,
+        exabytes_per_second,
+        exabits_per_second,
+    )
+    from .density import (
+        Density,
+        DensityUnit,
+        kilograms_per_cubic_meter,
+        grams_per_milliliter,
+        kilograms_per_liter,
+        ounces_per_cubic_foot,
+        ounces_per_cubic_inch,
+        ounces_per_gallon,
+        pounds_per_cubic_foot,
+        pounds_per_cubic_inch,
+        pounds_per_gallon,
+        slugs_per_cubic_foot,
+    )
+    from .illuminance import (
+        Illuminance,
+        IlluminanceUnit,
+        luxes,
+        nanoluxes,
+        microluxes,
+        milliluxes,
+        kiloluxes,
+        footcandles,
+        lumens_per_square_inch,
+        phots,
+    )
+    from .inductance import (
+        Inductance,
+        InductanceUnit,
+        henries,
+        nanohenries,
+        microhenries,
+        millihenries,
+        kilohenries,
+    )
+    from .luminous_flux import (
+        LuminousFlux,
+        LuminousFluxUnit,
+        lumens,
+        nanolumens,
+        microlumens,
+        millilumens,
+        kilolumens,
+    )
+    from .luminous_intensity import (
+        LuminousIntensity,
+        LuminousIntensityUnit,
+        candelas,
+        nanocandelas,
+        microcandelas,
+        millicandelas,
+        kilocandelas,
+    )
+    from .magnetic_flux import (
+        MagneticFlux,
+        MagneticFluxUnit,
+        webers,
+        nanowebers,
+        microwebers,
+        milliwebers,
+        kilowebers,
+        maxwells,
+    )
+    from .magnetic_strength import (
+        MagneticStrength,
+        MagneticStrengthUnit,
+        teslas,
+        nanoteslas,
+        microteslas,
+        milliteslas,
+        kiloteslas,
+        gauss,
+    )
+    from .pressure import (
+        Pressure,
+        PressureUnit,
+        pascals,
+        nanopascals,
+        micropascals,
+        millipascals,
+        kilopascals,
+        bars,
+        mbars,
+        atmospheres,
+        pounds_per_square_inch,
+        torrs,
+    )
+    from .solid_angle import (
+        SolidAngle,
+        SolidAngleUnit,
+        steradians,
+        nanosteradians,
+        microsteradians,
+        millisteradians,
+        kilosteradians,
+        degrees_squared,
+        spats,
+    )
+    from .substance import (
+        Substance,
+        SubstanceUnit,
+        moles,
+    )
+    from .volume import (
+        Volume,
+        VolumeUnit,
+        cubic_meters,
+        cubic_millimeters,
+        cubic_kilometers,
+        liters,
+        nanoliters,
+        microliters,
+        milliliters,
+        kiloliters,
+        cubic_inches,
+        cubic_feet,
+        cubic_yards,
+        cubic_miles,
+        gallons,
+        quarts,
+        pints,
+        cups,
+        fluid_ounces,
+        barrels,
+        bushels,
+        cords,
+        cubic_fathoms,
+        tablespoons,
+        teaspoons,
+        pinches,
+        dashes,
+        drops,
+        fifths,
+        drams,
+        gills,
+        pecks,
+        sacks,
+        shots,
+        strikes,
+    )
+    from .radioactivity import (
+        Radioactivity,
+        RadioactivityUnit,
+        becquerels,
+        nanobecquerels,
+        microbecquerels,
+        millibecquerels,
+        kilobecquerels,
+        curies,
+        rutherfords,
+    )
+    from .absorbed_dose import (
+        AbsorbedDose,
+        AbsorbedDoseUnit,
+        grays,
+        nanograys,
+        micrograys,
+        milligrays,
+        kilograys,
+        rads,
+    )
+    from .equivalent_dose import (
+        EquivalentDose,
+        EquivalentDoseUnit,
+        sieverts,
+        nanosieverts,
+        microsieverts,
+        millisieverts,
+        kilosieverts,
+    )
 
 _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
-    "Measure": ("smartunits.measure", "Measure"),
-    "Unit": ("smartunits.unit", "Unit"),
-    "UnaryFunction": ("smartunits.unary_function", "UnaryFunction"),
-    "AbsorbedDose": ("smartunits.measures.absorbed_dose", "AbsorbedDose"),
-    "Acceleration": ("smartunits.measures.acceleration", "Acceleration"),
-    "Angle": ("smartunits.measures.angle", "Angle"),
-    "AngularAcceleration": ("smartunits.measures.angular_acceleration", "AngularAcceleration"),
-    "AngularMomentum": ("smartunits.measures.angular_momentum", "AngularMomentum"),
-    "AngularVelocity": ("smartunits.measures.angular_velocity", "AngularVelocity"),
-    "Area": ("smartunits.measures.area", "Area"),
-    "Capacitance": ("smartunits.measures.capacitance", "Capacitance"),
-    "Charge": ("smartunits.measures.charge", "Charge"),
-    "Compound": ("smartunits.measures.compound", "Compound"),
-    "Concentration": ("smartunits.measures.concentration", "Concentration"),
-    "Conductance": ("smartunits.measures.conductance", "Conductance"),
-    "Current": ("smartunits.measures.current", "Current"),
-    "Data": ("smartunits.measures.data", "Data"),
-    "DataTransfer": ("smartunits.measures.data_transfer", "DataTransfer"),
-    "Density": ("smartunits.measures.density", "Density"),
-    "Dimensionless": ("smartunits.measures.dimensionless", "Dimensionless"),
-    "Distance": ("smartunits.measures.distance", "Distance"),
-    "Energy": ("smartunits.measures.energy", "Energy"),
-    "EquivalentDose": ("smartunits.measures.equivalent_dose", "EquivalentDose"),
-    "Force": ("smartunits.measures.force", "Force"),
-    "Frequency": ("smartunits.measures.frequency", "Frequency"),
-    "Illuminance": ("smartunits.measures.illuminance", "Illuminance"),
-    "Inductance": ("smartunits.measures.inductance", "Inductance"),
-    "LinearAcceleration": ("smartunits.measures.linear_acceleration", "LinearAcceleration"),
-    "LinearMomentum": ("smartunits.measures.linear_momentum", "LinearMomentum"),
-    "LinearVelocity": ("smartunits.measures.linear_velocity", "LinearVelocity"),
-    "LuminousFlux": ("smartunits.measures.luminous_flux", "LuminousFlux"),
-    "LuminousIntensity": ("smartunits.measures.luminous_intensity", "LuminousIntensity"),
-    "MagneticFlux": ("smartunits.measures.magnetic_flux", "MagneticFlux"),
-    "MagneticStrength": ("smartunits.measures.magnetic_strength", "MagneticStrength"),
-    "Mass": ("smartunits.measures.mass", "Mass"),
-    "MomentOfInertia": ("smartunits.measures.moment_of_inertia", "MomentOfInertia"),
-    "Mult": ("smartunits.measures.mult", "Mult"),
-    "Per": ("smartunits.measures.per", "Per"),
-    "Power": ("smartunits.measures.power", "Power"),
-    "Pressure": ("smartunits.measures.pressure", "Pressure"),
-    "Radioactivity": ("smartunits.measures.radioactivity", "Radioactivity"),
-    "Resistance": ("smartunits.measures.resistance", "Resistance"),
-    "SolidAngle": ("smartunits.measures.solid_angle", "SolidAngle"),
-    "Substance": ("smartunits.measures.substance", "Substance"),
-    "Temperature": ("smartunits.measures.temperature", "Temperature"),
-    "Time": ("smartunits.measures.time", "Time"),
-    "Torque": ("smartunits.measures.torque", "Torque"),
-    "Velocity": ("smartunits.measures.velocity", "Velocity"),
-    "Voltage": ("smartunits.measures.voltage", "Voltage"),
-    "Volume": ("smartunits.measures.volume", "Volume"),
-    "AccelerationUnit": ("smartunits.acceleration", "AccelerationUnit"),
-    "meters_per_second_squared": ("smartunits.linear_acceleration", "meters_per_second_squared"),
-    "feet_per_second_squared": ("smartunits.linear_acceleration", "feet_per_second_squared"),
-    "inches_per_second_squared": ("smartunits.linear_acceleration", "inches_per_second_squared"),
-    "gs": ("smartunits.linear_acceleration", "gs"),
-    "standard_gravity": ("smartunits.acceleration", "standard_gravity"),
+    "Measure": ("smartunits.core.measure", "Measure"),
+    "Unit": ("smartunits.core.unit", "Unit"),
+    "UnaryFunction": ("smartunits.core.unary_function", "UnaryFunction"),
+    "Per": ("smartunits.core.per", "Per"),
+    "PerUnit": ("smartunits.core.per", "PerUnit"),
+    "Mult": ("smartunits.core.mult", "Mult"),
+    "MultUnit": ("smartunits.core.mult", "MultUnit"),
+    "Angle": ("smartunits.angle", "Angle"),
     "AngleUnit": ("smartunits.angle", "AngleUnit"),
     "radians": ("smartunits.angle", "radians"),
     "revolutions": ("smartunits.angle", "revolutions"),
@@ -175,14 +545,17 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "milliarcseconds": ("smartunits.angle", "milliarcseconds"),
     "turns": ("smartunits.angle", "turns"),
     "gradians": ("smartunits.angle", "gradians"),
+    "AngularAcceleration": ("smartunits.angular_acceleration", "AngularAcceleration"),
     "AngularAccelerationUnit": ("smartunits.angular_acceleration", "AngularAccelerationUnit"),
     "radians_per_second_squared": ("smartunits.angular_acceleration", "radians_per_second_squared"),
     "rotations_per_second_squared": ("smartunits.angular_acceleration", "rotations_per_second_squared"),
     "degrees_per_second_squared": ("smartunits.angular_acceleration", "degrees_per_second_squared"),
     "turns_per_second_squared": ("smartunits.angular_acceleration", "turns_per_second_squared"),
+    "AngularMomentum": ("smartunits.angular_momentum", "AngularMomentum"),
     "AngularMomentumUnit": ("smartunits.angular_momentum", "AngularMomentumUnit"),
     "kilogram_meters_squared_per_second": ("smartunits.angular_momentum", "kilogram_meters_squared_per_second"),
     "pound_inches_squared_per_second": ("smartunits.angular_momentum", "pound_inches_squared_per_second"),
+    "AngularVelocity": ("smartunits.angular_velocity", "AngularVelocity"),
     "AngularVelocityUnit": ("smartunits.angular_velocity", "AngularVelocityUnit"),
     "radians_per_second": ("smartunits.angular_velocity", "radians_per_second"),
     "revolutions_per_second": ("smartunits.angular_velocity", "revolutions_per_second"),
@@ -192,6 +565,7 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "turns_per_second": ("smartunits.angular_velocity", "turns_per_second"),
     "revolutions_per_minute": ("smartunits.angular_velocity", "revolutions_per_minute"),
     "milliarcseconds_per_year": ("smartunits.angular_velocity", "milliarcseconds_per_year"),
+    "Current": ("smartunits.current", "Current"),
     "CurrentUnit": ("smartunits.current", "CurrentUnit"),
     "amps": ("smartunits.current", "amps"),
     "milliamps": ("smartunits.current", "milliamps"),
@@ -200,9 +574,11 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "microamperes": ("smartunits.current", "microamperes"),
     "milliamperes": ("smartunits.current", "milliamperes"),
     "kiloamperes": ("smartunits.current", "kiloamperes"),
+    "Dimensionless": ("smartunits.dimensionless", "Dimensionless"),
     "DimensionlessUnit": ("smartunits.dimensionless", "DimensionlessUnit"),
     "value": ("smartunits.dimensionless", "value"),
     "percent": ("smartunits.concentration", "percent"),
+    "Distance": ("smartunits.distance", "Distance"),
     "DistanceUnit": ("smartunits.distance", "DistanceUnit"),
     "meters": ("smartunits.distance", "meters"),
     "millimeters": ("smartunits.distance", "millimeters"),
@@ -227,6 +603,7 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "leagues": ("smartunits.distance", "leagues"),
     "nautical_leagues": ("smartunits.distance", "nautical_leagues"),
     "yards": ("smartunits.distance", "yards"),
+    "Energy": ("smartunits.energy", "Energy"),
     "EnergyUnit": ("smartunits.energy", "EnergyUnit"),
     "joules": ("smartunits.energy", "joules"),
     "millijoules": ("smartunits.energy", "millijoules"),
@@ -245,6 +622,7 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "british_thermal_units_59": ("smartunits.energy", "british_thermal_units_59"),
     "therms": ("smartunits.energy", "therms"),
     "foot_pounds": ("smartunits.energy", "foot_pounds"),
+    "Force": ("smartunits.force", "Force"),
     "ForceUnit": ("smartunits.force", "ForceUnit"),
     "newtons": ("smartunits.force", "newtons"),
     "pounds_force": ("smartunits.force", "pounds_force"),
@@ -257,20 +635,33 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "dynes": ("smartunits.force", "dynes"),
     "kiloponds": ("smartunits.force", "kiloponds"),
     "poundals": ("smartunits.force", "poundals"),
+    "Frequency": ("smartunits.frequency", "Frequency"),
     "FrequencyUnit": ("smartunits.frequency", "FrequencyUnit"),
     "hertz": ("smartunits.frequency", "hertz"),
     "millihertz": ("smartunits.frequency", "millihertz"),
     "nanohertz": ("smartunits.frequency", "nanohertz"),
     "microhertz": ("smartunits.frequency", "microhertz"),
     "kilohertz": ("smartunits.frequency", "kilohertz"),
+    "LinearAcceleration": ("smartunits.linear_acceleration", "LinearAcceleration"),
     "LinearAccelerationUnit": ("smartunits.linear_acceleration", "LinearAccelerationUnit"),
+    "meters_per_second_squared": ("smartunits.linear_acceleration", "meters_per_second_squared"),
+    "feet_per_second_squared": ("smartunits.linear_acceleration", "feet_per_second_squared"),
+    "inches_per_second_squared": ("smartunits.linear_acceleration", "inches_per_second_squared"),
+    "gs": ("smartunits.linear_acceleration", "gs"),
+    "standard_gravity": ("smartunits.linear_acceleration", "standard_gravity"),
+    "LinearMomentum": ("smartunits.linear_momentum", "LinearMomentum"),
     "LinearMomentumUnit": ("smartunits.linear_momentum", "LinearMomentumUnit"),
     "kilogram_meters_per_second": ("smartunits.linear_momentum", "kilogram_meters_per_second"),
     "pound_inches_per_second": ("smartunits.linear_momentum", "pound_inches_per_second"),
+    "LinearVelocity": ("smartunits.linear_velocity", "LinearVelocity"),
     "LinearVelocityUnit": ("smartunits.linear_velocity", "LinearVelocityUnit"),
-    "meters_per_second": ("smartunits.velocity", "meters_per_second"),
-    "feet_per_second": ("smartunits.velocity", "feet_per_second"),
-    "inches_per_second": ("smartunits.velocity", "inches_per_second"),
+    "meters_per_second": ("smartunits.linear_velocity", "meters_per_second"),
+    "feet_per_second": ("smartunits.linear_velocity", "feet_per_second"),
+    "inches_per_second": ("smartunits.linear_velocity", "inches_per_second"),
+    "miles_per_hour": ("smartunits.linear_velocity", "miles_per_hour"),
+    "kilometers_per_hour": ("smartunits.linear_velocity", "kilometers_per_hour"),
+    "knots": ("smartunits.linear_velocity", "knots"),
+    "Mass": ("smartunits.mass", "Mass"),
     "MassUnit": ("smartunits.mass", "MassUnit"),
     "kilograms": ("smartunits.mass", "kilograms"),
     "grams": ("smartunits.mass", "grams"),
@@ -284,11 +675,11 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "stone": ("smartunits.mass", "stone"),
     "carats": ("smartunits.mass", "carats"),
     "slugs": ("smartunits.mass", "slugs"),
+    "MomentOfInertia": ("smartunits.moment_of_inertia", "MomentOfInertia"),
     "MomentOfInertiaUnit": ("smartunits.moment_of_inertia", "MomentOfInertiaUnit"),
     "kilogram_square_meters": ("smartunits.moment_of_inertia", "kilogram_square_meters"),
     "pound_square_inches": ("smartunits.moment_of_inertia", "pound_square_inches"),
-    "MultUnit": ("smartunits.mult", "MultUnit"),
-    "PerUnit": ("smartunits.per", "PerUnit"),
+    "Power": ("smartunits.power", "Power"),
     "PowerUnit": ("smartunits.power", "PowerUnit"),
     "watts": ("smartunits.power", "watts"),
     "milliwatts": ("smartunits.power", "milliwatts"),
@@ -296,6 +687,7 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "nanowatts": ("smartunits.power", "nanowatts"),
     "microwatts": ("smartunits.power", "microwatts"),
     "kilowatts": ("smartunits.power", "kilowatts"),
+    "Resistance": ("smartunits.resistance", "Resistance"),
     "ResistanceUnit": ("smartunits.resistance", "ResistanceUnit"),
     "ohms": ("smartunits.resistance", "ohms"),
     "kilo_ohms": ("smartunits.resistance", "kilo_ohms"),
@@ -304,12 +696,14 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "microohms": ("smartunits.resistance", "microohms"),
     "milliohms": ("smartunits.resistance", "milliohms"),
     "kiloohms": ("smartunits.resistance", "kiloohms"),
+    "Temperature": ("smartunits.temperature", "Temperature"),
     "TemperatureUnit": ("smartunits.temperature", "TemperatureUnit"),
     "kelvin": ("smartunits.temperature", "kelvin"),
     "celsius": ("smartunits.temperature", "celsius"),
     "fahrenheit": ("smartunits.temperature", "fahrenheit"),
     "reaumur": ("smartunits.temperature", "reaumur"),
     "rankine": ("smartunits.temperature", "rankine"),
+    "Time": ("smartunits.time", "Time"),
     "TimeUnit": ("smartunits.time", "TimeUnit"),
     "seconds": ("smartunits.time", "seconds"),
     "milliseconds": ("smartunits.time", "milliseconds"),
@@ -323,6 +717,7 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "years": ("smartunits.time", "years"),
     "julian_years": ("smartunits.time", "julian_years"),
     "gregorian_years": ("smartunits.time", "gregorian_years"),
+    "Torque": ("smartunits.torque", "Torque"),
     "TorqueUnit": ("smartunits.torque", "TorqueUnit"),
     "newton_meters": ("smartunits.torque", "newton_meters"),
     "pound_feet": ("smartunits.torque", "pound_feet"),
@@ -331,10 +726,7 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "foot_poundals": ("smartunits.torque", "foot_poundals"),
     "inch_pounds": ("smartunits.torque", "inch_pounds"),
     "meter_kilograms": ("smartunits.torque", "meter_kilograms"),
-    "VelocityUnit": ("smartunits.velocity", "VelocityUnit"),
-    "miles_per_hour": ("smartunits.velocity", "miles_per_hour"),
-    "kilometers_per_hour": ("smartunits.velocity", "kilometers_per_hour"),
-    "knots": ("smartunits.velocity", "knots"),
+    "Voltage": ("smartunits.voltage", "Voltage"),
     "VoltageUnit": ("smartunits.voltage", "VoltageUnit"),
     "volts": ("smartunits.voltage", "volts"),
     "millivolts": ("smartunits.voltage", "millivolts"),
@@ -343,6 +735,7 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "kilovolts": ("smartunits.voltage", "kilovolts"),
     "statvolts": ("smartunits.voltage", "statvolts"),
     "abvolts": ("smartunits.voltage", "abvolts"),
+    "Area": ("smartunits.area", "Area"),
     "AreaUnit": ("smartunits.area", "AreaUnit"),
     "square_meters": ("smartunits.area", "square_meters"),
     "square_feet": ("smartunits.area", "square_feet"),
@@ -351,13 +744,13 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "square_kilometers": ("smartunits.area", "square_kilometers"),
     "hectares": ("smartunits.area", "hectares"),
     "acres": ("smartunits.area", "acres"),
+    "Capacitance": ("smartunits.capacitance", "Capacitance"),
     "CapacitanceUnit": ("smartunits.capacitance", "CapacitanceUnit"),
     "farads": ("smartunits.capacitance", "farads"),
     "nanofarads": ("smartunits.capacitance", "nanofarads"),
     "microfarads": ("smartunits.capacitance", "microfarads"),
     "millifarads": ("smartunits.capacitance", "millifarads"),
     "kilofarads": ("smartunits.capacitance", "kilofarads"),
-    "CompoundUnit": ("smartunits.compound", "CompoundUnit"),
     "radians_per_meter": ("smartunits.compound", "radians_per_meter"),
     "radians_per_second_per_volt": ("smartunits.compound", "radians_per_second_per_volt"),
     "units_per_second": ("smartunits.compound", "units_per_second"),
@@ -370,9 +763,12 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "volt_seconds_squared_per_feet": ("smartunits.compound", "volt_seconds_squared_per_feet"),
     "volt_seconds_per_radian": ("smartunits.compound", "volt_seconds_per_radian"),
     "volt_seconds_squared_per_radian": ("smartunits.compound", "volt_seconds_squared_per_radian"),
+    "unit_seconds": ("smartunits.compound", "unit_seconds"),
+    "unit_seconds_squared": ("smartunits.compound", "unit_seconds_squared"),
     "unit_seconds_squared_per_unit": ("smartunits.compound", "unit_seconds_squared_per_unit"),
     "meters_per_second_squared_per_volt": ("smartunits.compound", "meters_per_second_squared_per_volt"),
     "meters_per_second_per_radian": ("smartunits.compound", "meters_per_second_per_radian"),
+    "Charge": ("smartunits.charge", "Charge"),
     "ChargeUnit": ("smartunits.charge", "ChargeUnit"),
     "coulombs": ("smartunits.charge", "coulombs"),
     "nanocoulombs": ("smartunits.charge", "nanocoulombs"),
@@ -384,22 +780,27 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "microampere_hours": ("smartunits.charge", "microampere_hours"),
     "milliampere_hours": ("smartunits.charge", "milliampere_hours"),
     "kiloampere_hours": ("smartunits.charge", "kiloampere_hours"),
+    "Concentration": ("smartunits.concentration", "Concentration"),
     "ConcentrationUnit": ("smartunits.concentration", "ConcentrationUnit"),
     "parts_per_million": ("smartunits.concentration", "parts_per_million"),
     "parts_per_billion": ("smartunits.concentration", "parts_per_billion"),
     "parts_per_trillion": ("smartunits.concentration", "parts_per_trillion"),
+    "Conductance": ("smartunits.conductance", "Conductance"),
     "ConductanceUnit": ("smartunits.conductance", "ConductanceUnit"),
     "siemens": ("smartunits.conductance", "siemens"),
     "nanosiemens": ("smartunits.conductance", "nanosiemens"),
     "microsiemens": ("smartunits.conductance", "microsiemens"),
     "millisiemens": ("smartunits.conductance", "millisiemens"),
     "kilosiemens": ("smartunits.conductance", "kilosiemens"),
+    "Data": ("smartunits.data", "Data"),
     "DataUnit": ("smartunits.data", "DataUnit"),
     "exabytes": ("smartunits.data", "exabytes"),
     "exabits": ("smartunits.data", "exabits"),
+    "DataTransfer": ("smartunits.data_transfer", "DataTransfer"),
     "DataTransferUnit": ("smartunits.data_transfer", "DataTransferUnit"),
     "exabytes_per_second": ("smartunits.data_transfer", "exabytes_per_second"),
     "exabits_per_second": ("smartunits.data_transfer", "exabits_per_second"),
+    "Density": ("smartunits.density", "Density"),
     "DensityUnit": ("smartunits.density", "DensityUnit"),
     "kilograms_per_cubic_meter": ("smartunits.density", "kilograms_per_cubic_meter"),
     "grams_per_milliliter": ("smartunits.density", "grams_per_milliliter"),
@@ -411,6 +812,7 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "pounds_per_cubic_inch": ("smartunits.density", "pounds_per_cubic_inch"),
     "pounds_per_gallon": ("smartunits.density", "pounds_per_gallon"),
     "slugs_per_cubic_foot": ("smartunits.density", "slugs_per_cubic_foot"),
+    "Illuminance": ("smartunits.illuminance", "Illuminance"),
     "IlluminanceUnit": ("smartunits.illuminance", "IlluminanceUnit"),
     "luxes": ("smartunits.illuminance", "luxes"),
     "nanoluxes": ("smartunits.illuminance", "nanoluxes"),
@@ -420,24 +822,28 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "footcandles": ("smartunits.illuminance", "footcandles"),
     "lumens_per_square_inch": ("smartunits.illuminance", "lumens_per_square_inch"),
     "phots": ("smartunits.illuminance", "phots"),
+    "Inductance": ("smartunits.inductance", "Inductance"),
     "InductanceUnit": ("smartunits.inductance", "InductanceUnit"),
     "henries": ("smartunits.inductance", "henries"),
     "nanohenries": ("smartunits.inductance", "nanohenries"),
     "microhenries": ("smartunits.inductance", "microhenries"),
     "millihenries": ("smartunits.inductance", "millihenries"),
     "kilohenries": ("smartunits.inductance", "kilohenries"),
+    "LuminousFlux": ("smartunits.luminous_flux", "LuminousFlux"),
     "LuminousFluxUnit": ("smartunits.luminous_flux", "LuminousFluxUnit"),
     "lumens": ("smartunits.luminous_flux", "lumens"),
     "nanolumens": ("smartunits.luminous_flux", "nanolumens"),
     "microlumens": ("smartunits.luminous_flux", "microlumens"),
     "millilumens": ("smartunits.luminous_flux", "millilumens"),
     "kilolumens": ("smartunits.luminous_flux", "kilolumens"),
+    "LuminousIntensity": ("smartunits.luminous_intensity", "LuminousIntensity"),
     "LuminousIntensityUnit": ("smartunits.luminous_intensity", "LuminousIntensityUnit"),
     "candelas": ("smartunits.luminous_intensity", "candelas"),
     "nanocandelas": ("smartunits.luminous_intensity", "nanocandelas"),
     "microcandelas": ("smartunits.luminous_intensity", "microcandelas"),
     "millicandelas": ("smartunits.luminous_intensity", "millicandelas"),
     "kilocandelas": ("smartunits.luminous_intensity", "kilocandelas"),
+    "MagneticFlux": ("smartunits.magnetic_flux", "MagneticFlux"),
     "MagneticFluxUnit": ("smartunits.magnetic_flux", "MagneticFluxUnit"),
     "webers": ("smartunits.magnetic_flux", "webers"),
     "nanowebers": ("smartunits.magnetic_flux", "nanowebers"),
@@ -445,6 +851,7 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "milliwebers": ("smartunits.magnetic_flux", "milliwebers"),
     "kilowebers": ("smartunits.magnetic_flux", "kilowebers"),
     "maxwells": ("smartunits.magnetic_flux", "maxwells"),
+    "MagneticStrength": ("smartunits.magnetic_strength", "MagneticStrength"),
     "MagneticStrengthUnit": ("smartunits.magnetic_strength", "MagneticStrengthUnit"),
     "teslas": ("smartunits.magnetic_strength", "teslas"),
     "nanoteslas": ("smartunits.magnetic_strength", "nanoteslas"),
@@ -452,6 +859,7 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "milliteslas": ("smartunits.magnetic_strength", "milliteslas"),
     "kiloteslas": ("smartunits.magnetic_strength", "kiloteslas"),
     "gauss": ("smartunits.magnetic_strength", "gauss"),
+    "Pressure": ("smartunits.pressure", "Pressure"),
     "PressureUnit": ("smartunits.pressure", "PressureUnit"),
     "pascals": ("smartunits.pressure", "pascals"),
     "nanopascals": ("smartunits.pressure", "nanopascals"),
@@ -463,6 +871,7 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "atmospheres": ("smartunits.pressure", "atmospheres"),
     "pounds_per_square_inch": ("smartunits.pressure", "pounds_per_square_inch"),
     "torrs": ("smartunits.pressure", "torrs"),
+    "SolidAngle": ("smartunits.solid_angle", "SolidAngle"),
     "SolidAngleUnit": ("smartunits.solid_angle", "SolidAngleUnit"),
     "steradians": ("smartunits.solid_angle", "steradians"),
     "nanosteradians": ("smartunits.solid_angle", "nanosteradians"),
@@ -471,8 +880,10 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "kilosteradians": ("smartunits.solid_angle", "kilosteradians"),
     "degrees_squared": ("smartunits.solid_angle", "degrees_squared"),
     "spats": ("smartunits.solid_angle", "spats"),
+    "Substance": ("smartunits.substance", "Substance"),
     "SubstanceUnit": ("smartunits.substance", "SubstanceUnit"),
     "moles": ("smartunits.substance", "moles"),
+    "Volume": ("smartunits.volume", "Volume"),
     "VolumeUnit": ("smartunits.volume", "VolumeUnit"),
     "cubic_meters": ("smartunits.volume", "cubic_meters"),
     "cubic_millimeters": ("smartunits.volume", "cubic_millimeters"),
@@ -507,6 +918,7 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "sacks": ("smartunits.volume", "sacks"),
     "shots": ("smartunits.volume", "shots"),
     "strikes": ("smartunits.volume", "strikes"),
+    "Radioactivity": ("smartunits.radioactivity", "Radioactivity"),
     "RadioactivityUnit": ("smartunits.radioactivity", "RadioactivityUnit"),
     "becquerels": ("smartunits.radioactivity", "becquerels"),
     "nanobecquerels": ("smartunits.radioactivity", "nanobecquerels"),
@@ -515,6 +927,7 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "kilobecquerels": ("smartunits.radioactivity", "kilobecquerels"),
     "curies": ("smartunits.radioactivity", "curies"),
     "rutherfords": ("smartunits.radioactivity", "rutherfords"),
+    "AbsorbedDose": ("smartunits.absorbed_dose", "AbsorbedDose"),
     "AbsorbedDoseUnit": ("smartunits.absorbed_dose", "AbsorbedDoseUnit"),
     "grays": ("smartunits.absorbed_dose", "grays"),
     "nanograys": ("smartunits.absorbed_dose", "nanograys"),
@@ -522,6 +935,7 @@ _LAZY_IMPORTS: dict[str, tuple[str, str]] = {
     "milligrays": ("smartunits.absorbed_dose", "milligrays"),
     "kilograys": ("smartunits.absorbed_dose", "kilograys"),
     "rads": ("smartunits.absorbed_dose", "rads"),
+    "EquivalentDose": ("smartunits.equivalent_dose", "EquivalentDose"),
     "EquivalentDoseUnit": ("smartunits.equivalent_dose", "EquivalentDoseUnit"),
     "sieverts": ("smartunits.equivalent_dose", "sieverts"),
     "nanosieverts": ("smartunits.equivalent_dose", "nanosieverts"),
