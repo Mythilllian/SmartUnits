@@ -252,6 +252,8 @@ class SubstanceUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+substance = Substance
+substance_unit = SubstanceUnit
 moles = SubstanceUnit(None, 1.0, 0.0, 1.0, 0.0, "mole", "moles")
 
 _UNITS = (moles, )

@@ -252,6 +252,8 @@ class AbsorbedDoseUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+absorbed_dose = AbsorbedDose
+absorbed_dose_unit = AbsorbedDoseUnit
 grays = AbsorbedDoseUnit(None, 1.0, 0.0, 1.0, 0.0, "gray", "grays")
 nanograys = AbsorbedDoseUnit(grays, 1e-09, 0.0, 999999999.9999999, 0.0, "nanogray", "nanograys")
 micrograys = AbsorbedDoseUnit(grays, 1e-06, 0.0, 1000000.0, 0.0, "microgray", "micrograys")

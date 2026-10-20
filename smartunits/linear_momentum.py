@@ -193,6 +193,8 @@ class LinearMomentumUnit(MultUnit):
         return super().__mul__(other)
 
 
+linear_momentum = LinearMomentum
+linear_momentum_unit = LinearMomentumUnit
 kilogram_meters_per_second = LinearMomentumUnit(kilograms, meters_per_second, "kilogram meter per second", "kg m/s")
 pound_inches_per_second = LinearMomentumUnit(pounds, inches_per_second, "pound inch per second", "lb in/s")
 

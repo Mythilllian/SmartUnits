@@ -260,6 +260,8 @@ class EnergyUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+energy = Energy
+energy_unit = EnergyUnit
 joules = EnergyUnit(None, 1.0, 0.0, 1.0, 0.0, "joule", "J")
 millijoules = EnergyUnit(joules, 0.001, 0.0, 1000.0, 0.0, "millijoule", "mJ")
 kilojoules = EnergyUnit(joules, 1000.0, 0.0, 0.001, 0.0, "kilojoule", "kJ")

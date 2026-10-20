@@ -252,6 +252,8 @@ class DataUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+data = Data
+data_unit = DataUnit
 exabytes = DataUnit(None, 1.0, 0.0, 1.0, 0.0, "exabyte", "exabytes")
 exabits = DataUnit(exabytes, 0.125, 0.0, 8.0, 0.0, "exabit", "exabits")
 

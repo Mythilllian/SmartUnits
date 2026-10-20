@@ -252,6 +252,8 @@ class MagneticFluxUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+magnetic_flux = MagneticFlux
+magnetic_flux_unit = MagneticFluxUnit
 webers = MagneticFluxUnit(None, 1.0, 0.0, 1.0, 0.0, "weber", "webers")
 nanowebers = MagneticFluxUnit(webers, 1e-09, 0.0, 999999999.9999999, 0.0, "nanoweber", "nanowebers")
 microwebers = MagneticFluxUnit(webers, 1e-06, 0.0, 1000000.0, 0.0, "microweber", "microwebers")

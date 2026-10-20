@@ -256,6 +256,8 @@ class ResistanceUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+resistance = Resistance
+resistance_unit = ResistanceUnit
 ohms = ResistanceUnit(None, 1.0, 0.0, 1.0, 0.0, "ohm", "Ω")
 kilo_ohms = ResistanceUnit(ohms, 1000.0, 0.0, 0.001, 0.0, "kiloohm", "kΩ")
 milli_ohms = ResistanceUnit(ohms, 0.001, 0.0, 1000.0, 0.0, "milliohm", "mΩ")

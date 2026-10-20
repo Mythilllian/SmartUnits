@@ -268,6 +268,8 @@ class PowerUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+power = Power
+power_unit = PowerUnit
 watts = PowerUnit(None, 1.0, 0.0, 1.0, 0.0, "watt", "W")
 milliwatts = PowerUnit(watts, 0.001, 0.0, 1000.0, 0.0, "milliwatt", "mW")
 horsepower = PowerUnit(watts, 745.6998715822702, 0.0, 0.0013410220895950279, 0.0, "horsepower", "HP")

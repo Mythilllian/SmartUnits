@@ -260,6 +260,8 @@ class AngleUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+angle = Angle
+angle_unit = AngleUnit
 radians = AngleUnit(None, 1.0, 0.0, 1.0, 0.0, "radian", "rad")
 revolutions = AngleUnit(radians, 6.283185307179586, 0.0, 0.15915494309189535, 0.0, "revolution", "R")
 rotations = AngleUnit(radians, 6.283185307179586, 0.0, 0.15915494309189535, 0.0, "rotation", "R")

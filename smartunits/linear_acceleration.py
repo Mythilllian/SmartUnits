@@ -181,6 +181,8 @@ class LinearAccelerationUnit(PerUnit):
         return super().__mul__(other)
 
 
+linear_acceleration = LinearAcceleration
+linear_acceleration_unit = LinearAccelerationUnit
 meters_per_second_squared = LinearAccelerationUnit(meters_per_second, seconds, "meter per second squared", "m/s^2")
 feet_per_second_squared = LinearAccelerationUnit(feet_per_second, seconds, "foot per second squared", "ft/s^2")
 inches_per_second_squared = LinearAccelerationUnit(inches_per_second, seconds, "inch per second squared", "in/s^2")

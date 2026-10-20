@@ -252,6 +252,8 @@ class CapacitanceUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+capacitance = Capacitance
+capacitance_unit = CapacitanceUnit
 farads = CapacitanceUnit(None, 1.0, 0.0, 1.0, 0.0, "farad", "farads")
 nanofarads = CapacitanceUnit(farads, 1e-09, 0.0, 999999999.9999999, 0.0, "nanofarad", "nanofarads")
 microfarads = CapacitanceUnit(farads, 1e-06, 0.0, 1000000.0, 0.0, "microfarad", "microfarads")

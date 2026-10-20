@@ -264,6 +264,8 @@ class CurrentUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+current = Current
+current_unit = CurrentUnit
 amps = CurrentUnit(None, 1.0, 0.0, 1.0, 0.0, "amp", "A")
 milliamps = CurrentUnit(amps, 0.001, 0.0, 1000.0, 0.0, "milliamp", "mA")
 amperes = CurrentUnit(amps, 1.0, 0.0, 1.0, 0.0, "ampere", "amperes")

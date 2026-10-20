@@ -193,6 +193,8 @@ class AngularVelocityUnit(PerUnit):
         return super().__mul__(other)
 
 
+angular_velocity = AngularVelocity
+angular_velocity_unit = AngularVelocityUnit
 radians_per_second = AngularVelocityUnit(radians, seconds, "radian per second", "rad/s")
 revolutions_per_second = AngularVelocityUnit(revolutions, seconds, "revolution per second", "R/s")
 rotations_per_second = AngularVelocityUnit(rotations, seconds, "rotation per second", "R/s")

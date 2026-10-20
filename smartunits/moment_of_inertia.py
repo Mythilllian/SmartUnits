@@ -181,6 +181,8 @@ class MomentOfInertiaUnit(MultUnit):
         return super().__mul__(other)
 
 
+moment_of_inertia = MomentOfInertia
+moment_of_inertia_unit = MomentOfInertiaUnit
 kilogram_square_meters = MomentOfInertiaUnit(kilograms, square_meters, "kilogram square meter", "kg m^2")
 pound_square_inches = MomentOfInertiaUnit(pounds, square_inches, "pound square inch", "lb in^2")
 

@@ -252,6 +252,8 @@ class TemperatureUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+temperature = Temperature
+temperature_unit = TemperatureUnit
 kelvin = TemperatureUnit(None, 1.0, 0.0, 1.0, 0.0, "kelvin", "K")
 celsius = TemperatureUnit(kelvin, 1.0, 273.15, 1.0, -273.15, "celsius", "°C")
 fahrenheit = TemperatureUnit(kelvin, 0.5555555555555556, 255.3722222222222, 1.8, -459.67, "fahrenheit", "°F")

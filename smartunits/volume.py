@@ -252,6 +252,8 @@ class VolumeUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+volume = Volume
+volume_unit = VolumeUnit
 cubic_meters = VolumeUnit(None, 1.0, 0.0, 1.0, 0.0, "cubic meter", "cubic meters")
 cubic_millimeters = VolumeUnit(cubic_meters, 1e-09, 0.0, 999999999.9999999, 0.0, "cubic millimeter", "cubic millimeters")
 cubic_kilometers = VolumeUnit(cubic_meters, 1000000000.0, 0.0, 1e-09, 0.0, "cubic kilometer", "cubic kilometers")

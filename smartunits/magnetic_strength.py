@@ -252,6 +252,8 @@ class MagneticStrengthUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+magnetic_strength = MagneticStrength
+magnetic_strength_unit = MagneticStrengthUnit
 teslas = MagneticStrengthUnit(None, 1.0, 0.0, 1.0, 0.0, "tesla", "teslas")
 nanoteslas = MagneticStrengthUnit(teslas, 1e-09, 0.0, 999999999.9999999, 0.0, "nanotesla", "nanoteslas")
 microteslas = MagneticStrengthUnit(teslas, 1e-06, 0.0, 1000000.0, 0.0, "microtesla", "microteslas")

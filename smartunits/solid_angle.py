@@ -252,6 +252,8 @@ class SolidAngleUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+solid_angle = SolidAngle
+solid_angle_unit = SolidAngleUnit
 steradians = SolidAngleUnit(None, 1.0, 0.0, 1.0, 0.0, "steradian", "steradians")
 nanosteradians = SolidAngleUnit(steradians, 1e-09, 0.0, 999999999.9999999, 0.0, "nanosteradian", "nanosteradians")
 microsteradians = SolidAngleUnit(steradians, 1e-06, 0.0, 1000000.0, 0.0, "microsteradian", "microsteradians")

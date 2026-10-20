@@ -177,6 +177,8 @@ class DensityUnit(PerUnit):
         return super().__mul__(other)
 
 
+density = Density
+density_unit = DensityUnit
 kilograms_per_cubic_meter = DensityUnit(kilograms, cubic_meters, "kilogram per cubic meter", "kilograms per cubic meter")
 grams_per_milliliter = DensityUnit(grams, milliliters, "gram per milliliter", "grams per milliliter")
 kilograms_per_liter = DensityUnit(kilograms, liters, "kilogram per liter", "kilograms per liter")

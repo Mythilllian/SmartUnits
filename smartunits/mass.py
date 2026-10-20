@@ -256,6 +256,8 @@ class MassUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+mass = Mass
+mass_unit = MassUnit
 kilograms = MassUnit(None, 1.0, 0.0, 1.0, 0.0, "kilogram", "kg")
 grams = MassUnit(kilograms, 0.001, 0.0, 1000.0, 0.0, "gram", "g")
 pounds = MassUnit(kilograms, 0.45359237, 0.0, 2.2046226218487757, 0.0, "pound", "lb.")

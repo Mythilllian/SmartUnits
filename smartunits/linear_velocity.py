@@ -193,6 +193,8 @@ class LinearVelocityUnit(PerUnit):
         return super().__mul__(other)
 
 
+linear_velocity = LinearVelocity
+linear_velocity_unit = LinearVelocityUnit
 meters_per_second = LinearVelocityUnit(meters, seconds, "meter per second", "m/s")
 feet_per_second = LinearVelocityUnit(feet, seconds, "foot per second", "ft/s")
 inches_per_second = LinearVelocityUnit(inches, seconds, "inch per second", "in/s")

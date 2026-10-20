@@ -252,6 +252,8 @@ class EquivalentDoseUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+equivalent_dose = EquivalentDose
+equivalent_dose_unit = EquivalentDoseUnit
 sieverts = EquivalentDoseUnit(None, 1.0, 0.0, 1.0, 0.0, "sievert", "sieverts")
 nanosieverts = EquivalentDoseUnit(sieverts, 1e-09, 0.0, 999999999.9999999, 0.0, "nanosievert", "nanosieverts")
 microsieverts = EquivalentDoseUnit(sieverts, 1e-06, 0.0, 1000000.0, 0.0, "microsievert", "microsieverts")

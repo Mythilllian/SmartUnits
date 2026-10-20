@@ -177,6 +177,8 @@ class AngularMomentumUnit(MultUnit):
         return super().__mul__(other)
 
 
+angular_momentum = AngularMomentum
+angular_momentum_unit = AngularMomentumUnit
 kilogram_meters_squared_per_second = AngularMomentumUnit(kilogram_square_meters, radians_per_second, "kilogram meter squared per second", "kg m^2/s")
 pound_inches_squared_per_second = AngularMomentumUnit(pound_square_inches, radians_per_second, "pound inch squared per second", "lb in^2/s")
 

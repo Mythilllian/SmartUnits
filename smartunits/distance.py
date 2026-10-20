@@ -264,6 +264,8 @@ class DistanceUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+distance = Distance
+distance_unit = DistanceUnit
 meters = DistanceUnit(None, 1.0, 0.0, 1.0, 0.0, "meter", "m")
 millimeters = DistanceUnit(meters, 0.001, 0.0, 1000.0, 0.0, "millimeter", "mm")
 centimeters = DistanceUnit(meters, 0.01, 0.0, 100.0, 0.0, "centimeter", "cm")

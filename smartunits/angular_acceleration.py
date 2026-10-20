@@ -181,6 +181,8 @@ class AngularAccelerationUnit(PerUnit):
         return super().__mul__(other)
 
 
+angular_acceleration = AngularAcceleration
+angular_acceleration_unit = AngularAccelerationUnit
 radians_per_second_squared = AngularAccelerationUnit(radians_per_second, seconds, "radian per second squared", "rad/s^2")
 rotations_per_second_squared = AngularAccelerationUnit(rotations_per_second, seconds, "rotation per second squared", "R/s^2")
 degrees_per_second_squared = AngularAccelerationUnit(degrees_per_second, seconds, "degree per second squared", "°/s^2")

@@ -264,6 +264,8 @@ class ForceUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+force = Force
+force_unit = ForceUnit
 newtons = ForceUnit(None, 1.0, 0.0, 1.0, 0.0, "newton", "N")
 pounds_force = ForceUnit(newtons, 4.4482216152605, 0.0, 0.2248089430997105, 0.0, "pound-force", "lbsf.")
 ounces_force = ForceUnit(newtons, 0.2780138509537812, 0.0, 3.596943089595368, 0.0, "ounce-force", "ozf")

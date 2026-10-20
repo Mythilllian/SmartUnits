@@ -538,5 +538,13 @@ class ReverseMultiplicationTests(unittest.TestCase):
 		volts_per_meter = volts.per(meters)
 		self.assertEqual((5 * volts_per_meter.of(2)).magnitude(), 10)
 
+class TestLinearVelocity(unittest.TestCase):
+    def test_linear_velocity(self) -> None:
+        import smartunits.linear_velocity
+        self.assertIsNotNone(smartunits.linear_velocity)
+        self.assertEqual(int(smartunits.linear_velocity.meters_per_second.of(5113)), 5113)
+        amount: LinearVelocity = smartunits.linear_velocity.meters_per_second.of(5113)
+        self.assertEqual(int(amount), 5113)
+
 if __name__ == "__main__":
 	unittest.main()

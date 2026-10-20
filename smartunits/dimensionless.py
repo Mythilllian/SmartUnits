@@ -336,6 +336,8 @@ class DimensionlessUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+dimensionless = Dimensionless
+dimensionless_unit = DimensionlessUnit
 value = DimensionlessUnit(None, 1.0, 0.0, 1.0, 0.0, "value", "")
 percent = DimensionlessUnit(value, 0.01, 0.0, 100.0, 0.0, "percent", "%")
 

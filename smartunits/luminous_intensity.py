@@ -252,6 +252,8 @@ class LuminousIntensityUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+luminous_intensity = LuminousIntensity
+luminous_intensity_unit = LuminousIntensityUnit
 candelas = LuminousIntensityUnit(None, 1.0, 0.0, 1.0, 0.0, "candela", "candelas")
 nanocandelas = LuminousIntensityUnit(candelas, 1e-09, 0.0, 999999999.9999999, 0.0, "nanocandela", "nanocandelas")
 microcandelas = LuminousIntensityUnit(candelas, 1e-06, 0.0, 1000000.0, 0.0, "microcandela", "microcandelas")

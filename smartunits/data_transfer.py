@@ -177,6 +177,8 @@ class DataTransferUnit(PerUnit):
         return super().__mul__(other)
 
 
+data_transfer = DataTransfer
+data_transfer_unit = DataTransferUnit
 exabytes_per_second = DataTransferUnit(exabytes, seconds, "exabyte per second", "exabytes per second")
 exabits_per_second = DataTransferUnit(exabits, seconds, "exabit per second", "exabits per second")
 

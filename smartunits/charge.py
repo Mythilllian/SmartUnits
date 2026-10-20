@@ -252,6 +252,8 @@ class ChargeUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+charge = Charge
+charge_unit = ChargeUnit
 coulombs = ChargeUnit(None, 1.0, 0.0, 1.0, 0.0, "coulomb", "coulombs")
 nanocoulombs = ChargeUnit(coulombs, 1e-09, 0.0, 999999999.9999999, 0.0, "nanocoulomb", "nanocoulombs")
 microcoulombs = ChargeUnit(coulombs, 1e-06, 0.0, 1000000.0, 0.0, "microcoulomb", "microcoulombs")

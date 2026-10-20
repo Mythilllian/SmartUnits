@@ -252,6 +252,8 @@ class ConductanceUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+conductance = Conductance
+conductance_unit = ConductanceUnit
 siemens = ConductanceUnit(None, 1.0, 0.0, 1.0, 0.0, "siemens", "siemens")
 nanosiemens = ConductanceUnit(siemens, 1e-09, 0.0, 999999999.9999999, 0.0, "nanosiemens", "nanosiemens")
 microsiemens = ConductanceUnit(siemens, 1e-06, 0.0, 1000000.0, 0.0, "microsiemens", "microsiemens")

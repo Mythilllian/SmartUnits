@@ -276,6 +276,8 @@ class FrequencyUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+frequency = Frequency
+frequency_unit = FrequencyUnit
 hertz = FrequencyUnit(None, 1.0, 0.0, 1.0, 0.0, "hertz", "Hz")
 millihertz = FrequencyUnit(hertz, 0.001, 0.0, 1000.0, 0.0, "millihertz", "mHz")
 nanohertz = FrequencyUnit(hertz, 1e-09, 0.0, 999999999.9999999, 0.0, "nanohertz", "nanohertz")

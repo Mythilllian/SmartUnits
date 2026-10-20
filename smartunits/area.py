@@ -252,6 +252,8 @@ class AreaUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+area = Area
+area_unit = AreaUnit
 square_meters = AreaUnit(None, 1.0, 0.0, 1.0, 0.0, "square meter", "square meters")
 square_feet = AreaUnit(square_meters, 0.09290304, 0.0, 10.763910416709722, 0.0, "square foot", "square feet")
 square_inches = AreaUnit(square_meters, 0.00064516, 0.0, 1550.0031000062002, 0.0, "square inch", "square inches")

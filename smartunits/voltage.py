@@ -268,6 +268,8 @@ class VoltageUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+voltage = Voltage
+voltage_unit = VoltageUnit
 volts = VoltageUnit(None, 1.0, 0.0, 1.0, 0.0, "volt", "V")
 millivolts = VoltageUnit(volts, 0.001, 0.0, 1000.0, 0.0, "millivolt", "mV")
 nanovolts = VoltageUnit(volts, 1e-09, 0.0, 999999999.9999999, 0.0, "nanovolt", "nanovolts")

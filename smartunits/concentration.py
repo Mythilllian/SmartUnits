@@ -252,6 +252,8 @@ class ConcentrationUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+concentration = Concentration
+concentration_unit = ConcentrationUnit
 parts_per_million = ConcentrationUnit(None, 1e-06, 0.0, 1000000.0, 0.0, "part per million", "parts per million")
 parts_per_billion = ConcentrationUnit(parts_per_million, 1e-09, 0.0, 999999999.9999999, 0.0, "part per billion", "parts per billion")
 parts_per_trillion = ConcentrationUnit(parts_per_million, 1e-12, 0.0, 1000000000000.0, 0.0, "part per trillion", "parts per trillion")

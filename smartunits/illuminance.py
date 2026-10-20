@@ -252,6 +252,8 @@ class IlluminanceUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+illuminance = Illuminance
+illuminance_unit = IlluminanceUnit
 luxes = IlluminanceUnit(None, 1.0, 0.0, 1.0, 0.0, "lux", "luxes")
 nanoluxes = IlluminanceUnit(luxes, 1e-09, 0.0, 999999999.9999999, 0.0, "nanolux", "nanoluxes")
 microluxes = IlluminanceUnit(luxes, 1e-06, 0.0, 1000000.0, 0.0, "microlux", "microluxes")

@@ -185,6 +185,8 @@ class TorqueUnit(MultUnit):
         return super().__mul__(other)
 
 
+torque = Torque
+torque_unit = TorqueUnit
 newton_meters = TorqueUnit(newtons, meters, "newton meter", "N m")
 pound_feet = TorqueUnit(pounds_force, feet, "pound-foot", "lb ft")
 pound_inches = TorqueUnit(pounds_force, inches, "pound-inch", "lb in")

@@ -280,6 +280,8 @@ class TimeUnit(Unit):
         return UnaryFunction(lambda x: self.to_base_units(x))
 
 
+time = Time
+time_unit = TimeUnit
 seconds = TimeUnit(None, 1.0, 0.0, 1.0, 0.0, "second", "s")
 milliseconds = TimeUnit(seconds, 0.001, 0.0, 1000.0, 0.0, "millisecond", "ms")
 microseconds = TimeUnit(seconds, 1e-06, 0.0, 1000000.0, 0.0, "microsecond", "us")

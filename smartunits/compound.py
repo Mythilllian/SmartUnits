@@ -23,6 +23,8 @@ from .linear_velocity import meters_per_second
 
 
 
+compound = Compound
+ = 
 radians_per_meter = PerUnit(radians, meters, "radian per meter", "radians per meter")
 radians_per_second_per_volt = PerUnit(radians_per_second, volts, "radian per second per volt", "radians per second per volt")
 units_per_second = PerUnit(value, seconds, "unit per second", "units per second")
