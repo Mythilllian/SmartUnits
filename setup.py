@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="smartunits",
-    version="1.0.1",
+    version="1.0.2",
     description="Standardized unit system. Follows the standards used by WPILibJ. Includes a unit system, unit conversion, and unit arithmetic.",
     url="https://github.com/Mythilllian/SmartUnits",
     license="Unlicense",

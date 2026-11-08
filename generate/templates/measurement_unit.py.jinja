@@ -134,10 +134,12 @@ class {{ measurement.unit_type }}({{ helpers['unit_base'](measurement.name) }}):
         return UnaryFunction(lambda x: self.to_base_units(x))
 {% endif %}
 {% endif %}
+{% if measurement.kind != 'compound' %}
 
 
 {{ helpers['file_name'](measurement.name) }} = {{ measurement.name }}
 {{ helpers['file_name'](measurement.unit_type) }} = {{ measurement.unit_type }}
+{% endif %}
 {% if not measurement.kind %}
 {% set base_unit = measurement.units[0] %}
 {{ base_unit.variable }} = {{ measurement.unit_type }}(None, {{ base_unit.to_base_multiplier }}, {{ base_unit.to_base_offset }}, {{ base_unit.from_base_multiplier }}, {{ base_unit.from_base_offset }}, "{{ base_unit.names[0] }}", "{{ base_unit.symbol }}")
